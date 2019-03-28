@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciKorOwnersFlagToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciKorOwnersFlagToEC4HistStep" parent="eGovBaseStep" next="ec4KorOwnersFlagHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciKorOwnersFlagItemReader" processor="davinciKorOwnersFlagItemProcessor"
+                    writer="davinciKorOwnersFlagItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4KorOwnersFlagHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4KorOwnersFlagHistItemReader" processor="ec4KorOwnersFlagHistItemProcessor"
+                    writer="ec4KorOwnersFlagHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciKorOwnersFlagItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.korOwnersFlag}/${source.file.korOwnersFlag}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.KorOwnersFlag"/>
+                        <property name="names" value="custId,ipinDi,custName,charmClubFlag,autocardFlag,charmClubGrade,carPurchaseNum,asFlag,regDate,moDate,webFlag,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciKorOwnersFlagHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagItemProcessor" class="egovframework.ec4.bat.domain.trade.KorOwnersFlagProcessor"/>
+
+    <bean id="ec4KorOwnersFlagHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectKorOwnersFlagHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4KorOwnersFlagHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeKorOwnersFlag"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4KorOwnersFlagHistItemProcessor" class="egovframework.ec4.bat.domain.trade.KorOwnersFlagHistProcessor"/>
+
+</beans>

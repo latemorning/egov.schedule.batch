@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciMarktPrcuseAgreToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciMarktPrcuseAgreToEC4HistStep" parent="eGovBaseStep" next="ec4MarktPrcuseAgreHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciMarktPrcuseAgreItemReader" processor="davinciMarktPrcuseAgreItemProcessor"
+                    writer="davinciMarktPrcuseAgreItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4MarktPrcuseAgreHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4MarktPrcuseAgreHistItemReader" processor="ec4MarktPrcuseAgreHistItemProcessor"
+                    writer="ec4MarktPrcuseAgreHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciMarktPrcuseAgreItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.marktPrcuseAgre}/${source.file.marktPrcuseAgre}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.MarktPrcuseAgre"/>
+                        <property name="names" value="custId,custNm,realCustChk,realCustDt,realCustCode,agre01Chk,agre01Dt,agre02Chk,agre02Dt,agre03Chk,agre03Dt,agre04Chk,agre04Dt,agre05Chk,agre05Dt,agre06Chk,agre06Dt,agre07Chk,agre07Dt,agre08Chk,agre08Dt,agre09Chk,agre09Dt,agre10Chk,agre10Dt,regId,regDttm,lastCustCode,signImg,agntFg,fileImg,chngDttm,chngId,oldCustId,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciMarktPrcuseAgreItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciMarktPrcuseAgreHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciMarktPrcuseAgreItemProcessor" class="egovframework.ec4.bat.domain.trade.MarktPrcuseAgreProcessor"/>
+
+    <bean id="ec4MarktPrcuseAgreHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectMarktPrcuseAgreHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4MarktPrcuseAgreHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeMarktPrcuseAgre"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4MarktPrcuseAgreHistItemProcessor" class="egovframework.ec4.bat.domain.trade.MarktPrcuseAgreHistProcessor"/>
+
+</beans>

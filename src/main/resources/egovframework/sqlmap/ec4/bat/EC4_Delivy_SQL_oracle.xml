@@ -1,0 +1,1291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!--
+    email 필드 사용시 주의
+    오라클 테이블은 e_mail로 되어있음
+    bean에서는 email로 사용함 camel 사용시 주의, 2019-01-07 harry
+ -->
+
+<sqlMap namespace="Delivy">
+
+	<typeAlias alias="delivy" type="egovframework.ec4.bat.domain.trade.Delivy" />
+
+	<resultMap id="result" class="delivy">
+		<result property="dealerCd" column="DEALER_CD" />
+		<result property="contractNo" column="CONTRACT_NO" />
+		<result property="businessId" column="BUSINESS_ID" />
+		<result property="brchCd" column="BRCH_CD" />
+		<result property="centerCd" column="CENTER_CD" />
+		<result property="brchNm" column="BRCH_NM" />
+		<result property="saleManCd" column="SALE_MAN_CD" />
+		<result property="saleManNm" column="SALE_MAN_NM" />
+		<result property="customerCd" column="CUSTOMER_CD" />
+		<result property="outPlaceCd" column="OUT_PLACE_CD" />
+		<result property="businessType" column="BUSINESS_TYPE" />
+		<result property="industryType" column="INDUSTRY_TYPE" />
+		<result property="assignReqDt" column="ASSIGN_REQ_DT" />
+		<result property="assignDt" column="ASSIGN_DT" />
+		<result property="cancelDt" column="CANCEL_DT" />
+		<result property="statusCd" column="STATUS_CD" />
+		<result property="modelCd" column="MODEL_CD" />
+		<result property="specCd" column="SPEC_CD" />
+		<result property="carCd" column="CAR_CD" />
+		<result property="outBasicCnt" column="OUT_BASIC_CNT" />
+		<result property="saleAmt" column="SALE_AMT" />
+		<result property="colorCd" column="COLOR_CD" />
+		<result property="paymentDt" column="PAYMENT_DT" />
+		<result property="totalSaleAmt" column="TOTAL_SALE_AMT" />
+		<result property="saleCd" column="SALE_CD" />
+		<result property="instPerd" column="INST_PERD" />
+		<result property="outDt" column="OUT_DT" />
+		<result property="contAmt" column="CONT_AMT" />
+		<result property="indoAmt" column="INDO_AMT" />
+		<result property="initRate" column="INIT_RATE" />
+		<result property="allotmentAmt" column="ALLOTMENT_AMT" />
+		<result property="ijaRate" column="IJA_RATE" />
+		<result property="lossCollectionAmt" column="LOSS_COLLECTION_AMT" />
+		<result property="nonmoveEstateAmt" column="NONMOVE_ESTATE_AMT" />
+		<result property="contDt" column="CONT_DT" />
+		<result property="businessNo" column="BUSINESS_NO" />
+		<result property="residentNo" column="RESIDENT_NO" />
+		<result property="residentNm" column="RESIDENT_NM" />
+		<result property="businessNm" column="BUSINESS_NM" />
+		<result property="residentAddr" column="RESIDENT_ADDR" />
+		<result property="businessAddr" column="BUSINESS_ADDR" />
+		<result property="residentTelNo" column="RESIDENT_TEL_NO" />
+		<result property="businessTelNo" column="BUSINESS_TEL_NO" />
+		<result property="residentPostCd" column="RESIDENT_POST_CD" />
+		<result property="businessPostCd" column="BUSINESS_POST_CD" />
+		<result property="dlvyPrmsDt1" column="DLVY_PRMS_DT_1" />
+		<result property="dlvyPrmsAmt1" column="DLVY_PRMS_AMT_1" />
+		<result property="dlvyPrmsDt2" column="DLVY_PRMS_DT_2" />
+		<result property="dlvyPrmsAmt2" column="DLVY_PRMS_AMT_2" />
+		<result property="dlvyPrmsDt3" column="DLVY_PRMS_DT_3" />
+		<result property="dlvyPrmsAmt3" column="DLVY_PRMS_AMT_3" />
+		<result property="dlvyPrmsDt4" column="DLVY_PRMS_DT_4" />
+		<result property="dlvyPrmsAmt4" column="DLVY_PRMS_AMT_4" />
+		<result property="dlvyPrmsDt5" column="DLVY_PRMS_DT_5" />
+		<result property="dlvyPrmsAmt5" column="DLVY_PRMS_AMT_5" />
+		<result property="stampAmt" column="STAMP_AMT" />
+		<result property="fixedDcAmt" column="FIXED_DC_AMT" />
+		<result property="fixedDcRate" column="FIXED_DC_RATE" />
+		<result property="unfixedDcAmt" column="UNFIXED_DC_AMT" />
+		<result property="dlvyPrmsYn1" column="DLVY_PRMS_YN_1" />
+		<result property="dlvyPrmsYn2" column="DLVY_PRMS_YN_2" />
+		<result property="dlvyPrmsYn3" column="DLVY_PRMS_YN_3" />
+		<result property="dlvyPrmsYn4" column="DLVY_PRMS_YN_4" />
+		<result property="dlvyPrmsYn5" column="DLVY_PRMS_YN_5" />
+		<result property="spSaleAmt" column="SP_SALE_AMT" />
+		<result property="establePayGu" column="ESTABLE_PAY_GU" />
+		<result property="consignAmt" column="CONSIGN_AMT" />
+		<result property="finaAmt" column="FINA_AMT" />
+		<result property="consignCd" column="CONSIGN_CD" />
+		<result property="establePayRate" column="ESTABLE_PAY_RATE" />
+		<result property="guaranteeAmt" column="GUARANTEE_AMT" />
+		<result property="estableAmt" column="ESTABLE_AMT" />
+		<result property="saleTypeCd" column="SALE_TYPE_CD" />
+		<result property="optionCd" column="OPTION_CD" />
+		<result property="optionAmt" column="OPTION_AMT" />
+		<result property="allotmentEnd" column="ALLOTMENT_END" />
+		<result property="guaranteeRate" column="GUARANTEE_RATE" />
+		<result property="newIjaRate" column="NEW_IJA_RATE" />
+		<result property="salesPromotionCd" column="SALES_PROMOTION_CD" />
+		<result property="graceAmt1" column="GRACE_AMT_1" />
+		<result property="graceIjaRate1" column="GRACE_IJA_RATE_1" />
+		<result property="graceCompRate1" column="GRACE_COMP_RATE_1" />
+		<result property="carNo" column="CAR_NO" />
+		<result property="contCnt" column="CONT_CNT" />
+		<result property="cancelCnt" column="CANCEL_CNT" />
+		<result property="selfIjaAmt" column="SELF_IJA_AMT" />
+		<result property="bankIjaAmt" column="BANK_IJA_AMT" />
+		<result property="carSaleAmt" column="CAR_SALE_AMT" />
+		<result property="colorAmt" column="COLOR_AMT" />
+		<result property="buyTypeCd" column="BUY_TYPE_CD" />
+		<result property="useTypeCd" column="USE_TYPE_CD" />
+		<result property="handPersonCd" column="HAND_PERSON_CD" />
+		<result property="remark" column="REMARK" />
+		<result property="tukTp" column="TUK_TP" />
+		<result property="vatTp" column="VAT_TP" />
+		<result property="tukAmt" column="TUK_AMT" />
+		<result property="edkAmt" column="EDK_AMT" />
+		<result property="vatAmt" column="VAT_AMT" />
+		<result property="assignBasisDate" column="ASSIGN_BASIS_DATE" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updtDate" column="UPDT_DATE" />
+		<result property="updtUserCd" column="UPDT_USER_CD" />
+		<result property="juminPostCd" column="JUMIN_POST_CD" />
+		<result property="juminPostAddr" column="JUMIN_POST_ADDR" />
+		<result property="chassisNo" column="CHASSIS_NO" />
+		<result property="expectDt" column="EXPECT_DT" />
+		<result property="fleetCustMk" column="FLEET_CUST_MK" />
+		<result property="outPlaceType" column="OUT_PLACE_TYPE" />
+		<result property="outToArea" column="OUT_TO_AREA" />
+		<result property="transAmt" column="TRANS_AMT" />
+		<result property="outPlaceAmt" column="OUT_PLACE_AMT" />
+		<result property="trustCd" column="TRUST_CD" />
+		<result property="specialDcAmt" column="SPECIAL_DC_AMT" />
+		<result property="onceDcAmt" column="ONCE_DC_AMT" />
+		<result property="empDcAmt" column="EMP_DC_AMT" />
+		<result property="flawDcAmt" column="FLAW_DC_AMT" />
+		<result property="longDcAmt" column="LONG_DC_AMT" />
+		<result property="displayDcAmt" column="DISPLAY_DC_AMT" />
+		<result property="fleetDcAmt" column="FLEET_DC_AMT" />
+		<result property="campaignDcAmt" column="CAMPAIGN_DC_AMT" />
+		<result property="proDcAmt" column="PRO_DC_AMT" />
+		<result property="addDcAmt" column="ADD_DC_AMT" />
+		<result property="cardDcAmt" column="CARD_DC_AMT" />
+		<result property="autoDcAmt" column="AUTO_DC_AMT" />
+		<result property="etcDcAmt" column="ETC_DC_AMT" />
+		<result property="payCd" column="PAY_CD" />
+		<result property="capitalCd" column="CAPITAL_CD" />
+		<result property="beginAcceptDt" column="BEGIN_ACCEPT_DT" />
+		<result property="payKeepTerm" column="PAY_KEEP_TERM" />
+		<result property="payKeepRate" column="PAY_KEEP_RATE" />
+		<result property="delayTerm" column="DELAY_TERM" />
+		<result property="delayRate" column="DELAY_RATE" />
+		<result property="delayUseRate" column="DELAY_USE_RATE" />
+		<result property="payType" column="PAY_TYPE" />
+		<result property="payUseGrade" column="PAY_USE_GRADE" />
+		<result property="offtaxStat" column="OFFTAX_STAT" />
+		<result property="offtaxApprDttm" column="OFFTAX_APPR_DTTM" />
+		<result property="offtaxUserCd" column="OFFTAX_USER_CD" />
+		<result property="reductCd" column="REDUCT_CD" />
+		<result property="reductTukAmt" column="REDUCT_TUK_AMT" />
+		<result property="reductTukRate" column="REDUCT_TUK_RATE" />
+		<result property="apprDt" column="APPR_DT" />
+		<result property="apprSeq" column="APPR_SEQ" />
+		<result property="contractStatus" column="CONTRACT_STATUS" />
+		<result property="regUserCd" column="REG_USER_CD" />
+		<result property="receiptNo" column="RECEIPT_NO" />
+		<result property="receiptStat" column="RECEIPT_STAT" />
+		<result property="receiptApprDttm" column="RECEIPT_APPR_DTTM" />
+		<result property="receiptApprNo" column="RECEIPT_APPR_NO" />
+		<result property="handPhoneNo" column="HAND_PHONE_NO" />
+		<result property="payStatus" column="PAY_STATUS" />
+		<result property="payApprDttm" column="PAY_APPR_DTTM" />
+		<result property="payApprNo" column="PAY_APPR_NO" />
+		<result property="befSignoffDt" column="BEF_SIGNOFF_DT" />
+		<result property="befChassisNo" column="BEF_CHASSIS_NO" />
+		<result property="remark2" column="REMARK2" />
+		<result property="payCrdtRate" column="PAY_CRDT_RATE" />
+		<result property="stockAmt" column="STOCK_AMT" />
+		<result property="contractNoO" column="CONTRACT_NO_O" />
+		<result property="email" column="EMAIL" />
+		<result property="oldCarPlan" column="OLD_CAR_PLAN" />
+		<result property="oldCarMaker" column="OLD_CAR_MAKER" />
+		<result property="oldCarModel" column="OLD_CAR_MODEL" />
+		<result property="oldCarMy" column="OLD_CAR_MY" />
+		<result property="residentPostRegNo" column="RESIDENT_POST_REG_NO" />
+		<result property="businessPostRegNo" column="BUSINESS_POST_REG_NO" />
+		<result property="juminPostRegNo" column="JUMIN_POST_REG_NO" />
+		<result property="salesModlCd" column="SALES_MODL_CD" />
+		<result property="indoDt" column="INDO_DT" />
+		<result property="ewItemCd" column="EW_ITEM_CD" />
+		<result property="ewItemAmt" column="EW_ITEM_AMT" />
+		<result property="histRegistDe" column="HIST_REGIST_DE" />
+		<result property="actionCode" column="ACTION_CODE" />
+	</resultMap>
+
+
+	<select id="selectDelivyHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , contract_no
+                              , business_id
+                              , brch_cd
+                              , center_cd
+                              , brch_nm
+                              , sale_man_cd
+                              , sale_man_nm
+                              , customer_cd
+                              , out_place_cd
+                              , business_type
+                              , industry_type
+                              , TO_CHAR(assign_req_dt, 'YYYYMMDD') AS assign_req_dt
+                              , TO_CHAR(assign_dt, 'YYYYMMDD') AS assign_dt
+                              , TO_CHAR(cancel_dt, 'YYYYMMDD') AS cancel_dt
+                              , status_cd
+                              , model_cd
+                              , spec_cd
+                              , car_cd
+                              , out_basic_cnt
+                              , sale_amt
+                              , color_cd
+                              , TO_CHAR(payment_dt, 'YYYYMMDD') AS payment_dt
+                              , total_sale_amt
+                              , sale_cd
+                              , inst_perd
+                              , TO_CHAR(out_dt, 'YYYYMMDD') AS out_dt
+                              , cont_amt
+                              , indo_amt
+                              , init_rate
+                              , allotment_amt
+                              , ija_rate
+                              , loss_collection_amt
+                              , nonmove_estate_amt
+                              , TO_CHAR(cont_dt, 'YYYYMMDD') AS cont_dt
+                              , business_no
+                              , resident_no
+                              , resident_nm
+                              , business_nm
+                              , resident_addr
+                              , business_addr
+                              , resident_tel_no
+                              , business_tel_no
+                              , resident_post_cd
+                              , business_post_cd
+                              , TO_CHAR(dlvy_prms_dt_1, 'YYYYMMDD') AS dlvy_prms_dt_1
+                              , dlvy_prms_amt_1
+                              , TO_CHAR(dlvy_prms_dt_2, 'YYYYMMDD') AS dlvy_prms_dt_2
+                              , dlvy_prms_amt_2
+                              , TO_CHAR(dlvy_prms_dt_3, 'YYYYMMDD') AS dlvy_prms_dt_3
+                              , dlvy_prms_amt_3
+                              , TO_CHAR(dlvy_prms_dt_4, 'YYYYMMDD') AS dlvy_prms_dt_4
+                              , dlvy_prms_amt_4
+                              , TO_CHAR(dlvy_prms_dt_5, 'YYYYMMDD') AS dlvy_prms_dt_5
+                              , dlvy_prms_amt_5
+                              , stamp_amt
+                              , fixed_dc_amt
+                              , fixed_dc_rate
+                              , unfixed_dc_amt
+                              , dlvy_prms_yn_1
+                              , dlvy_prms_yn_2
+                              , dlvy_prms_yn_3
+                              , dlvy_prms_yn_4
+                              , dlvy_prms_yn_5
+                              , sp_sale_amt
+                              , estable_pay_gu
+                              , consign_amt
+                              , fina_amt
+                              , consign_cd
+                              , estable_pay_rate
+                              , guarantee_amt
+                              , estable_amt
+                              , sale_type_cd
+                              , option_cd
+                              , option_amt
+                              , allotment_end
+                              , guarantee_rate
+                              , new_ija_rate
+                              , sales_promotion_cd
+                              , grace_amt_1
+                              , grace_ija_rate_1
+                              , grace_comp_rate_1
+                              , car_no
+                              , cont_cnt
+                              , cancel_cnt
+                              , self_ija_amt
+                              , bank_ija_amt
+                              , car_sale_amt
+                              , color_amt
+                              , buy_type_cd
+                              , use_type_cd
+                              , hand_person_cd
+                              , remark
+                              , tuk_tp
+                              , vat_tp
+                              , tuk_amt
+                              , edk_amt
+                              , vat_amt
+                              , TO_CHAR(assign_basis_date, 'YYYYMMDDHH24MISS') AS assign_basis_date
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , TO_CHAR(updt_date, 'YYYYMMDDHH24MISS') AS updt_date
+                              , updt_user_cd
+                              , jumin_post_cd
+                              , jumin_post_addr
+                              , chassis_no
+                              , TO_CHAR(expect_dt, 'YYYYMMDD') AS expect_dt
+                              , fleet_cust_mk
+                              , out_place_type
+                              , out_to_area
+                              , trans_amt
+                              , out_place_amt
+                              , trust_cd
+                              , special_dc_amt
+                              , once_dc_amt
+                              , emp_dc_amt
+                              , flaw_dc_amt
+                              , long_dc_amt
+                              , display_dc_amt
+                              , fleet_dc_amt
+                              , campaign_dc_amt
+                              , pro_dc_amt
+                              , add_dc_amt
+                              , card_dc_amt
+                              , auto_dc_amt
+                              , etc_dc_amt
+                              , pay_cd
+                              , capital_cd
+                              , TO_CHAR(begin_accept_dt, 'YYYYMMDD') AS begin_accept_dt
+                              , pay_keep_term
+                              , pay_keep_rate
+                              , delay_term
+                              , delay_rate
+                              , delay_use_rate
+                              , pay_type
+                              , pay_use_grade
+                              , offtax_stat
+                              , TO_CHAR(offtax_appr_dttm, 'YYYYMMDDHH24MISS') AS offtax_appr_dttm
+                              , offtax_user_cd
+                              , reduct_cd
+                              , reduct_tuk_amt
+                              , reduct_tuk_rate
+                              , TO_CHAR(appr_dt, 'YYYYMMDD') AS appr_dt
+                              , appr_seq
+                              , contract_status
+                              , reg_user_cd
+                              , receipt_no
+                              , receipt_stat
+                              , TO_CHAR(receipt_appr_dttm, 'YYYYMMDDHH24MISS') AS receipt_appr_dttm
+                              , receipt_appr_no
+                              , hand_phone_no
+                              , pay_status
+                              , TO_CHAR(pay_appr_dttm, 'YYYYMMDD') AS pay_appr_dttm
+                              , pay_appr_no
+                              , TO_CHAR(bef_signoff_dt, 'YYYYMMDD') AS bef_signoff_dt
+                              , bef_chassis_no
+                              , remark2
+                              , pay_crdt_rate
+                              , stock_amt
+                              , contract_no_o
+                              , email
+                              , old_car_plan
+                              , old_car_maker
+                              , old_car_model
+                              , old_car_my
+                              , resident_post_reg_no
+                              , business_post_reg_no
+                              , jumin_post_reg_no
+                              , sales_modl_cd
+                              , TO_CHAR(indo_dt, 'YYYYMMDD') AS indo_dt
+                              , ew_item_cd
+                              , ew_item_amt
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_delivy
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, dealer_cd, contract_no
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciDelivyHist" parameterClass="delivy">
+    <![CDATA[
+        INSERT INTO ih_delivy (
+                                dealer_cd
+                              , contract_no
+                              , business_id
+                              , brch_cd
+                              , center_cd
+                              , brch_nm
+                              , sale_man_cd
+                              , sale_man_nm
+                              , customer_cd
+                              , out_place_cd
+                              , business_type
+                              , industry_type
+                              , assign_req_dt
+                              , assign_dt
+                              , cancel_dt
+                              , status_cd
+                              , model_cd
+                              , spec_cd
+                              , car_cd
+                              , out_basic_cnt
+                              , sale_amt
+                              , color_cd
+                              , payment_dt
+                              , total_sale_amt
+                              , sale_cd
+                              , inst_perd
+                              , out_dt
+                              , cont_amt
+                              , indo_amt
+                              , init_rate
+                              , allotment_amt
+                              , ija_rate
+                              , loss_collection_amt
+                              , nonmove_estate_amt
+                              , cont_dt
+                              , business_no
+                              , resident_no
+                              , resident_nm
+                              , business_nm
+                              , resident_addr
+                              , business_addr
+                              , resident_tel_no
+                              , business_tel_no
+                              , resident_post_cd
+                              , business_post_cd
+                              , dlvy_prms_dt_1
+                              , dlvy_prms_amt_1
+                              , dlvy_prms_dt_2
+                              , dlvy_prms_amt_2
+                              , dlvy_prms_dt_3
+                              , dlvy_prms_amt_3
+                              , dlvy_prms_dt_4
+                              , dlvy_prms_amt_4
+                              , dlvy_prms_dt_5
+                              , dlvy_prms_amt_5
+                              , stamp_amt
+                              , fixed_dc_amt
+                              , fixed_dc_rate
+                              , unfixed_dc_amt
+                              , dlvy_prms_yn_1
+                              , dlvy_prms_yn_2
+                              , dlvy_prms_yn_3
+                              , dlvy_prms_yn_4
+                              , dlvy_prms_yn_5
+                              , sp_sale_amt
+                              , estable_pay_gu
+                              , consign_amt
+                              , fina_amt
+                              , consign_cd
+                              , estable_pay_rate
+                              , guarantee_amt
+                              , estable_amt
+                              , sale_type_cd
+                              , option_cd
+                              , option_amt
+                              , allotment_end
+                              , guarantee_rate
+                              , new_ija_rate
+                              , sales_promotion_cd
+                              , grace_amt_1
+                              , grace_ija_rate_1
+                              , grace_comp_rate_1
+                              , car_no
+                              , cont_cnt
+                              , cancel_cnt
+                              , self_ija_amt
+                              , bank_ija_amt
+                              , car_sale_amt
+                              , color_amt
+                              , buy_type_cd
+                              , use_type_cd
+                              , hand_person_cd
+                              , remark
+                              , tuk_tp
+                              , vat_tp
+                              , tuk_amt
+                              , edk_amt
+                              , vat_amt
+                              , assign_basis_date
+                              , reg_date
+                              , updt_date
+                              , updt_user_cd
+                              , jumin_post_cd
+                              , jumin_post_addr
+                              , chassis_no
+                              , expect_dt
+                              , fleet_cust_mk
+                              , out_place_type
+                              , out_to_area
+                              , trans_amt
+                              , out_place_amt
+                              , trust_cd
+                              , special_dc_amt
+                              , once_dc_amt
+                              , emp_dc_amt
+                              , flaw_dc_amt
+                              , long_dc_amt
+                              , display_dc_amt
+                              , fleet_dc_amt
+                              , campaign_dc_amt
+                              , pro_dc_amt
+                              , add_dc_amt
+                              , card_dc_amt
+                              , auto_dc_amt
+                              , etc_dc_amt
+                              , pay_cd
+                              , capital_cd
+                              , begin_accept_dt
+                              , pay_keep_term
+                              , pay_keep_rate
+                              , delay_term
+                              , delay_rate
+                              , delay_use_rate
+                              , pay_type
+                              , pay_use_grade
+                              , offtax_stat
+                              , offtax_appr_dttm
+                              , offtax_user_cd
+                              , reduct_cd
+                              , reduct_tuk_amt
+                              , reduct_tuk_rate
+                              , appr_dt
+                              , appr_seq
+                              , contract_status
+                              , reg_user_cd
+                              , receipt_no
+                              , receipt_stat
+                              , receipt_appr_dttm
+                              , receipt_appr_no
+                              , hand_phone_no
+                              , pay_status
+                              , pay_appr_dttm
+                              , pay_appr_no
+                              , bef_signoff_dt
+                              , bef_chassis_no
+                              , remark2
+                              , pay_crdt_rate
+                              , stock_amt
+                              , contract_no_o
+                              , email
+                              , old_car_plan
+                              , old_car_maker
+                              , old_car_model
+                              , old_car_my
+                              , resident_post_reg_no
+                              , business_post_reg_no
+                              , jumin_post_reg_no
+                              , sales_modl_cd
+                              , indo_dt
+                              , ew_item_cd
+                              , ew_item_amt
+                              , hist_regist_de
+                              , action_code
+                              )
+                       VALUES (
+                                #dealerCd#
+                              , #contractNo#
+                              , #businessId#
+                              , #brchCd#
+                              , #centerCd#
+                              , #brchNm#
+                              , #saleManCd#
+                              , #saleManNm#
+                              , #customerCd#
+                              , #outPlaceCd#
+                              , #businessType#
+                              , #industryType#
+                              , TO_DATE(#assignReqDt#, 'YYYYMMDD')
+                              , TO_DATE(#assignDt#, 'YYYYMMDD')
+                              , TO_DATE(#cancelDt#, 'YYYYMMDD')
+                              , #statusCd#
+                              , #modelCd#
+                              , #specCd#
+                              , #carCd#
+                              , #outBasicCnt#
+                              , #saleAmt#
+                              , #colorCd#
+                              , TO_DATE(#paymentDt#, 'YYYYMMDD')
+                              , #totalSaleAmt#
+                              , #saleCd#
+                              , #instPerd#
+                              , TO_DATE(#outDt#, 'YYYYMMDD')
+                              , #contAmt#
+                              , #indoAmt#
+                              , #initRate#
+                              , #allotmentAmt#
+                              , #ijaRate#
+                              , #lossCollectionAmt#
+                              , #nonmoveEstateAmt#
+                              , TO_DATE(#contDt#, 'YYYYMMDD')
+                              , #businessNo#
+                              , #residentNo#
+                              , #residentNm#
+                              , #businessNm#
+                              , #residentAddr#
+                              , #businessAddr#
+                              , #residentTelNo#
+                              , #businessTelNo#
+                              , #residentPostCd#
+                              , #businessPostCd#
+                              , TO_DATE(#dlvyPrmsDt1#, 'YYYYMMDD')
+                              , #dlvyPrmsAmt1#
+                              , TO_DATE(#dlvyPrmsDt2#, 'YYYYMMDD')
+                              , #dlvyPrmsAmt2#
+                              , TO_DATE(#dlvyPrmsDt3#, 'YYYYMMDD')
+                              , #dlvyPrmsAmt3#
+                              , TO_DATE(#dlvyPrmsDt4#, 'YYYYMMDD')
+                              , #dlvyPrmsAmt4#
+                              , TO_DATE(#dlvyPrmsDt5#, 'YYYYMMDD')
+                              , #dlvyPrmsAmt5#
+                              , #stampAmt#
+                              , #fixedDcAmt#
+                              , #fixedDcRate#
+                              , #unfixedDcAmt#
+                              , #dlvyPrmsYn1#
+                              , #dlvyPrmsYn2#
+                              , #dlvyPrmsYn3#
+                              , #dlvyPrmsYn4#
+                              , #dlvyPrmsYn5#
+                              , #spSaleAmt#
+                              , #establePayGu#
+                              , #consignAmt#
+                              , #finaAmt#
+                              , #consignCd#
+                              , #establePayRate#
+                              , #guaranteeAmt#
+                              , #estableAmt#
+                              , #saleTypeCd#
+                              , #optionCd#
+                              , #optionAmt#
+                              , #allotmentEnd#
+                              , #guaranteeRate#
+                              , #newIjaRate#
+                              , #salesPromotionCd#
+                              , #graceAmt1#
+                              , #graceIjaRate1#
+                              , #graceCompRate1#
+                              , #carNo#
+                              , #contCnt#
+                              , #cancelCnt#
+                              , #selfIjaAmt#
+                              , #bankIjaAmt#
+                              , #carSaleAmt#
+                              , #colorAmt#
+                              , #buyTypeCd#
+                              , #useTypeCd#
+                              , #handPersonCd#
+                              , #remark#
+                              , #tukTp#
+                              , #vatTp#
+                              , #tukAmt#
+                              , #edkAmt#
+                              , #vatAmt#
+                              , TO_DATE(#assignBasisDate#, 'YYYYMMDDHH24MISS')
+                              , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                              , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                              , #updtUserCd#
+                              , #juminPostCd#
+                              , #juminPostAddr#
+                              , #chassisNo#
+                              , TO_DATE(#expectDt#, 'YYYYMMDD')
+                              , #fleetCustMk#
+                              , #outPlaceType#
+                              , #outToArea#
+                              , #transAmt#
+                              , #outPlaceAmt#
+                              , #trustCd#
+                              , #specialDcAmt#
+                              , #onceDcAmt#
+                              , #empDcAmt#
+                              , #flawDcAmt#
+                              , #longDcAmt#
+                              , #displayDcAmt#
+                              , #fleetDcAmt#
+                              , #campaignDcAmt#
+                              , #proDcAmt#
+                              , #addDcAmt#
+                              , #cardDcAmt#
+                              , #autoDcAmt#
+                              , #etcDcAmt#
+                              , #payCd#
+                              , #capitalCd#
+                              , TO_DATE(#beginAcceptDt#, 'YYYYMMDD')
+                              , #payKeepTerm#
+                              , #payKeepRate#
+                              , #delayTerm#
+                              , #delayRate#
+                              , #delayUseRate#
+                              , #payType#
+                              , #payUseGrade#
+                              , #offtaxStat#
+                              , TO_DATE(#offtaxApprDttm#, 'YYYYMMDDHH24MISS')
+                              , #offtaxUserCd#
+                              , #reductCd#
+                              , #reductTukAmt#
+                              , #reductTukRate#
+                              , TO_DATE(#apprDt#, 'YYYYMMDD')
+                              , #apprSeq#
+                              , #contractStatus#
+                              , #regUserCd#
+                              , #receiptNo#
+                              , #receiptStat#
+                              , TO_DATE(#receiptApprDttm#, 'YYYYMMDDHH24MISS')
+                              , #receiptApprNo#
+                              , #handPhoneNo#
+                              , #payStatus#
+                              , TO_DATE(#payApprDttm#, 'YYYYMMDD')
+                              , #payApprNo#
+                              , TO_DATE(#befSignoffDt#, 'YYYYMMDD')
+                              , #befChassisNo#
+                              , #remark2#
+                              , #payCrdtRate#
+                              , #stockAmt#
+                              , #contractNoO#
+                              , #email#
+                              , #oldCarPlan#
+                              , #oldCarMaker#
+                              , #oldCarModel#
+                              , #oldCarMy#
+                              , #residentPostRegNo#
+                              , #businessPostRegNo#
+                              , #juminPostRegNo#
+                              , #salesModlCd#
+                              , TO_DATE(#indoDt#, 'YYYYMMDD')
+                              , #ewItemCd#
+                              , #ewItemAmt#
+                              , TRUNC(TO_DATE(#histRegistDe#, 'YYYYMMDD'))
+                              , #actionCode#
+                              )
+    ]]>
+	</insert>
+
+
+	<update id="mergeDelivy" parameterClass="delivy">
+    <![CDATA[
+        MERGE INTO
+                    if_delivy b
+             USING
+                    dual
+                ON (
+                         dealer_cd   = #dealerCd#
+                     AND contract_no = #contractNo#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           business_id          = #businessId#
+                         , brch_cd              = #brchCd#
+                         , center_cd            = #centerCd#
+                         , brch_nm              = #brchNm#
+                         , sale_man_cd          = #saleManCd#
+                         , sale_man_nm          = #saleManNm#
+                         , customer_cd          = #customerCd#
+                         , out_place_cd         = #outPlaceCd#
+                         , business_type        = #businessType#
+                         , industry_type        = #industryType#
+                         , assign_req_dt        = TO_DATE(#assignReqDt#, 'YYYYMMDD')
+                         , assign_dt            = TO_DATE(#assignDt#, 'YYYYMMDD')
+                         , cancel_dt            = TO_DATE(#cancelDt#, 'YYYYMMDD')
+                         , status_cd            = #statusCd#
+                         , model_cd             = #modelCd#
+                         , spec_cd              = #specCd#
+                         , car_cd               = #carCd#
+                         , out_basic_cnt        = #outBasicCnt#
+                         , sale_amt             = #saleAmt#
+                         , color_cd             = #colorCd#
+                         , payment_dt           = TO_DATE(#paymentDt#, 'YYYYMMDD')
+                         , total_sale_amt       = #totalSaleAmt#
+                         , sale_cd              = #saleCd#
+                         , inst_perd            = #instPerd#
+                         , out_dt               = TO_DATE(#outDt#, 'YYYYMMDD')
+                         , cont_amt             = #contAmt#
+                         , indo_amt             = #indoAmt#
+                         , init_rate            = #initRate#
+                         , allotment_amt        = #allotmentAmt#
+                         , ija_rate             = #ijaRate#
+                         , loss_collection_amt  = #lossCollectionAmt#
+                         , nonmove_estate_amt   = #nonmoveEstateAmt#
+                         , cont_dt              = TO_DATE(#contDt#, 'YYYYMMDD')
+                         , business_no          = #businessNo#
+                         , resident_no          = #residentNo#
+                         , resident_nm          = #residentNm#
+                         , business_nm          = #businessNm#
+                         , resident_addr        = #residentAddr#
+                         , business_addr        = #businessAddr#
+                         , resident_tel_no      = #residentTelNo#
+                         , business_tel_no      = #businessTelNo#
+                         , resident_post_cd     = #residentPostCd#
+                         , business_post_cd     = #businessPostCd#
+                         , dlvy_prms_dt_1       = TO_DATE(#dlvyPrmsDt1#, 'YYYYMMDD')
+                         , dlvy_prms_amt_1      = #dlvyPrmsAmt1#
+                         , dlvy_prms_dt_2       = TO_DATE(#dlvyPrmsDt2#, 'YYYYMMDD')
+                         , dlvy_prms_amt_2      = #dlvyPrmsAmt2#
+                         , dlvy_prms_dt_3       = TO_DATE(#dlvyPrmsDt3#, 'YYYYMMDD')
+                         , dlvy_prms_amt_3      = #dlvyPrmsAmt3#
+                         , dlvy_prms_dt_4       = TO_DATE(#dlvyPrmsDt4#, 'YYYYMMDD')
+                         , dlvy_prms_amt_4      = #dlvyPrmsAmt4#
+                         , dlvy_prms_dt_5       = TO_DATE(#dlvyPrmsDt5#, 'YYYYMMDD')
+                         , dlvy_prms_amt_5      = #dlvyPrmsAmt5#
+                         , stamp_amt            = #stampAmt#
+                         , fixed_dc_amt         = #fixedDcAmt#
+                         , fixed_dc_rate        = #fixedDcRate#
+                         , unfixed_dc_amt       = #unfixedDcAmt#
+                         , dlvy_prms_yn_1       = #dlvyPrmsYn1#
+                         , dlvy_prms_yn_2       = #dlvyPrmsYn2#
+                         , dlvy_prms_yn_3       = #dlvyPrmsYn3#
+                         , dlvy_prms_yn_4       = #dlvyPrmsYn4#
+                         , dlvy_prms_yn_5       = #dlvyPrmsYn5#
+                         , sp_sale_amt          = #spSaleAmt#
+                         , estable_pay_gu       = #establePayGu#
+                         , consign_amt          = #consignAmt#
+                         , fina_amt             = #finaAmt#
+                         , consign_cd           = #consignCd#
+                         , estable_pay_rate     = #establePayRate#
+                         , guarantee_amt        = #guaranteeAmt#
+                         , estable_amt          = #estableAmt#
+                         , sale_type_cd         = #saleTypeCd#
+                         , option_cd            = #optionCd#
+                         , option_amt           = #optionAmt#
+                         , allotment_end        = #allotmentEnd#
+                         , guarantee_rate       = #guaranteeRate#
+                         , new_ija_rate         = #newIjaRate#
+                         , sales_promotion_cd   = #salesPromotionCd#
+                         , grace_amt_1          = #graceAmt1#
+                         , grace_ija_rate_1     = #graceIjaRate1#
+                         , grace_comp_rate_1    = #graceCompRate1#
+                         , car_no               = #carNo#
+                         , cont_cnt             = #contCnt#
+                         , cancel_cnt           = #cancelCnt#
+                         , self_ija_amt         = #selfIjaAmt#
+                         , bank_ija_amt         = #bankIjaAmt#
+                         , car_sale_amt         = #carSaleAmt#
+                         , color_amt            = #colorAmt#
+                         , buy_type_cd          = #buyTypeCd#
+                         , use_type_cd          = #useTypeCd#
+                         , hand_person_cd       = #handPersonCd#
+                         , remark               = #remark#
+                         , tuk_tp               = #tukTp#
+                         , vat_tp               = #vatTp#
+                         , tuk_amt              = #tukAmt#
+                         , edk_amt              = #edkAmt#
+                         , vat_amt              = #vatAmt#
+                         , assign_basis_date    = TO_DATE(#assignBasisDate#, 'YYYYMMDDHH24MISS')
+                         , reg_date             = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , updt_date            = TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                         , updt_user_cd         = #updtUserCd#
+                         , jumin_post_cd        = #juminPostCd#
+                         , jumin_post_addr      = #juminPostAddr#
+                         , chassis_no           = #chassisNo#
+                         , expect_dt            = TO_DATE(#expectDt#, 'YYYYMMDD')
+                         , fleet_cust_mk        = #fleetCustMk#
+                         , out_place_type       = #outPlaceType#
+                         , out_to_area          = #outToArea#
+                         , trans_amt            = #transAmt#
+                         , out_place_amt        = #outPlaceAmt#
+                         , trust_cd             = #trustCd#
+                         , special_dc_amt       = #specialDcAmt#
+                         , once_dc_amt          = #onceDcAmt#
+                         , emp_dc_amt           = #empDcAmt#
+                         , flaw_dc_amt          = #flawDcAmt#
+                         , long_dc_amt          = #longDcAmt#
+                         , display_dc_amt       = #displayDcAmt#
+                         , fleet_dc_amt         = #fleetDcAmt#
+                         , campaign_dc_amt      = #campaignDcAmt#
+                         , pro_dc_amt           = #proDcAmt#
+                         , add_dc_amt           = #addDcAmt#
+                         , card_dc_amt          = #cardDcAmt#
+                         , auto_dc_amt          = #autoDcAmt#
+                         , etc_dc_amt           = #etcDcAmt#
+                         , pay_cd               = #payCd#
+                         , capital_cd           = #capitalCd#
+                         , begin_accept_dt      = TO_DATE(#beginAcceptDt#, 'YYYYMMDD')
+                         , pay_keep_term        = #payKeepTerm#
+                         , pay_keep_rate        = #payKeepRate#
+                         , delay_term           = #delayTerm#
+                         , delay_rate           = #delayRate#
+                         , delay_use_rate       = #delayUseRate#
+                         , pay_type             = #payType#
+                         , pay_use_grade        = #payUseGrade#
+                         , offtax_stat          = #offtaxStat#
+                         , offtax_appr_dttm     = TO_DATE(#offtaxApprDttm#, 'YYYYMMDDHH24MISS')
+                         , offtax_user_cd       = #offtaxUserCd#
+                         , reduct_cd            = #reductCd#
+                         , reduct_tuk_amt       = #reductTukAmt#
+                         , reduct_tuk_rate      = #reductTukRate#
+                         , appr_dt              = TO_DATE(#apprDt#, 'YYYYMMDD')
+                         , appr_seq             = #apprSeq#
+                         , contract_status      = #contractStatus#
+                         , reg_user_cd          = #regUserCd#
+                         , receipt_no           = #receiptNo#
+                         , receipt_stat         = #receiptStat#
+                         , receipt_appr_dttm    = TO_DATE(#receiptApprDttm#, 'YYYYMMDDHH24MISS')
+                         , receipt_appr_no      = #receiptApprNo#
+                         , hand_phone_no        = #handPhoneNo#
+                         , pay_status           = #payStatus#
+                         , pay_appr_dttm        = TO_DATE(#payApprDttm#, 'YYYYMMDD')
+                         , pay_appr_no          = #payApprNo#
+                         , bef_signoff_dt       = TO_DATE(#befSignoffDt#, 'YYYYMMDD')
+                         , bef_chassis_no       = #befChassisNo#
+                         , remark2              = #remark2#
+                         , pay_crdt_rate        = #payCrdtRate#
+                         , stock_amt            = #stockAmt#
+                         , contract_no_o        = #contractNoO#
+                         , email                = #email#
+                         , old_car_plan         = #oldCarPlan#
+                         , old_car_maker        = #oldCarMaker#
+                         , old_car_model        = #oldCarModel#
+                         , old_car_my           = #oldCarMy#
+                         , resident_post_reg_no = #residentPostRegNo#
+                         , business_post_reg_no = #businessPostRegNo#
+                         , jumin_post_reg_no    = #juminPostRegNo#
+                         , sales_modl_cd        = #salesModlCd#
+                         , indo_dt              = TO_DATE(#indoDt#, 'YYYYMMDD')
+                         , ew_item_cd           = #ewItemCd#
+                         , ew_item_amt          = #ewItemAmt#
+                         , last_updt_pnttm      = SYSDATE
+                         , last_updusr_id       = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , contract_no
+                             , business_id
+                             , brch_cd
+                             , center_cd
+                             , brch_nm
+                             , sale_man_cd
+                             , sale_man_nm
+                             , customer_cd
+                             , out_place_cd
+                             , business_type
+                             , industry_type
+                             , assign_req_dt
+                             , assign_dt
+                             , cancel_dt
+                             , status_cd
+                             , model_cd
+                             , spec_cd
+                             , car_cd
+                             , out_basic_cnt
+                             , sale_amt
+                             , color_cd
+                             , payment_dt
+                             , total_sale_amt
+                             , sale_cd
+                             , inst_perd
+                             , out_dt
+                             , cont_amt
+                             , indo_amt
+                             , init_rate
+                             , allotment_amt
+                             , ija_rate
+                             , loss_collection_amt
+                             , nonmove_estate_amt
+                             , cont_dt
+                             , business_no
+                             , resident_no
+                             , resident_nm
+                             , business_nm
+                             , resident_addr
+                             , business_addr
+                             , resident_tel_no
+                             , business_tel_no
+                             , resident_post_cd
+                             , business_post_cd
+                             , dlvy_prms_dt_1
+                             , dlvy_prms_amt_1
+                             , dlvy_prms_dt_2
+                             , dlvy_prms_amt_2
+                             , dlvy_prms_dt_3
+                             , dlvy_prms_amt_3
+                             , dlvy_prms_dt_4
+                             , dlvy_prms_amt_4
+                             , dlvy_prms_dt_5
+                             , dlvy_prms_amt_5
+                             , stamp_amt
+                             , fixed_dc_amt
+                             , fixed_dc_rate
+                             , unfixed_dc_amt
+                             , dlvy_prms_yn_1
+                             , dlvy_prms_yn_2
+                             , dlvy_prms_yn_3
+                             , dlvy_prms_yn_4
+                             , dlvy_prms_yn_5
+                             , sp_sale_amt
+                             , estable_pay_gu
+                             , consign_amt
+                             , fina_amt
+                             , consign_cd
+                             , estable_pay_rate
+                             , guarantee_amt
+                             , estable_amt
+                             , sale_type_cd
+                             , option_cd
+                             , option_amt
+                             , allotment_end
+                             , guarantee_rate
+                             , new_ija_rate
+                             , sales_promotion_cd
+                             , grace_amt_1
+                             , grace_ija_rate_1
+                             , grace_comp_rate_1
+                             , car_no
+                             , cont_cnt
+                             , cancel_cnt
+                             , self_ija_amt
+                             , bank_ija_amt
+                             , car_sale_amt
+                             , color_amt
+                             , buy_type_cd
+                             , use_type_cd
+                             , hand_person_cd
+                             , remark
+                             , tuk_tp
+                             , vat_tp
+                             , tuk_amt
+                             , edk_amt
+                             , vat_amt
+                             , assign_basis_date
+                             , reg_date
+                             , updt_date
+                             , updt_user_cd
+                             , jumin_post_cd
+                             , jumin_post_addr
+                             , chassis_no
+                             , expect_dt
+                             , fleet_cust_mk
+                             , out_place_type
+                             , out_to_area
+                             , trans_amt
+                             , out_place_amt
+                             , trust_cd
+                             , special_dc_amt
+                             , once_dc_amt
+                             , emp_dc_amt
+                             , flaw_dc_amt
+                             , long_dc_amt
+                             , display_dc_amt
+                             , fleet_dc_amt
+                             , campaign_dc_amt
+                             , pro_dc_amt
+                             , add_dc_amt
+                             , card_dc_amt
+                             , auto_dc_amt
+                             , etc_dc_amt
+                             , pay_cd
+                             , capital_cd
+                             , begin_accept_dt
+                             , pay_keep_term
+                             , pay_keep_rate
+                             , delay_term
+                             , delay_rate
+                             , delay_use_rate
+                             , pay_type
+                             , pay_use_grade
+                             , offtax_stat
+                             , offtax_appr_dttm
+                             , offtax_user_cd
+                             , reduct_cd
+                             , reduct_tuk_amt
+                             , reduct_tuk_rate
+                             , appr_dt
+                             , appr_seq
+                             , contract_status
+                             , reg_user_cd
+                             , receipt_no
+                             , receipt_stat
+                             , receipt_appr_dttm
+                             , receipt_appr_no
+                             , hand_phone_no
+                             , pay_status
+                             , pay_appr_dttm
+                             , pay_appr_no
+                             , bef_signoff_dt
+                             , bef_chassis_no
+                             , remark2
+                             , pay_crdt_rate
+                             , stock_amt
+                             , contract_no_o
+                             , email
+                             , old_car_plan
+                             , old_car_maker
+                             , old_car_model
+                             , old_car_my
+                             , resident_post_reg_no
+                             , business_post_reg_no
+                             , jumin_post_reg_no
+                             , sales_modl_cd
+                             , indo_dt
+                             , ew_item_cd
+                             , ew_item_amt
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #contractNo#
+                             , #businessId#
+                             , #brchCd#
+                             , #centerCd#
+                             , #brchNm#
+                             , #saleManCd#
+                             , #saleManNm#
+                             , #customerCd#
+                             , #outPlaceCd#
+                             , #businessType#
+                             , #industryType#
+                             , TO_DATE(#assignReqDt#, 'YYYYMMDD')
+                             , TO_DATE(#assignDt#, 'YYYYMMDD')
+                             , TO_DATE(#cancelDt#, 'YYYYMMDD')
+                             , #statusCd#
+                             , #modelCd#
+                             , #specCd#
+                             , #carCd#
+                             , #outBasicCnt#
+                             , #saleAmt#
+                             , #colorCd#
+                             , TO_DATE(#paymentDt#, 'YYYYMMDD')
+                             , #totalSaleAmt#
+                             , #saleCd#
+                             , #instPerd#
+                             , TO_DATE(#outDt#, 'YYYYMMDD')
+                             , #contAmt#
+                             , #indoAmt#
+                             , #initRate#
+                             , #allotmentAmt#
+                             , #ijaRate#
+                             , #lossCollectionAmt#
+                             , #nonmoveEstateAmt#
+                             , TO_DATE(#contDt#, 'YYYYMMDD')
+                             , #businessNo#
+                             , #residentNo#
+                             , #residentNm#
+                             , #businessNm#
+                             , #residentAddr#
+                             , #businessAddr#
+                             , #residentTelNo#
+                             , #businessTelNo#
+                             , #residentPostCd#
+                             , #businessPostCd#
+                             , TO_DATE(#dlvyPrmsDt1#, 'YYYYMMDD')
+                             , #dlvyPrmsAmt1#
+                             , TO_DATE(#dlvyPrmsDt2#, 'YYYYMMDD')
+                             , #dlvyPrmsAmt2#
+                             , TO_DATE(#dlvyPrmsDt3#, 'YYYYMMDD')
+                             , #dlvyPrmsAmt3#
+                             , TO_DATE(#dlvyPrmsDt4#, 'YYYYMMDD')
+                             , #dlvyPrmsAmt4#
+                             , TO_DATE(#dlvyPrmsDt5#, 'YYYYMMDD')
+                             , #dlvyPrmsAmt5#
+                             , #stampAmt#
+                             , #fixedDcAmt#
+                             , #fixedDcRate#
+                             , #unfixedDcAmt#
+                             , #dlvyPrmsYn1#
+                             , #dlvyPrmsYn2#
+                             , #dlvyPrmsYn3#
+                             , #dlvyPrmsYn4#
+                             , #dlvyPrmsYn5#
+                             , #spSaleAmt#
+                             , #establePayGu#
+                             , #consignAmt#
+                             , #finaAmt#
+                             , #consignCd#
+                             , #establePayRate#
+                             , #guaranteeAmt#
+                             , #estableAmt#
+                             , #saleTypeCd#
+                             , #optionCd#
+                             , #optionAmt#
+                             , #allotmentEnd#
+                             , #guaranteeRate#
+                             , #newIjaRate#
+                             , #salesPromotionCd#
+                             , #graceAmt1#
+                             , #graceIjaRate1#
+                             , #graceCompRate1#
+                             , #carNo#
+                             , #contCnt#
+                             , #cancelCnt#
+                             , #selfIjaAmt#
+                             , #bankIjaAmt#
+                             , #carSaleAmt#
+                             , #colorAmt#
+                             , #buyTypeCd#
+                             , #useTypeCd#
+                             , #handPersonCd#
+                             , #remark#
+                             , #tukTp#
+                             , #vatTp#
+                             , #tukAmt#
+                             , #edkAmt#
+                             , #vatAmt#
+                             , TO_DATE(#assignBasisDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                             , #updtUserCd#
+                             , #juminPostCd#
+                             , #juminPostAddr#
+                             , #chassisNo#
+                             , TO_DATE(#expectDt#, 'YYYYMMDD')
+                             , #fleetCustMk#
+                             , #outPlaceType#
+                             , #outToArea#
+                             , #transAmt#
+                             , #outPlaceAmt#
+                             , #trustCd#
+                             , #specialDcAmt#
+                             , #onceDcAmt#
+                             , #empDcAmt#
+                             , #flawDcAmt#
+                             , #longDcAmt#
+                             , #displayDcAmt#
+                             , #fleetDcAmt#
+                             , #campaignDcAmt#
+                             , #proDcAmt#
+                             , #addDcAmt#
+                             , #cardDcAmt#
+                             , #autoDcAmt#
+                             , #etcDcAmt#
+                             , #payCd#
+                             , #capitalCd#
+                             , TO_DATE(#beginAcceptDt#, 'YYYYMMDD')
+                             , #payKeepTerm#
+                             , #payKeepRate#
+                             , #delayTerm#
+                             , #delayRate#
+                             , #delayUseRate#
+                             , #payType#
+                             , #payUseGrade#
+                             , #offtaxStat#
+                             , TO_DATE(#offtaxApprDttm#, 'YYYYMMDDHH24MISS')
+                             , #offtaxUserCd#
+                             , #reductCd#
+                             , #reductTukAmt#
+                             , #reductTukRate#
+                             , TO_DATE(#apprDt#, 'YYYYMMDD')
+                             , #apprSeq#
+                             , #contractStatus#
+                             , #regUserCd#
+                             , #receiptNo#
+                             , #receiptStat#
+                             , TO_DATE(#receiptApprDttm#, 'YYYYMMDDHH24MISS')
+                             , #receiptApprNo#
+                             , #handPhoneNo#
+                             , #payStatus#
+                             , TO_DATE(#payApprDttm#, 'YYYYMMDD')
+                             , #payApprNo#
+                             , TO_DATE(#befSignoffDt#, 'YYYYMMDD')
+                             , #befChassisNo#
+                             , #remark2#
+                             , #payCrdtRate#
+                             , #stockAmt#
+                             , #contractNoO#
+                             , #email#
+                             , #oldCarPlan#
+                             , #oldCarMaker#
+                             , #oldCarModel#
+                             , #oldCarMy#
+                             , #residentPostRegNo#
+                             , #businessPostRegNo#
+                             , #juminPostRegNo#
+                             , #salesModlCd#
+                             , TO_DATE(#indoDt#, 'YYYYMMDD')
+                             , #ewItemCd#
+                             , #ewItemAmt#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

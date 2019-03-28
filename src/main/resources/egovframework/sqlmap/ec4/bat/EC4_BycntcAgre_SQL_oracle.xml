@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BycntcAgre">
+
+    <typeAlias alias="bycntcAgre" type="egovframework.ec4.bat.domain.trade.BycntcAgre"/>
+
+    <resultMap id="result" class="bycntcAgre">
+        <result property="dealerCd" column="dealer_cd"/>
+        <result property="busResNo" column="bus_res_no"/>
+        <result property="acctSeq" column="acct_seq"/>
+        <result property="acctDt" column="acct_dt"/>
+        <result property="custNm1" column="cust_nm1"/>
+        <result property="custNm2" column="cust_nm2"/>
+        <result property="agentNm1" column="agent_nm1"/>
+        <result property="agentNm2" column="agent_nm2"/>
+        <result property="regDttm" column="reg_dttm"/>
+        <result property="regUser" column="reg_user"/>
+        <result property="contractNo" column="contract_no"/>
+        <result property="histRegistDe" column="hist_regist_de"/>
+        <result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectBycntcAgreHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , bus_res_no
+                              , acct_seq
+                              , TO_CHAR(acct_dt, 'YYYYMMDD') AS acct_dt
+                              , cust_nm1
+                              , cust_nm2
+                              , agent_nm1
+                              , agent_nm2
+                              , TO_CHAR(reg_dttm, 'YYYYMMDDHH24MISS') AS reg_dttm
+                              , reg_user
+                              , contract_no
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_bycntc_agre
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                acct_seq
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciBycntcAgreHist" parameterClass="bycntcAgre" >
+    <![CDATA[
+        INSERT INTO ih_bycntc_agre
+                    (
+                      dealer_cd
+                    , bus_res_no
+                    , acct_seq
+                    , acct_dt
+                    , cust_nm1
+                    , cust_nm2
+                    , agent_nm1
+                    , agent_nm2
+                    , reg_dttm
+                    , reg_user
+                    , contract_no
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                    , #dealerCd#
+                    , #busResNo#
+                    , #acctSeq#
+                    , TO_DATE(#acctDt#, 'YYYYMMDD')
+                    , #custNm1#
+                    , #custNm2#
+                    , #agentNm1#
+                    , #agentNm2#
+                    , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                    , #regUser#
+                    , #contractNo#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeBycntcAgre" parameterClass="bycntcAgre">
+    <![CDATA[
+        MERGE INTO
+                    if_bycntc_agre
+             USING
+                    dual
+                ON (
+                         dealer_cd = #dealerCd#
+                     AND bus_res_no = #busResNo#
+                     AND acct_seq = #acctSeq#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           acct_dt         = TO_DATE(#acctDt#, 'YYYYMMDDHH24MISS')
+                         , cust_nm1        = #custNm1#
+                         , cust_nm2        = #custNm2#
+                         , agent_nm1       = #agentNm1#
+                         , agent_nm2       = #agentNm2#
+                         , reg_dttm        = TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                         , reg_user        = #regUser#
+                         , contract_no     = #contractNo#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , bus_res_no
+                             , acct_seq
+                             , acct_dt
+                             , cust_nm1
+                             , cust_nm2
+                             , agent_nm1
+                             , agent_nm2
+                             , reg_dttm
+                             , reg_user
+                             , contract_no
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #busResNo#
+                             , #acctSeq#
+                             , TO_DATE(#acctDt#, 'YYYYMMDDHH24MISS')
+                             , #custNm1#
+                             , #custNm2#
+                             , #agentNm1#
+                             , #agentNm2#
+                             , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                             , #regUser#
+                             , #contractNo#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

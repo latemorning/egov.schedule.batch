@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Buzplc">
+
+	<typeAlias alias="buzplc" type="egovframework.ec4.bat.domain.trade.Buzplc" />
+
+	<resultMap id="result" class="buzplc">
+		<result property="dealerCd" column="DEALER_CD" />
+		<result property="brchCd" column="BRCH_CD" />
+		<result property="brchNm" column="BRCH_NM" />
+		<result property="brchTel" column="BRCH_TEL" />
+		<result property="brchFax" column="BRCH_FAX" />
+		<result property="brchPost" column="BRCH_POST" />
+		<result property="brchAddr" column="BRCH_ADDR" />
+		<result property="brchBank" column="BRCH_BANK" />
+		<result property="brchBankNm" column="BRCH_BANK_NM" />
+		<result property="brchCenter" column="BRCH_CENTER" />
+		<result property="brchBankNo" column="BRCH_BANK_NO" />
+		<result property="brchCapacity" column="BRCH_CAPACITY" />
+		<result property="brchOpenDt" column="BRCH_OPEN_DT" />
+		<result property="brchCloseDt" column="BRCH_CLOSE_DT" />
+		<result property="brchChairNo" column="BRCH_CHAIR_NO" />
+		<result property="brchRentCode" column="BRCH_RENT_CODE" />
+		<result property="brchJuminNo" column="BRCH_JUMIN_NO" />
+		<result property="brchSaNo" column="BRCH_SA_NO" />
+		<result property="brchAsControl" column="BRCH_AS_CONTROL" />
+		<result property="brchOutControl" column="BRCH_OUT_CONTROL" />
+		<result property="brchAsgnControl" column="BRCH_ASGN_CONTROL" />
+		<result property="brchTranDt" column="BRCH_TRAN_DT" />
+		<result property="brchDepositor" column="BRCH_DEPOSITOR" />
+		<result property="brchBankI" column="BRCH_BANK_I" />
+		<result property="brchBankNmI" column="BRCH_BANK_NM_I" />
+		<result property="brchBankNoI" column="BRCH_BANK_NO_I" />
+		<result property="brchDepositorI" column="BRCH_DEPOSITOR_I" />
+		<result property="brchDriveControl" column="BRCH_DRIVE_CONTROL" />
+		<result property="brchAcctList" column="BRCH_ACCT_LIST" />
+		<result property="brchOutStop" column="BRCH_OUT_STOP" />
+		<result property="brchCardControl" column="BRCH_CARD_CONTROL" />
+		<result property="brchType" column="BRCH_TYPE" />
+		<result property="updtUserCd" column="UPDT_USER_CD" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updtDate" column="UPDT_DATE" />
+		<result property="brchEmpNm" column="BRCH_EMP_NM" />
+		<result property="brchEmpTel" column="BRCH_EMP_TEL" />
+		<result property="brchEmpHp" column="BRCH_EMP_HP" />
+		<result property="brchBusinessType" column="BRCH_BUSINESS_TYPE" />
+		<result property="brchIndustryType" column="BRCH_INDUSTRY_TYPE" />
+		<result property="brchSortId" column="BRCH_SORT_ID" />
+		<result property="brchBusinessNm" column="BRCH_BUSINESS_NM" />
+		<result property="etaxEmail" column="ETAX_EMAIL" />
+		<result property="sizeFlag" column="SIZE_FLAG" />
+		<result property="siGunFlag" column="SI_GUN_FLAG" />
+		<result property="showroomStrtDt" column="SHOWROOM_STRT_DT" />
+		<result property="showroomEndDt" column="SHOWROOM_END_DT" />
+		<result property="brchPostRegNo" column="BRCH_POST_REG_NO" />
+		<result property="brchParkingCmt" column="BRCH_PARKING_CMT" />
+		<result property="zoneCd" column="ZONE_CD" />
+		<result property="districtCd" column="DISTRICT_CD" />
+	</resultMap>
+
+	<select id="selectBuzplcHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , brch_cd
+                              , brch_nm
+                              , brch_tel
+                              , brch_fax
+                              , brch_post
+                              , brch_addr
+                              , brch_bank
+                              , brch_bank_nm
+                              , brch_center
+                              , brch_bank_no
+                              , brch_capacity
+                              , TO_CHAR(brch_open_dt, 'YYYYMMDD') AS brch_open_dt
+                              , TO_CHAR(brch_close_dt, 'YYYYMMDD') AS brch_close_dt
+                              , brch_chair_no
+                              , brch_rent_code
+                              , brch_jumin_no
+                              , brch_sa_no
+                              , brch_as_control
+                              , brch_out_control
+                              , brch_asgn_control
+                              , TO_CHAR(brch_tran_dt, 'YYYYMMDD') AS brch_tran_dt
+                              , brch_depositor
+                              , brch_bank_i
+                              , brch_bank_nm_i
+                              , brch_bank_no_i
+                              , brch_depositor_i
+                              , brch_drive_control
+                              , brch_acct_list
+                              , brch_out_stop
+                              , brch_card_control
+                              , brch_type
+                              , updt_user_cd
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , TO_CHAR(updt_date, 'YYYYMMDDHH24MISS') AS updt_date
+                              , brch_emp_nm
+                              , brch_emp_tel
+                              , brch_emp_hp
+                              , brch_business_type
+                              , brch_industry_type
+                              , brch_sort_id
+                              , brch_business_nm
+                              , etax_email
+                              , size_flag
+                              , si_gun_flag
+                              , TO_CHAR(showroom_strt_dt, 'YYYYMMDD') AS showroom_strt_dt
+                              , TO_CHAR(showroom_end_dt, 'YYYYMMDD') AS showroom_end_dt
+                              , brch_post_reg_no
+                              , brch_parking_cmt
+                              , zone_cd
+                              , district_cd
+                          FROM
+                                ih_buzplc
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, brch_cd
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciBuzplcHist" parameterClass="buzplc">
+    <![CDATA[
+        INSERT INTO ih_buzplc (
+                                dealer_cd
+                              , brch_cd
+                              , brch_nm
+                              , brch_tel
+                              , brch_fax
+                              , brch_post
+                              , brch_addr
+                              , brch_bank
+                              , brch_bank_nm
+                              , brch_center
+                              , brch_bank_no
+                              , brch_capacity
+                              , brch_open_dt
+                              , brch_close_dt
+                              , brch_chair_no
+                              , brch_rent_code
+                              , brch_jumin_no
+                              , brch_sa_no
+                              , brch_as_control
+                              , brch_out_control
+                              , brch_asgn_control
+                              , brch_tran_dt
+                              , brch_depositor
+                              , brch_bank_i
+                              , brch_bank_nm_i
+                              , brch_bank_no_i
+                              , brch_depositor_i
+                              , brch_drive_control
+                              , brch_acct_list
+                              , brch_out_stop
+                              , brch_card_control
+                              , brch_type
+                              , updt_user_cd
+                              , reg_date
+                              , updt_date
+                              , brch_emp_nm
+                              , brch_emp_tel
+                              , brch_emp_hp
+                              , brch_business_type
+                              , brch_industry_type
+                              , brch_sort_id
+                              , brch_business_nm
+                              , etax_email
+                              , size_flag
+                              , si_gun_flag
+                              , showroom_strt_dt
+                              , showroom_end_dt
+                              , brch_post_reg_no
+                              , brch_parking_cmt
+                              , zone_cd
+                              , district_cd
+                              , hist_regist_de
+                              , action_code
+                              )
+                       VALUES (
+                                #dealerCd#
+                              , #brchCd#
+                              , #brchNm#
+                              , #brchTel#
+                              , #brchFax#
+                              , #brchPost#
+                              , #brchAddr#
+                              , #brchBank#
+                              , #brchBankNm#
+                              , #brchCenter#
+                              , #brchBankNo#
+                              , #brchCapacity#
+                              , TRUNC(TO_DATE(#brchOpenDt#, 'YYYYMMDD'))
+                              , TRUNC(TO_DATE(#brchCloseDt#, 'YYYYMMDD'))
+                              , #brchChairNo#
+                              , #brchRentCode#
+                              , #brchJuminNo#
+                              , #brchSaNo#
+                              , #brchAsControl#
+                              , #brchOutControl#
+                              , #brchAsgnControl#
+                              , TRUNC(TO_DATE(#brchTranDt#, 'YYYYMMDD'))
+                              , #brchDepositor#
+                              , #brchBankI#
+                              , #brchBankNmI#
+                              , #brchBankNoI#
+                              , #brchDepositorI#
+                              , #brchDriveControl#
+                              , #brchAcctList#
+                              , #brchOutStop#
+                              , #brchCardControl#
+                              , #brchType#
+                              , #updtUserCd#
+                              , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                              , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                              , #brchEmpNm#
+                              , #brchEmpTel#
+                              , #brchEmpHp#
+                              , #brchBusinessType#
+                              , #brchIndustryType#
+                              , #brchSortId#
+                              , #brchBusinessNm#
+                              , #etaxEmail#
+                              , #sizeFlag#
+                              , #siGunFlag#
+                              , TRUNC(TO_DATE(#showroomStrtDt#, 'YYYYMMDD'))
+                              , TRUNC(TO_DATE(#showroomEndDt#, 'YYYYMMDD'))
+                              , #brchPostRegNo#
+                              , #brchParkingCmt#
+                              , #zoneCd#
+                              , #districtCd#
+                              , TRUNC(TO_DATE(#histRegistDe#, 'YYYYMMDD'))
+                              , #actionCode#
+                              )
+    ]]>
+	</insert>
+
+
+	<update id="mergeBuzplc" parameterClass="buzplc">
+    <![CDATA[
+        MERGE INTO
+                    if_buzplc b
+             USING
+                    dual
+                ON (
+                        dealer_cd = #dealerCd#
+                    AND brch_cd   = #brchCd#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           brch_nm            = #brchNm#
+                         , brch_tel           = #brchTel#
+                         , brch_fax           = #brchFax#
+                         , brch_post          = #brchPost#
+                         , brch_addr          = #brchAddr#
+                         , brch_bank          = #brchBank#
+                         , brch_bank_nm       = #brchBankNm#
+                         , brch_center        = #brchCenter#
+                         , brch_bank_no       = #brchBankNo#
+                         , brch_capacity      = #brchCapacity#
+                         , brch_open_dt       = TRUNC(TO_DATE(#brchOpenDt#, 'YYYYMMDD'))
+                         , brch_close_dt      = TRUNC(TO_DATE(#brchCloseDt#, 'YYYYMMDD'))
+                         , brch_chair_no      = #brchChairNo#
+                         , brch_rent_code     = #brchRentCode#
+                         , brch_jumin_no      = #brchJuminNo#
+                         , brch_sa_no         = #brchSaNo#
+                         , brch_as_control    = #brchAsControl#
+                         , brch_out_control   = #brchOutControl#
+                         , brch_asgn_control  = #brchAsgnControl#
+                         , brch_tran_dt       = TRUNC(TO_DATE(#brchTranDt#, 'YYYYMMDD'))
+                         , brch_depositor     = #brchDepositor#
+                         , brch_bank_i        = #brchBankI#
+                         , brch_bank_nm_i     = #brchBankNmI#
+                         , brch_bank_no_i     = #brchBankNoI#
+                         , brch_depositor_i   = #brchDepositorI#
+                         , brch_drive_control = #brchDriveControl#
+                         , brch_acct_list     = #brchAcctList#
+                         , brch_out_stop      = #brchOutStop#
+                         , brch_card_control  = #brchCardControl#
+                         , brch_type          = #brchType#
+                         , updt_user_cd       = #updtUserCd#
+                         , reg_date           = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , updt_date          = TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                         , brch_emp_nm        = #brchEmpNm#
+                         , brch_emp_tel       = #brchEmpTel#
+                         , brch_emp_hp        = #brchEmpHp#
+                         , brch_business_type = #brchBusinessType#
+                         , brch_industry_type = #brchIndustryType#
+                         , brch_sort_id       = #brchSortId#
+                         , brch_business_nm   = #brchBusinessNm#
+                         , etax_email         = #etaxEmail#
+                         , size_flag          = #sizeFlag#
+                         , si_gun_flag        = #siGunFlag#
+                         , showroom_strt_dt   = TRUNC(TO_DATE(#showroomStrtDt#, 'YYYYMMDD'))
+                         , showroom_end_dt    = TRUNC(TO_DATE(#showroomEndDt#, 'YYYYMMDD'))
+                         , brch_post_reg_no   = #brchPostRegNo#
+                         , brch_parking_cmt   = #brchParkingCmt#
+                         , zone_cd            = #zoneCd#
+                         , district_cd        = #districtCd#
+                         , last_updt_pnttm    = SYSDATE
+                         , last_updusr_id     = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , brch_cd
+                             , brch_nm
+                             , brch_tel
+                             , brch_fax
+                             , brch_post
+                             , brch_addr
+                             , brch_bank
+                             , brch_bank_nm
+                             , brch_center
+                             , brch_bank_no
+                             , brch_capacity
+                             , brch_open_dt
+                             , brch_close_dt
+                             , brch_chair_no
+                             , brch_rent_code
+                             , brch_jumin_no
+                             , brch_sa_no
+                             , brch_as_control
+                             , brch_out_control
+                             , brch_asgn_control
+                             , brch_tran_dt
+                             , brch_depositor
+                             , brch_bank_i
+                             , brch_bank_nm_i
+                             , brch_bank_no_i
+                             , brch_depositor_i
+                             , brch_drive_control
+                             , brch_acct_list
+                             , brch_out_stop
+                             , brch_card_control
+                             , brch_type
+                             , updt_user_cd
+                             , reg_date
+                             , updt_date
+                             , brch_emp_nm
+                             , brch_emp_tel
+                             , brch_emp_hp
+                             , brch_business_type
+                             , brch_industry_type
+                             , brch_sort_id
+                             , brch_business_nm
+                             , etax_email
+                             , size_flag
+                             , si_gun_flag
+                             , showroom_strt_dt
+                             , showroom_end_dt
+                             , brch_post_reg_no
+                             , brch_parking_cmt
+                             , zone_cd
+                             , district_cd
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #brchCd#
+                             , #brchNm#
+                             , #brchTel#
+                             , #brchFax#
+                             , #brchPost#
+                             , #brchAddr#
+                             , #brchBank#
+                             , #brchBankNm#
+                             , #brchCenter#
+                             , #brchBankNo#
+                             , #brchCapacity#
+                             , TRUNC(TO_DATE(#brchOpenDt#, 'YYYYMMDD'))
+                             , TRUNC(TO_DATE(#brchCloseDt#, 'YYYYMMDD'))
+                             , #brchChairNo#
+                             , #brchRentCode#
+                             , #brchJuminNo#
+                             , #brchSaNo#
+                             , #brchAsControl#
+                             , #brchOutControl#
+                             , #brchAsgnControl#
+                             , TRUNC(TO_DATE(#brchTranDt#, 'YYYYMMDD'))
+                             , #brchDepositor#
+                             , #brchBankI#
+                             , #brchBankNmI#
+                             , #brchBankNoI#
+                             , #brchDepositorI#
+                             , #brchDriveControl#
+                             , #brchAcctList#
+                             , #brchOutStop#
+                             , #brchCardControl#
+                             , #brchType#
+                             , #updtUserCd#
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                             , #brchEmpNm#
+                             , #brchEmpTel#
+                             , #brchEmpHp#
+                             , #brchBusinessType#
+                             , #brchIndustryType#
+                             , #brchSortId#
+                             , #brchBusinessNm#
+                             , #etaxEmail#
+                             , #sizeFlag#
+                             , #siGunFlag#
+                             , TRUNC(TO_DATE(#showroomStrtDt#, 'YYYYMMDD'))
+                             , TRUNC(TO_DATE(#showroomEndDt#, 'YYYYMMDD'))
+                             , #brchPostRegNo#
+                             , #brchParkingCmt#
+                             , #zoneCd#
+                             , #districtCd#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

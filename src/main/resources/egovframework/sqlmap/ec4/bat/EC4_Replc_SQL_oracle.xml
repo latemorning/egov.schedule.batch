@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Replc">
+
+    <typeAlias alias="replc" type="egovframework.ec4.bat.domain.trade.Replc"/>
+
+    <resultMap id="result" class="egovframework.ec4.bat.domain.trade.Replc">
+        <result property="custType"       column="CUST_TYPE"/>
+        <result property="custCode"       column="CUST_CODE"/>
+        <result property="maker"          column="MAKER"/>
+        <result property="histRegistDe"   column="HIST_REGIST_DE"/>
+        <result property="actionCode"     column="ACTION_CODE"/>
+        <result property="custRootType"   column="CUST_ROOT_TYPE"/>
+        <result property="custRootCode"   column="CUST_ROOT_CODE"/>
+        <result property="custPartType"   column="CUST_PART_TYPE"/>
+        <result property="custPartCode"   column="CUST_PART_CODE"/>
+        <result property="custSvcType"    column="CUST_SVC_TYPE"/>
+        <result property="custSvcCode"    column="CUST_SVC_CODE"/>
+        <result property="custAcctType"   column="CUST_ACCT_TYPE"/>
+        <result property="custAcctCode"   column="CUST_ACCT_CODE"/>
+        <result property="custOldType"    column="CUST_OLD_TYPE"/>
+        <result property="custOldCode"    column="CUST_OLD_CODE"/>
+        <result property="custSvdType"    column="CUST_SVD_TYPE"/>
+        <result property="custSvdCode"    column="CUST_SVD_CODE"/>
+        <result property="regDttm"        column="REG_DTTM"/>
+        <result property="busiId"         column="BUSI_ID"/>
+        <result property="pgdtName"       column="PGDT_NAME"/>
+        <result property="firmName"       column="FIRM_NAME"/>
+        <result property="busiKind"       column="BUSI_KIND"/>
+        <result property="busiType"       column="BUSI_TYPE"/>
+        <result property="cnfmBank"       column="CNFM_BANK"/>
+        <result property="cnfmPassNo"     column="CNFM_PASS_NO"/>
+        <result property="cnfmPassOwnr"   column="CNFM_PASS_OWNR"/>
+        <result property="cnfmCond"       column="CNFM_COND"/>
+        <result property="mlno01"         column="MLNO_01"/>
+        <result property="mlno02"         column="MLNO_02"/>
+        <result property="addrCi"         column="ADDR_CI"/>
+        <result property="addrGu"         column="ADDR_GU"/>
+        <result property="addrDong"       column="ADDR_DONG"/>
+        <result property="addrBngi"       column="ADDR_BNGI"/>
+        <result property="telNo01"        column="TEL_NO01"/>
+        <result property="telNo02"        column="TEL_NO02"/>
+        <result property="cellPhone"      column="CELL_PHONE"/>
+        <result property="faxNo"          column="FAX_NO"/>
+        <result property="reprMan"        column="REPR_MAN"/>
+        <result property="reprPgdt"       column="REPR_PGDT"/>
+        <result property="lobCond"        column="LOB_COND"/>
+        <result property="partCond"       column="PART_COND"/>
+        <result property="vatCond"        column="VAT_COND"/>
+        <result property="ugntPrceMrgn"   column="UGNT_PRCE_MRGN"/>
+        <result property="warrPrceCond"   column="WARR_PRCE_COND"/>
+        <result property="warrPrceRate"   column="WARR_PRCE_RATE"/>
+        <result property="salePrceCond"   column="SALE_PRCE_COND"/>
+        <result property="salePrceRate"   column="SALE_PRCE_RATE"/>
+        <result property="acctCnfmCond"   column="ACCT_CNFM_COND"/>
+        <result property="chngDttm"        column="CHNG_DTTM"/>
+        <result property="stat"           column="STAT"/>
+        <result property="custKugminType" column="CUST_KUGMIN_TYPE"/>
+        <result property="custKugminCode" column="CUST_KUGMIN_CODE"/>
+        <result property="ctrToCtrFlag"   column="CTR_TO_CTR_FLAG"/>
+        <result property="ctrNum"         column="CTR_NUM"/>
+        <result property="passwd"         column="PASSWD"/>
+        <result property="histOk"         column="HIST_OK"/>
+        <result property="vndrGubn"       column="VNDR_GUBN"/>
+        <result property="custReprNo"     column="CUST_REPR_NO"/>
+        <result property="areaGroupCd"    column="AREA_GROUP_CD"/>
+    </resultMap>
+
+    <select id="selectReplcHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+   			                    CUST_TYPE
+   			                  , CUST_CODE
+                              , MAKER
+                              , HIST_REGIST_DE
+                              , ACTION_CODE
+                              , CUST_ROOT_TYPE
+                              , CUST_ROOT_CODE
+                              , CUST_PART_TYPE
+                              , CUST_PART_CODE
+                              , CUST_SVC_TYPE
+                              , CUST_SVC_CODE
+                              , CUST_ACCT_TYPE
+                              , CUST_ACCT_CODE
+                              , CUST_OLD_TYPE
+                              , CUST_OLD_CODE
+                              , CUST_SVD_TYPE
+                              , CUST_SVD_CODE
+                              , TO_CHAR(REG_DTTM, 'YYYYMMDD') AS REG_DTTM
+                              , BUSI_ID
+                              , PGDT_NAME
+                              , FIRM_NAME
+                              , BUSI_KIND
+                              , BUSI_TYPE
+                              , CNFM_BANK
+                              , CNFM_PASS_NO
+                              , CNFM_PASS_OWNR
+                              , CNFM_COND
+                              , MLNO_01
+                              , MLNO_02
+                              , ADDR_CI
+                              , ADDR_GU
+                              , ADDR_DONG
+                              , ADDR_BNGI
+                              , TEL_NO01
+                              , TEL_NO02
+                              , CELL_PHONE
+                              , FAX_NO
+                              , REPR_MAN
+                              , REPR_PGDT
+                              , LOB_COND
+                              , PART_COND
+                              , VAT_COND
+                              , UGNT_PRCE_MRGN
+                              , WARR_PRCE_COND
+                              , WARR_PRCE_RATE
+                              , SALE_PRCE_COND
+                              , SALE_PRCE_RATE
+                              , ACCT_CNFM_COND
+                              , TO_CHAR(CHNG_DTTM, 'YYYYMMDD') AS CHNG_DTTM
+                              , STAT
+                              , CUST_KUGMIN_TYPE
+                              , CUST_KUGMIN_CODE
+                              , CTR_TO_CTR_FLAG
+                              , CTR_NUM
+                              , PASSWD
+                              , HIST_OK
+                              , VNDR_GUBN
+                              , CUST_REPR_NO
+                              , AREA_GROUP_CD
+   			              FROM
+   			                    IH_REPLC
+   			             WHERE
+   			                    HIST_REGIST_DE = #histRegistDe#
+   			             ORDER BY
+   			                    HIST_REGIST_DE, CUST_CODE
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+
+    ]]>
+    </select>
+
+    <insert id="createDavinciReplcHist" parameterClass="replc" >
+    <![CDATA[
+        INSERT INTO IH_REPLC (
+                               CUST_TYPE
+                             , CUST_CODE
+                             , MAKER
+                             , HIST_REGIST_DE
+                             , ACTION_CODE
+                             , CUST_ROOT_TYPE
+                             , CUST_ROOT_CODE
+                             , CUST_PART_TYPE
+                             , CUST_PART_CODE
+                             , CUST_SVC_TYPE
+                             , CUST_SVC_CODE
+                             , CUST_ACCT_TYPE
+                             , CUST_ACCT_CODE
+                             , CUST_OLD_TYPE
+                             , CUST_OLD_CODE
+                             , CUST_SVD_TYPE
+                             , CUST_SVD_CODE
+                             , REG_DTTM
+                             , BUSI_ID
+                             , PGDT_NAME
+                             , FIRM_NAME
+                             , BUSI_KIND
+                             , BUSI_TYPE
+                             , CNFM_BANK
+                             , CNFM_PASS_NO
+                             , CNFM_PASS_OWNR
+                             , CNFM_COND
+                             , MLNO_01
+                             , MLNO_02
+                             , ADDR_CI
+                             , ADDR_GU
+                             , ADDR_DONG
+                             , ADDR_BNGI
+                             , TEL_NO01
+                             , TEL_NO02
+                             , CELL_PHONE
+                             , FAX_NO
+                             , REPR_MAN
+                             , REPR_PGDT
+                             , LOB_COND
+                             , PART_COND
+                             , VAT_COND
+                             , UGNT_PRCE_MRGN
+                             , WARR_PRCE_COND
+                             , WARR_PRCE_RATE
+                             , SALE_PRCE_COND
+                             , SALE_PRCE_RATE
+                             , ACCT_CNFM_COND
+                             , CHNG_DTTM
+                             , STAT
+                             , CUST_KUGMIN_TYPE
+                             , CUST_KUGMIN_CODE
+                             , CTR_TO_CTR_FLAG
+                             , CTR_NUM
+                             , PASSWD
+                             , HIST_OK
+                             , VNDR_GUBN
+                             , CUST_REPR_NO
+                             , AREA_GROUP_CD
+                             )
+                     VALUES (
+                               #custType#
+                             , #custCode#
+                             , #maker#
+                             , TRUNC(TO_DATE(#histRegistDe#, 'YYYYMMDD'))
+                             , #actionCode#
+                             , #custRootType#
+                             , #custRootCode#
+                             , #custPartType#
+                             , #custPartCode#
+                             , #custSvcType#
+                             , #custSvcCode#
+                             , #custAcctType#
+                             , #custAcctCode#
+                             , #custOldType#
+                             , #custOldCode#
+                             , #custSvdType#
+                             , #custSvdCode#
+                             , TRUNC(TO_DATE(#regDttm#, 'YYYYMMDD'))
+                             , #busiId#
+                             , #pgdtName#
+                             , #firmName#
+                             , #busiKind#
+                             , #busiType#
+                             , #cnfmBank#
+                             , #cnfmPassNo#
+                             , #cnfmPassOwnr#
+                             , #cnfmCond#
+                             , #mlno01#
+                             , #mlno02#
+                             , #addrCi#
+                             , #addrGu#
+                             , #addrDong#
+                             , #addrBngi#
+                             , #telNo01#
+                             , #telNo02#
+                             , #cellPhone#
+                             , #faxNo#
+                             , #reprMan#
+                             , #reprPgdt#
+                             , #lobCond#
+                             , #partCond#
+                             , #vatCond#
+                             , #ugntPrceMrgn#
+                             , #warrPrceCond#
+                             , #warrPrceRate#
+                             , #salePrceCond#
+                             , #salePrceRate#
+                             , #acctCnfmCond#
+                             , TRUNC(TO_DATE(#chngDttm#, 'YYYYMMDD'))
+                             , #stat#
+                             , #custKugminType#
+                             , #custKugminCode#
+                             , #ctrToCtrFlag#
+                             , #ctrNum#
+                             , #passwd#
+                             , #histOk#
+                             , #vndrGubn#
+                             , #custReprNo#
+                             , #areaGroupCd#
+                             )
+  ]]>
+  </insert>
+
+
+    <update id="mergeReplc" parameterClass="replc">
+    <![CDATA[
+        MERGE INTO
+                    if_replc r
+             USING
+                    dual
+                ON (
+                        cust_type = #custType#
+                    AND cust_code = #custCode#
+                    AND maker = #maker#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           cust_root_type   = #custRootType#
+                         , cust_root_code   = #custRootCode#
+                         , cust_part_type   = #custPartType#
+                         , cust_part_code   = #custPartCode#
+                         , cust_svc_type    = #custSvcType#
+                         , cust_svc_code    = #custSvcCode#
+                         , cust_acct_type   = #custAcctType#
+                         , cust_acct_code   = #custAcctCode#
+                         , cust_old_type    = #custOldType#
+                         , cust_old_code    = #custOldCode#
+                         , cust_svd_type    = #custSvdType#
+                         , cust_svd_code    = #custSvdCode#
+                         , reg_dttm         = TRUNC(TO_DATE(#regDttm#, 'YYYYMMDD'))
+                         , busi_id          = #busiId#
+                         , pgdt_name        = #pgdtName#
+                         , firm_name        = #firmName#
+                         , busi_kind        = #busiKind#
+                         , busi_type        = #busiType#
+                         , cnfm_bank        = #cnfmBank#
+                         , cnfm_pass_no     = #cnfmPassNo#
+                         , cnfm_pass_ownr   = #cnfmPassOwnr#
+                         , cnfm_cond        = #cnfmCond#
+                         , mlno_01          = #mlno01#
+                         , mlno_02          = #mlno02#
+                         , addr_ci          = #addrCi#
+                         , addr_gu          = #addrGu#
+                         , addr_dong        = #addrDong#
+                         , addr_bngi        = #addrBngi#
+                         , tel_no01         = #telNo01#
+                         , tel_no02         = #telNo02#
+                         , cell_phone       = #cellPhone#
+                         , fax_no           = #faxNo#
+                         , repr_man         = #reprMan#
+                         , repr_pgdt        = #reprPgdt#
+                         , lob_cond         = #lobCond#
+                         , part_cond        = #partCond#
+                         , vat_cond         = #vatCond#
+                         , ugnt_prce_mrgn   = #ugntPrceMrgn#
+                         , warr_prce_cond   = #warrPrceCond#
+                         , warr_prce_rate   = #warrPrceRate#
+                         , sale_prce_cond   = #salePrceCond#
+                         , sale_prce_rate   = #salePrceRate#
+                         , acct_cnfm_cond   = #acctCnfmCond#
+                         , chng_dttm        = TRUNC(TO_DATE(#chngDttm#, 'YYYYMMDD'))
+                         , stat             = #stat#
+                         , cust_kugmin_type = #custKugminType#
+                         , cust_kugmin_code = #custKugminCode#
+                         , ctr_to_ctr_flag  = #ctrToCtrFlag#
+                         , ctr_num          = #ctrNum#
+                         , passwd           = #passwd#
+                         , hist_ok          = #histOk#
+                         , vndr_gubn        = #vndrGubn#
+                         , cust_repr_no     = #custReprNo#
+                         , area_group_cd    = #areaGroupCd#
+                         , last_updt_pnttm  = SYSDATE
+                         , last_updusr_id   = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               cust_type
+                             , cust_code
+                             , maker
+                             , cust_root_type
+                             , cust_root_code
+                             , cust_part_type
+                             , cust_part_code
+                             , cust_svc_type
+                             , cust_svc_code
+                             , cust_acct_type
+                             , cust_acct_code
+                             , cust_old_type
+                             , cust_old_code
+                             , cust_svd_type
+                             , cust_svd_code
+                             , reg_dttm
+                             , busi_id
+                             , pgdt_name
+                             , firm_name
+                             , busi_kind
+                             , busi_type
+                             , cnfm_bank
+                             , cnfm_pass_no
+                             , cnfm_pass_ownr
+                             , cnfm_cond
+                             , mlno_01
+                             , mlno_02
+                             , addr_ci
+                             , addr_gu
+                             , addr_dong
+                             , addr_bngi
+                             , tel_no01
+                             , tel_no02
+                             , cell_phone
+                             , fax_no
+                             , repr_man
+                             , repr_pgdt
+                             , lob_cond
+                             , part_cond
+                             , vat_cond
+                             , ugnt_prce_mrgn
+                             , warr_prce_cond
+                             , warr_prce_rate
+                             , sale_prce_cond
+                             , sale_prce_rate
+                             , acct_cnfm_cond
+                             , chng_dttm
+                             , stat
+                             , cust_kugmin_type
+                             , cust_kugmin_code
+                             , ctr_to_ctr_flag
+                             , ctr_num
+                             , passwd
+                             , hist_ok
+                             , vndr_gubn
+                             , cust_repr_no
+                             , area_group_cd
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #custType#
+                             , #custCode#
+                             , #maker#
+                             , #custRootType#
+                             , #custRootCode#
+                             , #custPartType#
+                             , #custPartCode#
+                             , #custSvcType#
+                             , #custSvcCode#
+                             , #custAcctType#
+                             , #custAcctCode#
+                             , #custOldType#
+                             , #custOldCode#
+                             , #custSvdType#
+                             , #custSvdCode#
+                             , TRUNC(TO_DATE(#regDttm#, 'YYYYMMDD'))
+                             , #busiId#
+                             , #pgdtName#
+                             , #firmName#
+                             , #busiKind#
+                             , #busiType#
+                             , #cnfmBank#
+                             , #cnfmPassNo#
+                             , #cnfmPassOwnr#
+                             , #cnfmCond#
+                             , #mlno01#
+                             , #mlno02#
+                             , #addrCi#
+                             , #addrGu#
+                             , #addrDong#
+                             , #addrBngi#
+                             , #telNo01#
+                             , #telNo02#
+                             , #cellPhone#
+                             , #faxNo#
+                             , #reprMan#
+                             , #reprPgdt#
+                             , #lobCond#
+                             , #partCond#
+                             , #vatCond#
+                             , #ugntPrceMrgn#
+                             , #warrPrceCond#
+                             , #warrPrceRate#
+                             , #salePrceCond#
+                             , #salePrceRate#
+                             , #acctCnfmCond#
+                             , TRUNC(TO_DATE(#chngDttm#, 'YYYYMMDD'))
+                             , #stat#
+                             , #custKugminType#
+                             , #custKugminCode#
+                             , #ctrToCtrFlag#
+                             , #ctrNum#
+                             , #passwd#
+                             , #histOk#
+                             , #vndrGubn#
+                             , #custReprNo#
+                             , #areaGroupCd#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

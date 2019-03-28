@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KorOwnersFlagVin">
+
+    <typeAlias alias="korOwnersFlagVin" type="egovframework.ec4.bat.domain.trade.KorOwnersFlagVin"/>
+
+    <resultMap id="result" class="korOwnersFlagVin">
+		<result property="custId" column="cust_id"/>
+		<result property="vinCd" column="vin_cd"/>
+		<result property="carCode" column="car_code"/>
+		<result property="vehiNo" column="vehi_no"/>
+		<result property="asFlag" column="as_flag"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="moDate" column="mo_date"/>
+		<result property="charmFlag" column="charm_flag"/>
+		<result property="deliDate" column="deli_date"/>
+		<result property="saleMdl" column="sale_mdl"/>
+		<result property="newFlag" column="new_flag"/>
+		<result property="lastRcptDate" column="last_rcpt_date"/>
+		<result property="lastReadKm" column="last_read_km"/>
+		<result property="dayDeliRcpt" column="day_deli_rcpt"/>
+		<result property="dayRunKm" column="day_run_km"/>
+		<result property="dayDeliToday" column="day_deli_today"/>
+		<result property="exptCheckKm" column="expt_check_km"/>
+		<result property="residentNo" column="resident_no"/>
+		<result property="assResNo" column="ass_res_no"/>
+		<result property="ipinDi" column="ipin_di"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+		<result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectKorOwnersFlagVinHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                cust_id
+                              , vin_cd
+                              , car_code
+                              , vehi_no
+                              , as_flag
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , TO_CHAR(mo_date, 'YYYYMMDDHH24MISS') AS mo_date
+                              , charm_flag
+                              , TO_CHAR(deli_date, 'YYYYMMDD') AS deli_date
+                              , sale_mdl
+                              , new_flag
+                              , TO_CHAR(last_rcpt_date, 'YYYYMMDD') AS last_rcpt_date
+                              , last_read_km
+                              , day_deli_rcpt
+                              , day_run_km
+                              , day_deli_today
+                              , expt_check_km
+                              , resident_no
+                              , ass_res_no
+                              , ipin_di
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_kor_owners_flag_vin
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                cust_id
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciKorOwnersFlagVinHist" parameterClass="korOwnersFlagVin" >
+    <![CDATA[
+        INSERT INTO ih_kor_owners_flag_vin
+                    (
+                      cust_id
+                    , vin_cd
+                    , car_code
+                    , vehi_no
+                    , as_flag
+                    , reg_date
+                    , mo_date
+                    , charm_flag
+                    , deli_date
+                    , sale_mdl
+                    , new_flag
+                    , last_rcpt_date
+                    , last_read_km
+                    , day_deli_rcpt
+                    , day_run_km
+                    , day_deli_today
+                    , expt_check_km
+                    , resident_no
+                    , ass_res_no
+                    , ipin_di
+                    )
+             VALUES
+                    (
+                      #custId#
+                    , #vinCd#
+                    , #carCode#
+                    , #vehiNo#
+                    , #asFlag#
+                    , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                    , TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                    , #charmFlag#
+                    , TO_DATE(#deliDate#, 'YYYYMMDD')
+                    , #saleMdl#
+                    , #newFlag#
+                    , TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                    , #lastReadKm#
+                    , #dayDeliRcpt#
+                    , #dayRunKm#
+                    , #dayDeliToday#
+                    , #exptCheckKm#
+                    , #residentNo#
+                    , #assResNo#
+                    , #ipinDi#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeKorOwnersFlagVin" parameterClass="korOwnersFlagVin">
+    <![CDATA[
+        MERGE INTO
+                    if_kor_owners_flag_vin
+             USING
+                    dual
+                ON (
+                        cust_id = #custId#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           vin_cd          = #vinCd#
+                         , car_code        = #carCode#
+                         , vehi_no         = #vehiNo#
+                         , as_flag         = #asFlag#
+                         , reg_date        = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , mo_date         = TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                         , charm_flag      = #charmFlag#
+                         , deli_date       = TO_DATE(#deliDate#, 'YYYYMMDD')
+                         , sale_mdl        = #saleMdl#
+                         , new_flag        = #newFlag#
+                         , last_rcpt_date  = TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                         , last_read_km    = #lastReadKm#
+                         , day_deli_rcpt   = #dayDeliRcpt#
+                         , day_run_km      = #dayRunKm#
+                         , day_deli_today  = #dayDeliToday#
+                         , expt_check_km   = #exptCheckKm#
+                         , resident_no     = #residentNo#
+                         , ass_res_no      = #assResNo#
+                         , ipin_di         = #ipinDi#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               cust_id
+                             , vin_cd
+                             , car_code
+                             , vehi_no
+                             , as_flag
+                             , reg_date
+                             , mo_date
+                             , charm_flag
+                             , deli_date
+                             , sale_mdl
+                             , new_flag
+                             , last_rcpt_date
+                             , last_read_km
+                             , day_deli_rcpt
+                             , day_run_km
+                             , day_deli_today
+                             , expt_check_km
+                             , resident_no
+                             , ass_res_no
+                             , ipin_di
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #custId#
+                             , #vinCd#
+                             , #carCode#
+                             , #vehiNo#
+                             , #asFlag#
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                             , #charmFlag#
+                             , TO_DATE(#deliDate#, 'YYYYMMDDHH24MISS')
+                             , #saleMdl#
+                             , #newFlag#
+                             , TO_DATE(#lastRcptDate#, 'YYYYMMDDHH24MISS')
+                             , #lastReadKm#
+                             , #dayDeliRcpt#
+                             , #dayRunKm#
+                             , #dayDeliToday#
+                             , #exptCheckKm#
+                             , #residentNo#
+                             , #assResNo#
+                             , #ipinDi#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

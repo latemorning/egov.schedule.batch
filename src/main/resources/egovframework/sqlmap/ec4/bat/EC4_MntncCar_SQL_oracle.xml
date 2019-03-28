@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MntncCar">
+
+	<typeAlias alias="mntncCar" type="egovframework.ec4.bat.domain.trade.MntncCar" />
+
+	<resultMap id="result" class="mntncCar">
+		<result property="vin" column="VIN" />
+		<result property="vehiNo01" column="VEHI_NO01" />
+		<result property="vehiNo02" column="VEHI_NO02" />
+		<result property="bossName" column="BOSS_NAME" />
+		<result property="maker" column="MAKER" />
+		<result property="mdlYear" column="MDL_YEAR" />
+		<result property="saleMdl" column="SALE_MDL" />
+		<result property="typeYear" column="TYPE_YEAR" />
+		<result property="engnNo" column="ENGN_NO" />
+		<result property="prodNo" column="PROD_NO" />
+		<result property="deliMastNo" column="DELI_MAST_NO" />
+		<result property="prodEvnt" column="PROD_EVNT" />
+		<result property="mfgDate" column="MFG_DATE" />
+		<result property="deliDate" column="DELI_DATE" />
+		<result property="frstInspDate" column="FRST_INSP_DATE" />
+		<result property="nextInspDate" column="NEXT_INSP_DATE" />
+		<result property="lastRcptDate" column="LAST_RCPT_DATE" />
+		<result property="lastReadKm" column="LAST_READ_KM" />
+		<result property="lastCustType" column="LAST_CUST_TYPE" />
+		<result property="lastCustCode" column="LAST_CUST_CODE" />
+		<result property="saleShopCode" column="SALE_SHOP_CODE" />
+		<result property="areaCode" column="AREA_CODE" />
+		<result property="colrCode" column="COLR_CODE" />
+		<result property="colrBody" column="COLR_BODY" />
+		<result property="colrTrim" column="COLR_TRIM" />
+		<result property="rcptCnt" column="RCPT_CNT" />
+		<result property="warrRcptCnt" column="WARR_RCPT_CNT" />
+		<result property="saleType" column="SALE_TYPE" />
+		<result property="useCode" column="USE_CODE" />
+		<result property="spclCode" column="SPCL_CODE" />
+		<result property="histPrntFlag" column="HIST_PRNT_FLAG" />
+		<result property="exptCond" column="EXPT_COND" />
+		<result property="regiCond" column="REGI_COND" />
+		<result property="regDttm" column="REG_DTTM" />
+		<result property="optn01" column="OPTN_01" />
+		<result property="optn02" column="OPTN_02" />
+		<result property="optn03" column="OPTN_03" />
+		<result property="optn04" column="OPTN_04" />
+		<result property="optn05" column="OPTN_05" />
+		<result property="misnLot" column="MISN_LOT" />
+		<result property="ecmLot" column="ECM_LOT" />
+		<result property="warrRqstCnt" column="WARR_RQST_CNT" />
+		<result property="rqstCumDate" column="RQST_CUM_DATE" />
+		<result property="jobFlag" column="JOB_FLAG" />
+		<result property="resnFlag" column="RESN_FLAG" />
+		<result property="lastChngDttm" column="LAST_CHNG_DTTM" />
+		<result property="dayReadKm" column="DAY_READ_KM" />
+		<result property="saleEmplNo" column="SALE_EMPL_NO" />
+		<result property="avgReadKm" column="AVG_READ_KM" />
+		<result property="engType" column="ENG_TYPE" />
+		<result property="engPart" column="ENG_PART" />
+		<result property="modelYear" column="MODEL_YEAR" />
+		<result property="optnEng" column="OPTN_ENG" />
+		<result property="optnTrn" column="OPTN_TRN" />
+	</resultMap>
+
+
+	<select id="selectMntncCarHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                vin
+                              , vehi_no01
+                              , vehi_no02
+                              , boss_name
+                              , maker
+                              , mdl_year
+                              , sale_mdl
+                              , type_year
+                              , engn_no
+                              , prod_no
+                              , deli_mast_no
+                              , prod_evnt
+                              , TO_CHAR(mfg_date, 'YYYYMMDD') AS mfg_date
+                              , TO_CHAR(deli_date, 'YYYYMMDD') AS deli_date
+                              , TO_CHAR(frst_insp_date, 'YYYYMMDD') AS frst_insp_date
+                              , TO_CHAR(next_insp_date, 'YYYYMMDD') AS next_insp_date
+                              , TO_CHAR(last_rcpt_date, 'YYYYMMDD') AS last_rcpt_date
+                              , last_read_km
+                              , last_cust_type
+                              , last_cust_code
+                              , sale_shop_code
+                              , area_code
+                              , colr_code
+                              , colr_body
+                              , colr_trim
+                              , rcpt_cnt
+                              , warr_rcpt_cnt
+                              , sale_type
+                              , use_code
+                              , spcl_code
+                              , hist_prnt_flag
+                              , expt_cond
+                              , regi_cond
+                              , TO_CHAR(reg_dttm, 'YYYYMMDDHH24MISS') AS reg_dttm
+                              , optn_01
+                              , optn_02
+                              , optn_03
+                              , optn_04
+                              , optn_05
+                              , misn_lot
+                              , ecm_lot
+                              , warr_rqst_cnt
+                              , TO_CHAR(rqst_cum_date, 'YYYYMMDDHH24MISS') AS rqst_cum_date
+                              , job_flag
+                              , resn_flag
+                              , TO_CHAR(last_chng_dttm, 'YYYYMMDDHH24MISS') AS last_chng_dttm
+                              , day_read_km
+                              , sale_empl_no
+                              , avg_read_km
+                              , eng_type
+                              , eng_part
+                              , model_year
+                              , optn_eng
+                              , optn_trn
+                          FROM
+                                ih_mntnc_car
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, vin
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciMntncCarHist" parameterClass="mntncCar">
+    <![CDATA[
+        INSERT INTO ih_mntnc_car (
+                                   vin
+                                 , vehi_no01
+                                 , vehi_no02
+                                 , boss_name
+                                 , maker
+                                 , mdl_year
+                                 , sale_mdl
+                                 , type_year
+                                 , engn_no
+                                 , prod_no
+                                 , deli_mast_no
+                                 , prod_evnt
+                                 , mfg_date
+                                 , deli_date
+                                 , frst_insp_date
+                                 , next_insp_date
+                                 , last_rcpt_date
+                                 , last_read_km
+                                 , last_cust_type
+                                 , last_cust_code
+                                 , sale_shop_code
+                                 , area_code
+                                 , colr_code
+                                 , colr_body
+                                 , colr_trim
+                                 , rcpt_cnt
+                                 , warr_rcpt_cnt
+                                 , sale_type
+                                 , use_code
+                                 , spcl_code
+                                 , hist_prnt_flag
+                                 , expt_cond
+                                 , regi_cond
+                                 , reg_dttm
+                                 , optn_01
+                                 , optn_02
+                                 , optn_03
+                                 , optn_04
+                                 , optn_05
+                                 , misn_lot
+                                 , ecm_lot
+                                 , warr_rqst_cnt
+                                 , rqst_cum_date
+                                 , job_flag
+                                 , resn_flag
+                                 , last_chng_dttm
+                                 , day_read_km
+                                 , sale_empl_no
+                                 , avg_read_km
+                                 , eng_type
+                                 , eng_part
+                                 , model_year
+                                 , optn_eng
+                                 , optn_trn
+                                 , hist_regist_de
+                                 , action_code
+                                 )
+                          VALUES (
+                                   #vin#
+                                 , #vehiNo01#
+                                 , #vehiNo02#
+                                 , #bossName#
+                                 , #maker#
+                                 , #mdlYear#
+                                 , #saleMdl#
+                                 , #typeYear#
+                                 , #engnNo#
+                                 , #prodNo#
+                                 , #deliMastNo#
+                                 , #prodEvnt#
+                                 , TO_DATE(#mfgDate#, 'YYYYMMDD')
+                                 , TO_DATE(#deliDate#, 'YYYYMMDD')
+                                 , TO_DATE(#frstInspDate#, 'YYYYMMDD')
+                                 , TO_DATE(#nextInspDate#, 'YYYYMMDD')
+                                 , TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                                 , #lastReadKm#
+                                 , #lastCustType#
+                                 , #lastCustCode#
+                                 , #saleShopCode#
+                                 , #areaCode#
+                                 , #colrCode#
+                                 , #colrBody#
+                                 , #colrTrim#
+                                 , #rcptCnt#
+                                 , #warrRcptCnt#
+                                 , #saleType#
+                                 , #useCode#
+                                 , #spclCode#
+                                 , #histPrntFlag#
+                                 , #exptCond#
+                                 , #regiCond#
+                                 , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                                 , #optn01#
+                                 , #optn02#
+                                 , #optn03#
+                                 , #optn04#
+                                 , #optn05#
+                                 , #misnLot#
+                                 , #ecmLot#
+                                 , #warrRqstCnt#
+                                 , TO_DATE(#rqstCumDate#, 'YYYYMMDDHH24MISS')
+                                 , #jobFlag#
+                                 , #resnFlag#
+                                 , TO_DATE(#lastChngDttm#, 'YYYYMMDDHH24MISS')
+                                 , #dayReadKm#
+                                 , #saleEmplNo#
+                                 , #avgReadKm#
+                                 , #engType#
+                                 , #engPart#
+                                 , #modelYear#
+                                 , #optnEng#
+                                 , #optnTrn#
+                                 , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                                 , #actionCode#
+                                 )
+    ]]>
+	</insert>
+
+
+	<update id="mergeMntncCar" parameterClass="mntncCar">
+    <![CDATA[
+        MERGE INTO
+                    if_mntnc_car b
+             USING
+                    dual
+                ON (
+                        vin = #vin#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           vehi_no01       = #vehiNo01#
+                         , vehi_no02       = #vehiNo02#
+                         , boss_name       = #bossName#
+                         , maker           = #maker#
+                         , mdl_year        = #mdlYear#
+                         , sale_mdl        = #saleMdl#
+                         , type_year       = #typeYear#
+                         , engn_no         = #engnNo#
+                         , prod_no         = #prodNo#
+                         , deli_mast_no    = #deliMastNo#
+                         , prod_evnt       = #prodEvnt#
+                         , mfg_date        = TO_DATE(#mfgDate#, 'YYYYMMDD')
+                         , deli_date       = TO_DATE(#deliDate#, 'YYYYMMDD')
+                         , frst_insp_date  = TO_DATE(#frstInspDate#, 'YYYYMMDD')
+                         , next_insp_date  = TO_DATE(#nextInspDate#, 'YYYYMMDD')
+                         , last_rcpt_date  = TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                         , last_read_km    = #lastReadKm#
+                         , last_cust_type  = #lastCustType#
+                         , last_cust_code  = #lastCustCode#
+                         , sale_shop_code  = #saleShopCode#
+                         , area_code       = #areaCode#
+                         , colr_code       = #colrCode#
+                         , colr_body       = #colrBody#
+                         , colr_trim       = #colrTrim#
+                         , rcpt_cnt        = #rcptCnt#
+                         , warr_rcpt_cnt   = #warrRcptCnt#
+                         , sale_type       = #saleType#
+                         , use_code        = #useCode#
+                         , spcl_code       = #spclCode#
+                         , hist_prnt_flag  = #histPrntFlag#
+                         , expt_cond       = #exptCond#
+                         , regi_cond       = #regiCond#
+                         , reg_dttm        = TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                         , optn_01         = #optn01#
+                         , optn_02         = #optn02#
+                         , optn_03         = #optn03#
+                         , optn_04         = #optn04#
+                         , optn_05         = #optn05#
+                         , misn_lot        = #misnLot#
+                         , ecm_lot         = #ecmLot#
+                         , warr_rqst_cnt   = #warrRqstCnt#
+                         , rqst_cum_date   = TO_DATE(#rqstCumDate#, 'YYYYMMDDHH24MISS')
+                         , job_flag        = #jobFlag#
+                         , resn_flag       = #resnFlag#
+                         , last_chng_dttm  = TO_DATE(#lastChngDttm#, 'YYYYMMDDHH24MISS')
+                         , day_read_km     = #dayReadKm#
+                         , sale_empl_no    = #saleEmplNo#
+                         , avg_read_km     = #avgReadKm#
+                         , eng_type        = #engType#
+                         , eng_part        = #engPart#
+                         , model_year      = #modelYear#
+                         , optn_eng        = #optnEng#
+                         , optn_trn        = #optnTrn#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               vin
+                             , vehi_no01
+                             , vehi_no02
+                             , boss_name
+                             , maker
+                             , mdl_year
+                             , sale_mdl
+                             , type_year
+                             , engn_no
+                             , prod_no
+                             , deli_mast_no
+                             , prod_evnt
+                             , mfg_date
+                             , deli_date
+                             , frst_insp_date
+                             , next_insp_date
+                             , last_rcpt_date
+                             , last_read_km
+                             , last_cust_type
+                             , last_cust_code
+                             , sale_shop_code
+                             , area_code
+                             , colr_code
+                             , colr_body
+                             , colr_trim
+                             , rcpt_cnt
+                             , warr_rcpt_cnt
+                             , sale_type
+                             , use_code
+                             , spcl_code
+                             , hist_prnt_flag
+                             , expt_cond
+                             , regi_cond
+                             , reg_dttm
+                             , optn_01
+                             , optn_02
+                             , optn_03
+                             , optn_04
+                             , optn_05
+                             , misn_lot
+                             , ecm_lot
+                             , warr_rqst_cnt
+                             , rqst_cum_date
+                             , job_flag
+                             , resn_flag
+                             , last_chng_dttm
+                             , day_read_km
+                             , sale_empl_no
+                             , avg_read_km
+                             , eng_type
+                             , eng_part
+                             , model_year
+                             , optn_eng
+                             , optn_trn
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #vin#
+                             , #vehiNo01#
+                             , #vehiNo02#
+                             , #bossName#
+                             , #maker#
+                             , #mdlYear#
+                             , #saleMdl#
+                             , #typeYear#
+                             , #engnNo#
+                             , #prodNo#
+                             , #deliMastNo#
+                             , #prodEvnt#
+                             , TO_DATE(#mfgDate#, 'YYYYMMDD')
+                             , TO_DATE(#deliDate#, 'YYYYMMDD')
+                             , TO_DATE(#frstInspDate#, 'YYYYMMDD')
+                             , TO_DATE(#nextInspDate#, 'YYYYMMDD')
+                             , TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                             , #lastReadKm#
+                             , #lastCustType#
+                             , #lastCustCode#
+                             , #saleShopCode#
+                             , #areaCode#
+                             , #colrCode#
+                             , #colrBody#
+                             , #colrTrim#
+                             , #rcptCnt#
+                             , #warrRcptCnt#
+                             , #saleType#
+                             , #useCode#
+                             , #spclCode#
+                             , #histPrntFlag#
+                             , #exptCond#
+                             , #regiCond#
+                             , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                             , #optn01#
+                             , #optn02#
+                             , #optn03#
+                             , #optn04#
+                             , #optn05#
+                             , #misnLot#
+                             , #ecmLot#
+                             , #warrRqstCnt#
+                             , TO_DATE(#rqstCumDate#, 'YYYYMMDDHH24MISS')
+                             , #jobFlag#
+                             , #resnFlag#
+                             , TO_DATE(#lastChngDttm#, 'YYYYMMDDHH24MISS')
+                             , #dayReadKm#
+                             , #saleEmplNo#
+                             , #avgReadKm#
+                             , #engType#
+                             , #engPart#
+                             , #modelYear#
+                             , #optnEng#
+                             , #optnTrn#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

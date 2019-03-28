@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciBuzplcToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciBuzplcToEC4HistStep" parent="eGovBaseStep" next="ec4BuzplcHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciBuzplcItemReader" processor="davinciBuzplcItemProcessor"
+                    writer="davinciBuzplcItemWriter" commit-interval="2"/>
+            </tasklet>
+        </step>
+        <step id="ec4BuzplcHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4BuzplcHistItemReader" processor="ec4BuzplcHistItemProcessor"
+                    writer="ec4BuzplcHistItemWriter" commit-interval="2"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciBuzplcItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.buzplc}/${source.file.buzplc}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.Buzplc"/>
+                        <property name="names" value="dealerCd,brchCd,brchNm,brchTel,brchFax,brchPost,brchAddr,brchBank,brchBankNm,brchCenter,brchBankNo,brchCapacity,brchOpenDt,brchCloseDt,brchChairNo,brchRentCode,brchJuminNo,brchSaNo,brchAsControl,brchOutControl,brchAsgnControl,brchTranDt,brchDepositor,brchBankI,brchBankNmI,brchBankNoI,brchDepositorI,brchDriveControl,brchAcctList,brchOutStop,brchCardControl,brchType,updtUserCd,regDate,updtDate,brchEmpNm,brchEmpTel,brchEmpHp,brchBusinessType,brchIndustryType,brchSortId,brchBusinessNm,etaxEmail,sizeFlag,siGunFlag,showroomStrtDt,showroomEndDt,brchPostRegNo,brchParkingCmt,zoneCd,districtCd,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciBuzplcItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciBuzplcHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciBuzplcItemProcessor" class="egovframework.ec4.bat.domain.trade.BuzplcProcessor"/>
+
+
+    <bean id="ec4BuzplcHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectBuzplcHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4BuzplcHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeBuzplc"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4BuzplcHistItemProcessor" class="egovframework.ec4.bat.domain.trade.BuzplcHistProcessor"/>
+
+</beans>

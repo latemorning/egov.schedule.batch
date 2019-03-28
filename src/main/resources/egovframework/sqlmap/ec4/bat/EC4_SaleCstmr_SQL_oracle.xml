@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<!--
+    email 필드 사용시 주의
+    오라클 테이블은 e_mail로 되어있음
+    bean에서는 email로 사용함 camel 사용시 주의, 2019-01-07 harry
+ -->
+
+<sqlMap namespace="SaleCstmr">
+
+	<typeAlias alias="SaleCstmr" type="egovframework.ec4.bat.domain.trade.SaleCstmr" />
+
+	<resultMap id="result" class="saleCstmr">
+		<result property="dealerCd" column="DEALER_CD" />
+		<result property="busResNo" column="BUS_RES_NO" />
+		<result property="brchCd" column="BRCH_CD" />
+		<result property="saleManCd" column="SALE_MAN_CD" />
+		<result property="customerCd" column="CUSTOMER_CD" />
+		<result property="taxCd" column="TAX_CD" />
+		<result property="salesPromotionCd" column="SALES_PROMOTION_CD" />
+		<result property="legalPostCd" column="LEGAL_POST_CD" />
+		<result property="residentNo" column="RESIDENT_NO" />
+		<result property="residentNm" column="RESIDENT_NM" />
+		<result property="residentPhoneNo" column="RESIDENT_PHONE_NO" />
+		<result property="residentPostCd" column="RESIDENT_POST_CD" />
+		<result property="residentPostAddr" column="RESIDENT_POST_ADDR" />
+		<result property="residentPostAddr2" column="RESIDENT_POST_ADDR2" />
+		<result property="residentAddr" column="RESIDENT_ADDR" />
+		<result property="businessNm" column="BUSINESS_NM" />
+		<result property="businessPhoneNo" column="BUSINESS_PHONE_NO" />
+		<result property="businessPostCd" column="BUSINESS_POST_CD" />
+		<result property="businessPostAddr" column="BUSINESS_POST_ADDR" />
+		<result property="businessPostAddr2" column="BUSINESS_POST_ADDR2" />
+		<result property="businessAddr" column="BUSINESS_ADDR" />
+		<result property="industryTp" column="INDUSTRY_TP" />
+		<result property="businessTp" column="BUSINESS_TP" />
+		<result property="customerGu" column="CUSTOMER_GU" />
+		<result property="email" column="EMAIL" />
+		<result property="handPhoneNo" column="HAND_PHONE_NO" />
+		<result property="brchCoYn" column="BRCH_CO_YN" />
+		<result property="badResidentDesc" column="BAD_RESIDENT_DESC" />
+		<result property="badResidentReq" column="BAD_RESIDENT_REQ" />
+		<result property="hobbyCd" column="HOBBY_CD" />
+		<result property="industryCd" column="INDUSTRY_CD" />
+		<result property="jobCd" column="JOB_CD" />
+		<result property="vipYn" column="VIP_YN" />
+		<result property="comRegNo" column="COM_REG_NO" />
+		<result property="comName" column="COM_NAME" />
+		<result property="positionCd" column="POSITION_CD" />
+		<result property="carLicenseNo" column="CAR_LICENSE_NO" />
+		<result property="juminPostCd" column="JUMIN_POST_CD" />
+		<result property="juminPostAddr" column="JUMIN_POST_ADDR" />
+		<result property="juminPostAddr2" column="JUMIN_POST_ADDR2" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updtDate" column="UPDT_DATE" />
+		<result property="updtUserCd" column="UPDT_USER_CD" />
+		<result property="residentFaxNo" column="RESIDENT_FAX_NO" />
+		<result property="badResidentReqDt" column="BAD_RESIDENT_REQ_DT" />
+		<result property="residentPostRegNo" column="RESIDENT_POST_REG_NO" />
+		<result property="businessPostRegNo" column="BUSINESS_POST_REG_NO" />
+		<result property="juminPostRegNo" column="JUMIN_POST_REG_NO" />
+		<result property="ipinDi" column="IPIN_DI" />
+		<result property="ipinCi" column="IPIN_CI" />
+	</resultMap>
+
+
+	<select id="selectSaleCstmrHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , bus_res_no
+                              , brch_cd
+                              , sale_man_cd
+                              , customer_cd
+                              , tax_cd
+                              , sales_promotion_cd
+                              , legal_post_cd
+                              , resident_no
+                              , resident_nm
+                              , resident_phone_no
+                              , resident_post_cd
+                              , resident_post_addr
+                              , resident_post_addr2
+                              , resident_addr
+                              , business_nm
+                              , business_phone_no
+                              , business_post_cd
+                              , business_post_addr
+                              , business_post_addr2
+                              , business_addr
+                              , industry_tp
+                              , business_tp
+                              , customer_gu
+                              , e_mail                                                  AS email
+                              , hand_phone_no
+                              , brch_co_yn
+                              , bad_resident_desc
+                              , bad_resident_req
+                              , hobby_cd
+                              , industry_cd
+                              , job_cd
+                              , vip_yn
+                              , com_reg_no
+                              , com_name
+                              , position_cd
+                              , car_license_no
+                              , jumin_post_cd
+                              , jumin_post_addr
+                              , jumin_post_addr2
+                              , TO_CHAR(reg_date, 'YYYY-MM-DD HH24:MI:SS')              AS reg_date
+                              , TO_CHAR(updt_date, 'YYYY-MM-DD HH24:MI:SS')             AS updt_date
+                              , updt_user_cd
+                              , resident_fax_no
+                              , TO_CHAR(bad_resident_req_dt, 'YYYY-MM-DD HH24:MI:SS')   AS bad_resident_req_dt
+                              , resident_post_reg_no
+                              , business_post_reg_no
+                              , jumin_post_reg_no
+                              , ipin_di
+                              , ipin_ci
+                              , hist_regist_de
+                              , action_code
+                          FROM
+                                ih_sale_cstmr
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, bus_res_no
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciSaleCstmrHist" parameterClass="saleCstmr">
+    <![CDATA[
+        INSERT INTO ih_sale_cstmr (
+                                    dealer_cd
+                                  , bus_res_no
+                                  , brch_cd
+                                  , sale_man_cd
+                                  , customer_cd
+                                  , tax_cd
+                                  , sales_promotion_cd
+                                  , legal_post_cd
+                                  , resident_no
+                                  , resident_nm
+                                  , resident_phone_no
+                                  , resident_post_cd
+                                  , resident_post_addr
+                                  , resident_post_addr2
+                                  , resident_addr
+                                  , business_nm
+                                  , business_phone_no
+                                  , business_post_cd
+                                  , business_post_addr
+                                  , business_post_addr2
+                                  , business_addr
+                                  , industry_tp
+                                  , business_tp
+                                  , customer_gu
+                                  , e_mail
+                                  , hand_phone_no
+                                  , brch_co_yn
+                                  , bad_resident_desc
+                                  , bad_resident_req
+                                  , hobby_cd
+                                  , industry_cd
+                                  , job_cd
+                                  , vip_yn
+                                  , com_reg_no
+                                  , com_name
+                                  , position_cd
+                                  , car_license_no
+                                  , jumin_post_cd
+                                  , jumin_post_addr
+                                  , jumin_post_addr2
+                                  , reg_date
+                                  , updt_date
+                                  , updt_user_cd
+                                  , resident_fax_no
+                                  , bad_resident_req_dt
+                                  , resident_post_reg_no
+                                  , business_post_reg_no
+                                  , jumin_post_reg_no
+                                  , ipin_di
+                                  , ipin_ci
+                                  , hist_regist_de
+                                  , action_code
+                                )
+                         VALUES (
+                                    #dealerCd#
+                                  , #busResNo#
+                                  , #brchCd#
+                                  , #saleManCd#
+                                  , #customerCd#
+                                  , #taxCd#
+                                  , #salesPromotionCd#
+                                  , #legalPostCd#
+                                  , #residentNo#
+                                  , #residentNm#
+                                  , #residentPhoneNo#
+                                  , #residentPostCd#
+                                  , #residentPostAddr#
+                                  , #residentPostAddr2#
+                                  , #residentAddr#
+                                  , #businessNm#
+                                  , #businessPhoneNo#
+                                  , #businessPostCd#
+                                  , #businessPostAddr#
+                                  , #businessPostAddr2#
+                                  , #businessAddr#
+                                  , #industryTp#
+                                  , #businessTp#
+                                  , #customerGu#
+                                  , #email#
+                                  , #handPhoneNo#
+                                  , #brchCoYn#
+                                  , #badResidentDesc#
+                                  , #badResidentReq#
+                                  , #hobbyCd#
+                                  , #industryCd#
+                                  , #jobCd#
+                                  , #vipYn#
+                                  , #comRegNo#
+                                  , #comName#
+                                  , #positionCd#
+                                  , #carLicenseNo#
+                                  , #juminPostCd#
+                                  , #juminPostAddr#
+                                  , #juminPostAddr2#
+                                  , TO_DATE(#regDate#, 'YYYY-MM-DD HH24:MI:SS')
+                                  , TO_DATE(#updtDate#, 'YYYY-MM-DD HH24:MI:SS')
+                                  , #updtUserCd#
+                                  , #residentFaxNo#
+                                  , TO_DATE(#badResidentReqDt#, 'YYYY-MM-DD HH24:MI:SS')
+                                  , #residentPostRegNo#
+                                  , #businessPostRegNo#
+                                  , #juminPostRegNo#
+                                  , #ipinDi#
+                                  , #ipinCi#
+                                  , #histRegistDe#
+                                  , #actionCode#
+                              )
+    ]]>
+	</insert>
+
+
+	<update id="mergeSaleCstmr" parameterClass="saleCstmr">
+    <![CDATA[
+        MERGE INTO
+                    if_sale_cstmr b
+             USING
+                    dual
+                ON (
+                         dealer_cd     = #dealerCd#
+                     AND bus_res_no    = #busResNo#
+                     AND brch_cd       = #brchCd#
+                     AND sale_man_cd   = #saleManCd#
+                     AND hand_phone_no = #handPhoneNo#
+                     AND e_mail        = #email#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           customer_cd          = #customerCd#
+                         , tax_cd               = #taxCd#
+                         , sales_promotion_cd   = #salesPromotionCd#
+                         , legal_post_cd        = #legalPostCd#
+                         , resident_no          = #residentNo#
+                         , resident_nm          = #residentNm#
+                         , resident_phone_no    = #residentPhoneNo#
+                         , resident_post_cd     = #residentPostCd#
+                         , resident_post_addr   = #residentPostAddr#
+                         , resident_post_addr2  = #residentPostAddr2#
+                         , resident_addr        = #residentAddr#
+                         , business_nm          = #businessNm#
+                         , business_phone_no    = #businessPhoneNo#
+                         , business_post_cd     = #businessPostCd#
+                         , business_post_addr   = #businessPostAddr#
+                         , business_post_addr2  = #businessPostAddr2#
+                         , business_addr        = #businessAddr#
+                         , industry_tp          = #industryTp#
+                         , business_tp          = #businessTp#
+                         , customer_gu          = #customerGu#
+                         , brch_co_yn           = #brchCoYn#
+                         , bad_resident_desc    = #badResidentDesc#
+                         , bad_resident_req     = #badResidentReq#
+                         , hobby_cd             = #hobbyCd#
+                         , industry_cd          = #industryCd#
+                         , job_cd               = #jobCd#
+                         , vip_yn               = #vipYn#
+                         , com_reg_no           = #comRegNo#
+                         , com_name             = #comName#
+                         , position_cd          = #positionCd#
+                         , car_license_no       = #carLicenseNo#
+                         , jumin_post_cd        = #juminPostCd#
+                         , jumin_post_addr      = #juminPostAddr#
+                         , jumin_post_addr2     = #juminPostAddr2#
+                         , reg_date             = TO_DATE(#regDate#, 'YYYY-MM-DD HH24:MI:SS')
+                         , updt_date            = TO_DATE(#updtDate#, 'YYYY-MM-DD HH24:MI:SS')
+                         , updt_user_cd         = #updtUserCd#
+                         , resident_fax_no      = #residentFaxNo#
+                         , bad_resident_req_dt  = TO_DATE(#badResidentReqDt#, 'YYYY-MM-DD HH24:MI:SS')
+                         , resident_post_reg_no = #residentPostRegNo#
+                         , business_post_reg_no = #businessPostRegNo#
+                         , jumin_post_reg_no    = #juminPostRegNo#
+                         , ipin_di              = #ipinDi#
+                         , ipin_ci              = #ipinCi#
+                         , last_updt_pnttm      = SYSDATE
+                         , last_updusr_id       = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , bus_res_no
+                             , brch_cd
+                             , sale_man_cd
+                             , customer_cd
+                             , tax_cd
+                             , sales_promotion_cd
+                             , legal_post_cd
+                             , resident_no
+                             , resident_nm
+                             , resident_phone_no
+                             , resident_post_cd
+                             , resident_post_addr
+                             , resident_post_addr2
+                             , resident_addr
+                             , business_nm
+                             , business_phone_no
+                             , business_post_cd
+                             , business_post_addr
+                             , business_post_addr2
+                             , business_addr
+                             , industry_tp
+                             , business_tp
+                             , customer_gu
+                             , e_mail
+                             , hand_phone_no
+                             , brch_co_yn
+                             , bad_resident_desc
+                             , bad_resident_req
+                             , hobby_cd
+                             , industry_cd
+                             , job_cd
+                             , vip_yn
+                             , com_reg_no
+                             , com_name
+                             , position_cd
+                             , car_license_no
+                             , jumin_post_cd
+                             , jumin_post_addr
+                             , jumin_post_addr2
+                             , reg_date
+                             , updt_date
+                             , updt_user_cd
+                             , resident_fax_no
+                             , bad_resident_req_dt
+                             , resident_post_reg_no
+                             , business_post_reg_no
+                             , jumin_post_reg_no
+                             , ipin_di
+                             , ipin_ci
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #busResNo#
+                             , #brchCd#
+                             , #saleManCd#
+                             , #customerCd#
+                             , #taxCd#
+                             , #salesPromotionCd#
+                             , #legalPostCd#
+                             , #residentNo#
+                             , #residentNm#
+                             , #residentPhoneNo#
+                             , #residentPostCd#
+                             , #residentPostAddr#
+                             , #residentPostAddr2#
+                             , #residentAddr#
+                             , #businessNm#
+                             , #businessPhoneNo#
+                             , #businessPostCd#
+                             , #businessPostAddr#
+                             , #businessPostAddr2#
+                             , #businessAddr#
+                             , #industryTp#
+                             , #businessTp#
+                             , #customerGu#
+                             , #email#
+                             , #handPhoneNo#
+                             , #brchCoYn#
+                             , #badResidentDesc#
+                             , #badResidentReq#
+                             , #hobbyCd#
+                             , #industryCd#
+                             , #jobCd#
+                             , #vipYn#
+                             , #comRegNo#
+                             , #comName#
+                             , #positionCd#
+                             , #carLicenseNo#
+                             , #juminPostCd#
+                             , #juminPostAddr#
+                             , #juminPostAddr2#
+                             , TO_DATE(#regDate#, 'YYYY-MM-DD HH24:MI:SS')
+                             , TO_DATE(#updtDate#, 'YYYY-MM-DD HH24:MI:SS')
+                             , #updtUserCd#
+                             , #residentFaxNo#
+                             , TO_DATE(#badResidentReqDt#, 'YYYY-MM-DD HH24:MI:SS')
+                             , #residentPostRegNo#
+                             , #businessPostRegNo#
+                             , #juminPostRegNo#
+                             , #ipinDi#
+                             , #ipinCi#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

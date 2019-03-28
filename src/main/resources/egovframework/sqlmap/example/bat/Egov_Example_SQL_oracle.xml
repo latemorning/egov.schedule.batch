@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Customer">
+
+  <resultMap id="result" class="egovframework.example.bat.domain.trade.CustomerCredit">
+    <result property="name" column="NAME" />
+    <result property="credit" column="CREDIT" />
+  </resultMap>
+
+ <select id="getAllCustomerCreditIds" resultClass="int">
+    select ID from CUSTOMER
+  </select>
+
+  <select id="getAllCustomerCredits" resultMap="result">
+ 	select ID, NAME, CREDIT from CUSTOMER
+  </select>
+
+  <select id="getCustomerCreditById" parameterClass="int" resultMap="result">
+  	select NAME, CREDIT from CUSTOMER where ID = #value#
+  </select>
+
+  <update id="updateCredit" parameterClass="egovframework.example.bat.domain.trade.CustomerCredit" >
+  	update CUSTOMER set CREDIT = #credit# where NAME = #name#
+  </update>
+
+
+  <update id="mergeDavinciUser" parameterClass="egovframework.example.bat.domain.trade.TestBatchUser" >
+  <![CDATA[
+    MERGE INTO
+                test_batch_user a
+         USING
+                DUAL
+            ON
+                (a.user_id = #userId#)
+          WHEN
+       MATCHED
+          THEN
+                UPDATE
+                   SET
+                        user_nm = #userNm#
+                      , user_pass = #userPass#
+                      , telnum = #telnum#
+                      , upddt = SYSDATE
+          WHEN
+   NOT MATCHED
+          THEN
+                INSERT (
+                         user_nm
+                       , user_id
+                       , user_pass
+                       , telnum
+                       , regdt
+                       , upddt
+                       )
+                VALUES (
+                         #userNm#
+                       , #userId#
+                       , #userPass#
+                       , #telnum#
+                       , SYSDATE
+                       , SYSDATE
+                       )
+  ]]>
+  </update>
+
+
+  <update id="mergeDavinciCust" parameterClass="egovframework.example.bat.domain.trade.TestBatchCust" >
+  <![CDATA[
+    MERGE INTO
+                test_batch_cust a
+         USING
+                DUAL
+            ON
+                (a.cust_id = #custId#)
+          WHEN
+       MATCHED
+          THEN
+                UPDATE
+                   SET
+                        cust_nm = #custNm#
+                      , cust_pass = #custPass#
+                      , cust_tel = #custTel#
+                      , upddt = SYSDATE
+          WHEN
+   NOT MATCHED
+          THEN
+                INSERT (
+                         cust_nm
+                       , cust_id
+                       , cust_pass
+                       , cust_tel
+                       , regdt
+                       , upddt
+                       )
+                VALUES (
+                         #custNm#
+                       , #custId#
+                       , #custPass#
+                       , #custTel#
+                       , SYSDATE
+                       , SYSDATE
+                       )
+  ]]>
+  </update>
+
+</sqlMap>

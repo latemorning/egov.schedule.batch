@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciDelivyToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciDelivyToEC4HistStep" parent="eGovBaseStep" next="ec4DelivyHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciDelivyItemReader" processor="davinciDelivyItemProcessor"
+                    writer="davinciDelivyItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4DelivyHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4DelivyHistItemReader" processor="ec4DelivyHistItemProcessor"
+                    writer="ec4DelivyHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciDelivyItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.delivy}/${source.file.delivy}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.Delivy"/>
+                        <property name="names" value="dealerCd,contractNo,businessId,brchCd,centerCd,brchNm,saleManCd,saleManNm,customerCd,outPlaceCd,businessType,industryType,assignReqDt,assignDt,cancelDt,statusCd,modelCd,specCd,carCd,outBasicCnt,saleAmt,colorCd,paymentDt,totalSaleAmt,saleCd,instPerd,outDt,contAmt,indoAmt,initRate,allotmentAmt,ijaRate,lossCollectionAmt,nonmoveEstateAmt,contDt,businessNo,residentNo,residentNm,businessNm,residentAddr,businessAddr,residentTelNo,businessTelNo,residentPostCd,businessPostCd,dlvyPrmsDt1,dlvyPrmsAmt1,dlvyPrmsDt2,dlvyPrmsAmt2,dlvyPrmsDt3,dlvyPrmsAmt3,dlvyPrmsDt4,dlvyPrmsAmt4,dlvyPrmsDt5,dlvyPrmsAmt5,stampAmt,fixedDcAmt,fixedDcRate,unfixedDcAmt,dlvyPrmsYn1,dlvyPrmsYn2,dlvyPrmsYn3,dlvyPrmsYn4,dlvyPrmsYn5,spSaleAmt,establePayGu,consignAmt,finaAmt,consignCd,establePayRate,guaranteeAmt,estableAmt,saleTypeCd,optionCd,optionAmt,allotmentEnd,guaranteeRate,newIjaRate,salesPromotionCd,graceAmt1,graceIjaRate1,graceCompRate1,carNo,contCnt,cancelCnt,selfIjaAmt,bankIjaAmt,carSaleAmt,colorAmt,buyTypeCd,useTypeCd,handPersonCd,remark,tukTp,vatTp,tukAmt,edkAmt,vatAmt,assignBasisDate,regDate,updtDate,updtUserCd,juminPostCd,juminPostAddr,chassisNo,expectDt,fleetCustMk,outPlaceType,outToArea,transAmt,outPlaceAmt,trustCd,specialDcAmt,onceDcAmt,empDcAmt,flawDcAmt,longDcAmt,displayDcAmt,fleetDcAmt,campaignDcAmt,proDcAmt,addDcAmt,cardDcAmt,autoDcAmt,etcDcAmt,payCd,capitalCd,beginAcceptDt,payKeepTerm,payKeepRate,delayTerm,delayRate,delayUseRate,payType,payUseGrade,offtaxStat,offtaxApprDttm,offtaxUserCd,reductCd,reductTukAmt,reductTukRate,apprDt,apprSeq,contractStatus,regUserCd,receiptNo,receiptStat,receiptApprDttm,receiptApprNo,handPhoneNo,payStatus,payApprDttm,payApprNo,befSignoffDt,befChassisNo,remark2,payCrdtRate,stockAmt,contractNoO,email,oldCarPlan,oldCarMaker,oldCarModel,oldCarMy,residentPostRegNo,businessPostRegNo,juminPostRegNo,salesModlCd,indoDt,ewItemCd,ewItemAmt,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciDelivyItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciDelivyHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciDelivyItemProcessor" class="egovframework.ec4.bat.domain.trade.DelivyProcessor"/>
+
+
+    <bean id="ec4DelivyHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectDelivyHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4DelivyHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeDelivy"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4DelivyHistItemProcessor" class="egovframework.ec4.bat.domain.trade.DelivyHistProcessor"/>
+
+</beans>

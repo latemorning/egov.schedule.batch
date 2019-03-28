@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciKorOwnersFlagVinToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciKorOwnersFlagVinToEC4HistStep" parent="eGovBaseStep" next="ec4KorOwnersFlagVinHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciKorOwnersFlagVinItemReader" processor="davinciKorOwnersFlagVinItemProcessor"
+                    writer="davinciKorOwnersFlagVinItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4KorOwnersFlagVinHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4KorOwnersFlagVinHistItemReader" processor="ec4KorOwnersFlagVinHistItemProcessor"
+                    writer="ec4KorOwnersFlagVinHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciKorOwnersFlagVinItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.korOwnersFlagVin}/${source.file.korOwnersFlagVin}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.KorOwnersFlagVin"/>
+                        <property name="names" value="custId,vinCd,carCode,vehiNo,asFlag,regDate,moDate,charmFlag,deliDate,saleMdl,newFlag,lastRcptDate,lastReadKm,dayDeliRcpt,dayRunKm,dayDeliToday,exptCheckKm,residentNo,assResNo,ipinDi,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagVinItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciKorOwnersFlagVinHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagVinItemProcessor" class="egovframework.ec4.bat.domain.trade.KorOwnersFlagVinProcessor"/>
+
+    <bean id="ec4KorOwnersFlagVinHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectKorOwnersFlagVinHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4KorOwnersFlagVinHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeKorOwnersFlagVin"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4KorOwnersFlagVinHistItemProcessor" class="egovframework.ec4.bat.domain.trade.KorOwnersFlagVinHistProcessor"/>
+
+</beans>

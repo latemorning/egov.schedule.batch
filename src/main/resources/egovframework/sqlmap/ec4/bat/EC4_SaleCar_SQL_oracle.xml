@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SaleCar">
+
+	<typeAlias alias="saleCar" type="egovframework.ec4.bat.domain.trade.SaleCar" />
+
+	<resultMap id="result" class="saleCar">
+		<result property="dealerCd" column="DEALER_CD" />
+		<result property="vin" column="VIN" />
+		<result property="dealerCd" column="DEALER_CD" />
+		<result property="businessId" column="BUSINESS_ID" />
+		<result property="modelCd" column="MODEL_CD" />
+		<result property="specCd" column="SPEC_CD" />
+		<result property="outColorCd" column="OUT_COLOR_CD" />
+		<result property="inColorCd" column="IN_COLOR_CD" />
+		<result property="compltDt" column="COMPLT_DT" />
+		<result property="specSerial" column="SPEC_SERIAL" />
+		<result property="statusCd" column="STATUS_CD" />
+		<result property="orderDealer" column="ORDER_DEALER" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="carTypeNo" column="CAR_TYPE_NO" />
+		<result property="carGu" column="CAR_GU" />
+		<result property="poNo" column="PO_NO" />
+		<result property="madeGu" column="MADE_GU" />
+		<result property="prodStatus" column="PROD_STATUS" />
+		<result property="trsSiteCd" column="TRS_SITE_CD" />
+		<result property="trsReqDt" column="TRS_REQ_DT" />
+		<result property="trsReqGu" column="TRS_REQ_GU" />
+		<result property="trsRetDt" column="TRS_RET_DT" />
+		<result property="trsTm" column="TRS_TM" />
+		<result property="siteCd" column="SITE_CD" />
+		<result property="location" column="LOCATION" />
+		<result property="outGu" column="OUT_GU" />
+		<result property="dcRate" column="DC_RATE" />
+		<result property="statusChangeDt" column="STATUS_CHANGE_DT" />
+		<result property="statusChangeHt" column="STATUS_CHANGE_HT" />
+		<result property="a3BrchCd" column="A3_BRCH_CD" />
+		<result property="a3ContNo" column="A3_CONT_NO" />
+		<result property="a3ConsignCd" column="A3_CONSIGN_CD" />
+		<result property="a3Gub" column="A3_GUB" />
+		<result property="a3Control" column="A3_CONTROL" />
+		<result property="enginNo" column="ENGIN_NO" />
+		<result property="siteInDt" column="SITE_IN_DT" />
+		<result property="trsReqrealDt" column="TRS_REQREAL_DT" />
+		<result property="signoffDt" column="SIGNOFF_DT" />
+		<result property="a3DisplayDt" column="A3_DISPLAY_DT" />
+		<result property="assignGu" column="ASSIGN_GU" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updtDate" column="UPDT_DATE" />
+		<result property="updtUserCd" column="UPDT_USER_CD" />
+		<result property="optionCd" column="OPTION_CD" />
+		<result property="event" column="EVENT" />
+		<result property="eventStatus" column="EVENT_STATUS" />
+		<result property="eventUpdtDttm" column="EVENT_UPDT_DTTM" />
+		<result property="eventUpdtDealer" column="EVENT_UPDT_DEALER" />
+		<result property="eventUpdtUser" column="EVENT_UPDT_USER" />
+		<result property="prodOrdrNo" column="PROD_ORDR_NO" />
+		<result property="ordrDt" column="ORDR_DT" />
+		<result property="prodAskDt" column="PROD_ASK_DT" />
+		<result property="cmplRqstDt" column="CMPL_RQST_DT" />
+		<result property="cmplSchdDt" column="CMPL_SCHD_DT" />
+		<result property="purcDt" column="PURC_DT" />
+		<result property="orderType" column="ORDER_TYPE" />
+		<result property="hotSw" column="HOT_SW" />
+		<result property="carType" column="CAR_TYPE" />
+		<result property="bodyTypeCd" column="BODY_TYPE_CD" />
+		<result property="prefixCd" column="PREFIX_CD" />
+		<result property="hndPlcCd" column="HND_PLC_CD" />
+		<result property="carKeyNo" column="CAR_KEY_NO" />
+		<result property="dgreCd" column="DGRE_CD" />
+		<result property="ltrmCd" column="LTRM_CD" />
+		<result property="showCarCd" column="SHOW_CAR_CD" />
+		<result property="delvDt" column="DELV_DT" />
+		<result property="salesCnclDiv" column="SALES_CNCL_DIV" />
+		<result property="salesCnclDt" column="SALES_CNCL_DT" />
+		<result property="salesCnclCnt" column="SALES_CNCL_CNT" />
+		<result property="gmDrResult" column="GM_DR_RESULT" />
+		<result property="gmDrOrdrNo" column="GM_DR_ORDR_NO" />
+		<result property="gmDrApprDt" column="GM_DR_APPR_DT" />
+		<result property="tradeDt" column="TRADE_DT" />
+		<result property="locationPrev" column="LOCATION_PREV" />
+		<result property="locationUpdtDttm" column="LOCATION_UPDT_DTTM" />
+		<result property="trsStartDt" column="TRS_START_DT" />
+		<result property="consStartDt" column="CONS_START_DT" />
+		<result property="gmDrWorkType" column="GM_DR_WORK_TYPE" />
+		<result property="takeDt" column="TAKE_DT" />
+		<result property="defect" column="DEFECT" />
+		<result property="stockOpenYn" column="STOCK_OPEN_YN" />
+		<result property="stockBaseDt" column="STOCK_BASE_DT" />
+		<result property="stockType" column="STOCK_TYPE" />
+		<result property="stockForce" column="STOCK_FORCE" />
+		<result property="drDealer" column="DR_DEALER" />
+		<result property="defectType" column="DEFECT_TYPE" />
+		<result property="orgSignoffDt" column="ORG_SIGNOFF_DT" />
+		<result property="salesModlCd" column="SALES_MODL_CD" />
+	</resultMap>
+
+
+	<select id="selectSaleCarHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                vin
+                              , dealer_cd
+                              , business_id
+                              , model_cd
+                              , spec_cd
+                              , out_color_cd
+                              , in_color_cd
+                              , TO_CHAR(complt_dt, 'YYYYMMDDHH24MISS') AS complt_dt
+                              , spec_serial
+                              , status_cd
+                              , order_dealer
+                              , order_no
+                              , car_type_no
+                              , car_gu
+                              , po_no
+                              , made_gu
+                              , prod_status
+                              , trs_site_cd
+                              , TO_CHAR(trs_req_dt, 'YYYYMMDDHH24MISS') AS trs_req_dt
+                              , trs_req_gu
+                              , TO_CHAR(trs_ret_dt, 'YYYYMMDD') AS trs_ret_dt
+                              , TO_CHAR(trs_tm, 'YYYYMMDDHH24MISS') AS trs_tm
+                              , site_cd
+                              , location
+                              , out_gu
+                              , dc_rate
+                              , TO_CHAR(status_change_dt, 'YYYYMMDD') AS status_change_dt
+                              , status_change_ht
+                              , a3_brch_cd
+                              , a3_cont_no
+                              , a3_consign_cd
+                              , a3_gub
+                              , a3_control
+                              , engin_no
+                              , TO_CHAR(site_in_dt, 'YYYYMMDDHH24MISS') AS site_in_dt
+                              , TO_CHAR(trs_reqreal_dt, 'YYYYMMDD') AS trs_reqreal_dt
+                              , TO_CHAR(signoff_dt, 'YYYYMMDDHH24MISS') AS signoff_dt
+                              , TO_CHAR(a3_display_dt, 'YYYYMMDD') AS a3_display_dt
+                              , assign_gu
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , TO_CHAR(updt_date, 'YYYYMMDDHH24MISS') AS updt_date
+                              , updt_user_cd
+                              , option_cd
+                              , event
+                              , event_status
+                              , TO_CHAR(event_updt_dttm, 'YYYYMMDDHH24MISS') AS event_updt_dttm
+                              , event_updt_dealer
+                              , event_updt_user
+                              , prod_ordr_no
+                              , TO_CHAR(ordr_dt, 'YYYYMMDD') AS ordr_dt
+                              , TO_CHAR(prod_ask_dt, 'YYYYMMDD') AS prod_ask_dt
+                              , TO_CHAR(cmpl_rqst_dt, 'YYYYMMDD') AS cmpl_rqst_dt
+                              , TO_CHAR(cmpl_schd_dt, 'YYYYMMDD') AS cmpl_schd_dt
+                              , TO_CHAR(purc_dt, 'YYYYMMDDHH24MISS') AS purc_dt
+                              , order_type
+                              , hot_sw
+                              , car_type
+                              , body_type_cd
+                              , prefix_cd
+                              , hnd_plc_cd
+                              , car_key_no
+                              , dgre_cd
+                              , ltrm_cd
+                              , show_car_cd
+                              , TO_CHAR(delv_dt, 'YYYYMMDDHH24MISS') AS delv_dt
+                              , sales_cncl_div
+                              , TO_CHAR(sales_cncl_dt, 'YYYYMMDD') AS sales_cncl_dt
+                              , sales_cncl_cnt
+                              , gm_dr_result
+                              , gm_dr_ordr_no
+                              , TO_CHAR(gm_dr_appr_dt, 'YYYYMMDD') AS gm_dr_appr_dt
+                              , TO_CHAR(trade_dt, 'YYYYMMDD') AS trade_dt
+                              , location_prev
+                              , TO_CHAR(location_updt_dttm, 'YYYYMMDDHH24MISS') AS location_updt_dttm
+                              , TO_CHAR(trs_start_dt, 'YYYYMMDDHH24MISS') AS trs_start_dt
+                              , TO_CHAR(cons_start_dt, 'YYYYMMDDHH24MISS') AS cons_start_dt
+                              , gm_dr_work_type
+                              , TO_CHAR(take_dt, 'YYYYMMDDHH24MISS') AS take_dt
+                              , defect
+                              , stock_open_yn
+                              , TO_CHAR(stock_base_dt, 'YYYYMMDD') AS stock_base_dt
+                              , stock_type
+                              , stock_force
+                              , dr_dealer
+                              , defect_type
+                              , TO_CHAR(org_signoff_dt, 'YYYYMMDDHH24MISS') AS org_signoff_dt
+                              , sales_modl_cd
+                          FROM
+                                ih_sale_car
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, vin
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciSaleCarHist" parameterClass="saleCar">
+    <![CDATA[
+        INSERT INTO ih_sale_car (
+								  vin
+								, dealer_cd
+								, business_id
+								, model_cd
+								, spec_cd
+								, out_color_cd
+								, in_color_cd
+								, complt_dt
+								, spec_serial
+								, status_cd
+								, order_dealer
+								, order_no
+								, car_type_no
+								, car_gu
+								, po_no
+								, made_gu
+								, prod_status
+								, trs_site_cd
+								, trs_req_dt
+								, trs_req_gu
+								, trs_ret_dt
+								, trs_tm
+								, site_cd
+								, location
+								, out_gu
+								, dc_rate
+								, status_change_dt
+								, status_change_ht
+								, a3_brch_cd
+								, a3_cont_no
+								, a3_consign_cd
+								, a3_gub
+								, a3_control
+								, engin_no
+								, site_in_dt
+								, trs_reqreal_dt
+								, signoff_dt
+								, a3_display_dt
+								, assign_gu
+								, reg_date
+								, updt_date
+								, updt_user_cd
+								, option_cd
+								, event
+								, event_status
+								, event_updt_dttm
+								, event_updt_dealer
+								, event_updt_user
+								, prod_ordr_no
+								, ordr_dt
+								, prod_ask_dt
+								, cmpl_rqst_dt
+								, cmpl_schd_dt
+								, purc_dt
+								, order_type
+								, hot_sw
+								, car_type
+								, body_type_cd
+								, prefix_cd
+								, hnd_plc_cd
+								, car_key_no
+								, dgre_cd
+								, ltrm_cd
+								, show_car_cd
+								, delv_dt
+								, sales_cncl_div
+								, sales_cncl_dt
+								, sales_cncl_cnt
+								, gm_dr_result
+								, gm_dr_ordr_no
+								, gm_dr_appr_dt
+								, trade_dt
+								, location_prev
+								, location_updt_dttm
+								, trs_start_dt
+								, cons_start_dt
+								, gm_dr_work_type
+								, take_dt
+								, defect
+								, stock_open_yn
+								, stock_base_dt
+								, stock_type
+								, stock_force
+								, dr_dealer
+								, defect_type
+								, org_signoff_dt
+								, sales_modl_cd
+								, hist_regist_de
+								, action_code
+                                )
+                         VALUES (
+                                  #vin#
+                                , #dealerCd#
+                                , #businessId#
+                                , #modelCd#
+                                , #specCd#
+                                , #outColorCd#
+                                , #inColorCd#
+                                , TO_DATE(#compltDt#, 'YYYYMMDDHH24MISS')
+                                , #specSerial#
+                                , #statusCd#
+                                , #orderDealer#
+                                , #orderNo#
+                                , #carTypeNo#
+                                , #carGu#
+                                , #poNo#
+                                , #madeGu#
+                                , #prodStatus#
+                                , #trsSiteCd#
+                                , TO_DATE(#trsReqDt#, 'YYYYMMDDHH24MISS')
+                                , #trsReqGu#
+                                , TO_DATE(#trsRetDt#, 'YYYYMMDD')
+                                , TO_DATE(#trsTm#, 'YYYYMMDDHH24MISS')
+                                , #siteCd#
+                                , #location#
+                                , #outGu#
+                                , #dcRate#
+                                , TO_DATE(#statusChangeDt#, 'YYYYMMDD')
+                                , #statusChangeHt#
+                                , #a3BrchCd#
+                                , #a3ContNo#
+                                , #a3ConsignCd#
+                                , #a3Gub#
+                                , #a3Control#
+                                , #enginNo#
+                                , TO_DATE(#siteInDt#, 'YYYYMMDDHH24MISS')
+                                , TO_DATE(#trsReqrealDt#, 'YYYYMMDD')
+                                , TO_DATE(#signoffDt#, 'YYYYMMDDHH24MISS')
+                                , TO_DATE(#a3DisplayDt#, 'YYYYMMDD')
+                                , #assignGu#
+                                , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                                , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                                , #updtUserCd#
+                                , #optionCd#
+                                , #event#
+                                , #eventStatus#
+                                , TO_DATE(#eventUpdtDttm#, 'YYYYMMDDHH24MISS')
+                                , #eventUpdtDealer#
+                                , #eventUpdtUser#
+                                , #prodOrdrNo#
+                                , TO_DATE(#ordrDt#, 'YYYYMMDD')
+                                , TO_DATE(#prodAskDt#, 'YYYYMMDD')
+                                , TO_DATE(#cmplRqstDt#, 'YYYYMMDD')
+                                , TO_DATE(#cmplSchdDt#, 'YYYYMMDD')
+                                , TO_DATE(#purcDt#, 'YYYYMMDDHH24MISS')
+                                , #orderType#
+                                , #hotSw#
+                                , #carType#
+                                , #bodyTypeCd#
+                                , #prefixCd#
+                                , #hndPlcCd#
+                                , #carKeyNo#
+                                , #dgreCd#
+                                , #ltrmCd#
+                                , #showCarCd#
+                                , TO_DATE(#delvDt#, 'YYYYMMDDHH24MISS')
+                                , #salesCnclDiv#
+                                , TO_DATE(#salesCnclDt#, 'YYYYMMDD')
+                                , #salesCnclCnt#
+                                , #gmDrResult#
+                                , #gmDrOrdrNo#
+                                , TO_DATE(#gmDrApprDt#, 'YYYYMMDD')
+                                , TO_DATE(#tradeDt#, 'YYYYMMDD')
+                                , #locationPrev#
+                                , TO_DATE(#locationUpdtDttm#, 'YYYYMMDDHH24MISS')
+                                , TO_DATE(#trsStartDt#, 'YYYYMMDDHH24MISS')
+                                , TO_DATE(#consStartDt#, 'YYYYMMDDHH24MISS')
+                                , #gmDrWorkType#
+                                , TO_DATE(#takeDt#, 'YYYYMMDDHH24MISS')
+                                , #defect#
+                                , #stockOpenYn#
+                                , TO_DATE(#stockBaseDt#, 'YYYYMMDD')
+                                , #stockType#
+                                , #stockForce#
+                                , #drDealer#
+                                , #defectType#
+                                , TO_DATE(#orgSignoffDt#, 'YYYYMMDDHH24MISS')
+                                , #salesModlCd#
+                                , #histRegistDe#
+                                , #actionCode#
+                              )
+    ]]>
+	</insert>
+
+
+	<update id="mergeSaleCar" parameterClass="saleCar">
+    <![CDATA[
+        MERGE INTO
+                    if_sale_car b
+             USING
+                    dual
+                ON (
+                        vin = #vin#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           dealer_cd          = #dealerCd#
+                         , business_id        = #businessId#
+                         , model_cd           = #modelCd#
+                         , spec_cd            = #specCd#
+                         , out_color_cd       = #outColorCd#
+                         , in_color_cd        = #inColorCd#
+                         , complt_dt          = TO_DATE(#compltDt#, 'YYYYMMDDHH24MISS')
+                         , spec_serial        = #specSerial#
+                         , status_cd          = #statusCd#
+                         , order_dealer       = #orderDealer#
+                         , order_no           = #orderNo#
+                         , car_type_no        = #carTypeNo#
+                         , car_gu             = #carGu#
+                         , po_no              = #poNo#
+                         , made_gu            = #madeGu#
+                         , prod_status        = #prodStatus#
+                         , trs_site_cd        = #trsSiteCd#
+                         , trs_req_dt         = TO_DATE(#trsReqDt#, 'YYYYMMDDHH24MISS')
+                         , trs_req_gu         = #trsReqGu#
+                         , trs_ret_dt         = TO_DATE(#trsRetDt#, 'YYYYMMDD')
+                         , trs_tm             = TO_DATE(#trsTm#, 'YYYYMMDDHH24MISS')
+                         , site_cd            = #siteCd#
+                         , location           = #location#
+                         , out_gu             = #outGu#
+                         , dc_rate            = #dcRate#
+                         , status_change_dt   = TO_DATE(#statusChangeDt#, 'YYYYMMDD')
+                         , status_change_ht   = #statusChangeHt#
+                         , a3_brch_cd         = #a3BrchCd#
+                         , a3_cont_no         = #a3ContNo#
+                         , a3_consign_cd      = #a3ConsignCd#
+                         , a3_gub             = #a3Gub#
+                         , a3_control         = #a3Control#
+                         , engin_no           = #enginNo#
+                         , site_in_dt         = TO_DATE(#siteInDt#, 'YYYYMMDDHH24MISS')
+                         , trs_reqreal_dt     = TO_DATE(#trsReqrealDt#, 'YYYYMMDD')
+                         , signoff_dt         = TO_DATE(#signoffDt#, 'YYYYMMDDHH24MISS')
+                         , a3_display_dt      = TO_DATE(#a3DisplayDt#, 'YYYYMMDD')
+                         , assign_gu          = #assignGu#
+                         , reg_date           = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , updt_date          = TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                         , updt_user_cd       = #updtUserCd#
+                         , option_cd          = #optionCd#
+                         , event              = #event#
+                         , event_status       = #eventStatus#
+                         , event_updt_dttm    = TO_DATE(#eventUpdtDttm#, 'YYYYMMDDHH24MISS')
+                         , event_updt_dealer  = #eventUpdtDealer#
+                         , event_updt_user    = #eventUpdtUser#
+                         , prod_ordr_no       = #prodOrdrNo#
+                         , ordr_dt            = TO_DATE(#ordrDt#, 'YYYYMMDD')
+                         , prod_ask_dt        = TO_DATE(#prodAskDt#, 'YYYYMMDD')
+                         , cmpl_rqst_dt       = TO_DATE(#cmplRqstDt#, 'YYYYMMDD')
+                         , cmpl_schd_dt       = TO_DATE(#cmplSchdDt#, 'YYYYMMDD')
+                         , purc_dt            = TO_DATE(#purcDt#, 'YYYYMMDDHH24MISS')
+                         , order_type         = #orderType#
+                         , hot_sw             = #hotSw#
+                         , car_type           = #carType#
+                         , body_type_cd       = #bodyTypeCd#
+                         , prefix_cd          = #prefixCd#
+                         , hnd_plc_cd         = #hndPlcCd#
+                         , car_key_no         = #carKeyNo#
+                         , dgre_cd            = #dgreCd#
+                         , ltrm_cd            = #ltrmCd#
+                         , show_car_cd        = #showCarCd#
+                         , delv_dt            = TO_DATE(#delvDt#, 'YYYYMMDDHH24MISS')
+                         , sales_cncl_div     = #salesCnclDiv#
+                         , sales_cncl_dt      = TO_DATE(#salesCnclDt#, 'YYYYMMDD')
+                         , sales_cncl_cnt     = #salesCnclCnt#
+                         , gm_dr_result       = #gmDrResult#
+                         , gm_dr_ordr_no      = #gmDrOrdrNo#
+                         , gm_dr_appr_dt      = TO_DATE(#gmDrApprDt#, 'YYYYMMDD')
+                         , trade_dt           = TO_DATE(#tradeDt#, 'YYYYMMDD')
+                         , location_prev      = #locationPrev#
+                         , location_updt_dttm = TO_DATE(#locationUpdtDttm#, 'YYYYMMDDHH24MISS')
+                         , trs_start_dt       = TO_DATE(#trsStartDt#, 'YYYYMMDDHH24MISS')
+                         , cons_start_dt      = TO_DATE(#consStartDt#, 'YYYYMMDDHH24MISS')
+                         , gm_dr_work_type    = #gmDrWorkType#
+                         , take_dt            = TO_DATE(#takeDt#, 'YYYYMMDDHH24MISS')
+                         , defect             = #defect#
+                         , stock_open_yn      = #stockOpenYn#
+                         , stock_base_dt      = TO_DATE(#stockBaseDt#, 'YYYYMMDD')
+                         , stock_type         = #stockType#
+                         , stock_force        = #stockForce#
+                         , dr_dealer          = #drDealer#
+                         , defect_type        = #defectType#
+                         , org_signoff_dt     = TO_DATE(#orgSignoffDt#, 'YYYYMMDDHH24MISS')
+                         , sales_modl_cd      = #salesModlCd#
+                         , last_updt_pnttm    = SYSDATE
+                         , last_updusr_id     = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               vin
+                             , dealer_cd
+                             , business_id
+                             , model_cd
+                             , spec_cd
+                             , out_color_cd
+                             , in_color_cd
+                             , complt_dt
+                             , spec_serial
+                             , status_cd
+                             , order_dealer
+                             , order_no
+                             , car_type_no
+                             , car_gu
+                             , po_no
+                             , made_gu
+                             , prod_status
+                             , trs_site_cd
+                             , trs_req_dt
+                             , trs_req_gu
+                             , trs_ret_dt
+                             , trs_tm
+                             , site_cd
+                             , location
+                             , out_gu
+                             , dc_rate
+                             , status_change_dt
+                             , status_change_ht
+                             , a3_brch_cd
+                             , a3_cont_no
+                             , a3_consign_cd
+                             , a3_gub
+                             , a3_control
+                             , engin_no
+                             , site_in_dt
+                             , trs_reqreal_dt
+                             , signoff_dt
+                             , a3_display_dt
+                             , assign_gu
+                             , reg_date
+                             , updt_date
+                             , updt_user_cd
+                             , option_cd
+                             , event
+                             , event_status
+                             , event_updt_dttm
+                             , event_updt_dealer
+                             , event_updt_user
+                             , prod_ordr_no
+                             , ordr_dt
+                             , prod_ask_dt
+                             , cmpl_rqst_dt
+                             , cmpl_schd_dt
+                             , purc_dt
+                             , order_type
+                             , hot_sw
+                             , car_type
+                             , body_type_cd
+                             , prefix_cd
+                             , hnd_plc_cd
+                             , car_key_no
+                             , dgre_cd
+                             , ltrm_cd
+                             , show_car_cd
+                             , delv_dt
+                             , sales_cncl_div
+                             , sales_cncl_dt
+                             , sales_cncl_cnt
+                             , gm_dr_result
+                             , gm_dr_ordr_no
+                             , gm_dr_appr_dt
+                             , trade_dt
+                             , location_prev
+                             , location_updt_dttm
+                             , trs_start_dt
+                             , cons_start_dt
+                             , gm_dr_work_type
+                             , take_dt
+                             , defect
+                             , stock_open_yn
+                             , stock_base_dt
+                             , stock_type
+                             , stock_force
+                             , dr_dealer
+                             , defect_type
+                             , org_signoff_dt
+                             , sales_modl_cd
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #vin#
+                             , #dealerCd#
+                             , #businessId#
+                             , #modelCd#
+                             , #specCd#
+                             , #outColorCd#
+                             , #inColorCd#
+                             , TO_DATE(#compltDt#, 'YYYYMMDDHH24MISS')
+                             , #specSerial#
+                             , #statusCd#
+                             , #orderDealer#
+                             , #orderNo#
+                             , #carTypeNo#
+                             , #carGu#
+                             , #poNo#
+                             , #madeGu#
+                             , #prodStatus#
+                             , #trsSiteCd#
+                             , TO_DATE(#trsReqDt#, 'YYYYMMDDHH24MISS')
+                             , #trsReqGu#
+                             , TO_DATE(#trsRetDt#, 'YYYYMMDD')
+                             , TO_DATE(#trsTm#, 'YYYYMMDDHH24MISS')
+                             , #siteCd#
+                             , #location#
+                             , #outGu#
+                             , #dcRate#
+                             , TO_DATE(#statusChangeDt#, 'YYYYMMDD')
+                             , #statusChangeHt#
+                             , #a3BrchCd#
+                             , #a3ContNo#
+                             , #a3ConsignCd#
+                             , #a3Gub#
+                             , #a3Control#
+                             , #enginNo#
+                             , TO_DATE(#siteInDt#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#trsReqrealDt#, 'YYYYMMDD')
+                             , TO_DATE(#signoffDt#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#a3DisplayDt#, 'YYYYMMDD')
+                             , #assignGu#
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#updtDate#, 'YYYYMMDDHH24MISS')
+                             , #updtUserCd#
+                             , #optionCd#
+                             , #event#
+                             , #eventStatus#
+                             , TO_DATE(#eventUpdtDttm#, 'YYYYMMDDHH24MISS')
+                             , #eventUpdtDealer#
+                             , #eventUpdtUser#
+                             , #prodOrdrNo#
+                             , TO_DATE(#ordrDt#, 'YYYYMMDD')
+                             , TO_DATE(#prodAskDt#, 'YYYYMMDD')
+                             , TO_DATE(#cmplRqstDt#, 'YYYYMMDD')
+                             , TO_DATE(#cmplSchdDt#, 'YYYYMMDD')
+                             , TO_DATE(#purcDt#, 'YYYYMMDDHH24MISS')
+                             , #orderType#
+                             , #hotSw#
+                             , #carType#
+                             , #bodyTypeCd#
+                             , #prefixCd#
+                             , #hndPlcCd#
+                             , #carKeyNo#
+                             , #dgreCd#
+                             , #ltrmCd#
+                             , #showCarCd#
+                             , TO_DATE(#delvDt#, 'YYYYMMDDHH24MISS')
+                             , #salesCnclDiv#
+                             , TO_DATE(#salesCnclDt#, 'YYYYMMDD')
+                             , #salesCnclCnt#
+                             , #gmDrResult#
+                             , #gmDrOrdrNo#
+                             , TO_DATE(#gmDrApprDt#, 'YYYYMMDD')
+                             , TO_DATE(#tradeDt#, 'YYYYMMDD')
+                             , #locationPrev#
+                             , TO_DATE(#locationUpdtDttm#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#trsStartDt#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#consStartDt#, 'YYYYMMDDHH24MISS')
+                             , #gmDrWorkType#
+                             , TO_DATE(#takeDt#, 'YYYYMMDDHH24MISS')
+                             , #defect#
+                             , #stockOpenYn#
+                             , TO_DATE(#stockBaseDt#, 'YYYYMMDD')
+                             , #stockType#
+                             , #stockForce#
+                             , #drDealer#
+                             , #defectType#
+                             , TO_DATE(#orgSignoffDt#, 'YYYYMMDDHH24MISS')
+                             , #salesModlCd#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MntncCstmr">
+
+	<typeAlias alias="mntncCstmr" type="egovframework.ec4.bat.domain.trade.MntncCstmr" />
+
+	<resultMap id="result" class="mntncCstmr">
+		<result property="vinComp" column="VIN_COMP" />
+		<result property="vinType" column="VIN_TYPE" />
+		<result property="vinCheck" column="VIN_CHECK" />
+		<result property="vinMdlYear" column="VIN_MDL_YEAR" />
+		<result property="vinPlan" column="VIN_PLAN" />
+		<result property="vinBodyNo" column="VIN_BODY_NO" />
+		<result property="vinDup" column="VIN_DUP" />
+		<result property="vehiNo01" column="VEHI_NO01" />
+		<result property="vehiNo02" column="VEHI_NO02" />
+		<result property="maker" column="MAKER" />
+		<result property="custId" column="CUST_ID" />
+		<result property="mailId" column="MAIL_ID" />
+		<result property="mlno01" column="MLNO_01" />
+		<result property="mlno02" column="MLNO_02" />
+		<result property="addrCi" column="ADDR_CI" />
+		<result property="addrGu" column="ADDR_GU" />
+		<result property="addrDong" column="ADDR_DONG" />
+		<result property="addrBngi" column="ADDR_BNGI" />
+		<result property="bossName" column="BOSS_NAME" />
+		<result property="frstRcptDate" column="FRST_RCPT_DATE" />
+		<result property="lastRcptDate" column="LAST_RCPT_DATE" />
+		<result property="lastReadKm" column="LAST_READ_KM" />
+		<result property="telNo01" column="TEL_NO01" />
+		<result property="telNo02" column="TEL_NO02" />
+		<result property="faxNo" column="FAX_NO" />
+		<result property="cellPhone" column="CELL_PHONE" />
+		<result property="inform" column="INFORM" />
+		<result property="regId" column="REG_ID" />
+		<result property="regDttm" column="REG_DTTM" />
+		<result property="mailGubn" column="MAIL_GUBN" />
+		<result property="officeNo" column="OFFICE_NO" />
+		<result property="addrGubn" column="ADDR_GUBN" />
+		<result property="ipinDi" column="IPIN_DI" />
+	</resultMap>
+
+
+	<select id="selectMntncCstmrHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                vin_comp
+                              , vin_type
+                              , vin_check
+                              , vin_mdl_year
+                              , vin_plan
+                              , vin_body_no
+                              , vin_dup
+                              , vehi_no01
+                              , vehi_no02
+                              , maker
+                              , cust_id
+                              , mail_id
+                              , mlno_01
+                              , mlno_02
+                              , addr_ci
+                              , addr_gu
+                              , addr_dong
+                              , addr_bngi
+                              , boss_name
+                              , TO_CHAR(frst_rcpt_date, 'YYYYMMDD') AS frst_rcpt_date
+                              , TO_CHAR(last_rcpt_date, 'YYYYMMDD') AS last_rcpt_date
+                              , last_read_km
+                              , tel_no01
+                              , tel_no02
+                              , fax_no
+                              , cell_phone
+                              , inform
+                              , reg_id
+                              , TO_CHAR(reg_dttm, 'YYYYMMDDHH24MISS') AS reg_dttm
+                              , mail_gubn
+                              , office_no
+                              , addr_gubn
+                              , ipin_di
+                          FROM
+                                ih_mntnc_cstmr
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciMntncCstmrHist" parameterClass="mntncCstmr">
+    <![CDATA[
+        INSERT INTO ih_mntnc_cstmr (
+                                   vin_comp
+                                 , vin_type
+                                 , vin_check
+                                 , vin_mdl_year
+                                 , vin_plan
+                                 , vin_body_no
+                                 , vin_dup
+                                 , vehi_no01
+                                 , vehi_no02
+                                 , maker
+                                 , cust_id
+                                 , mail_id
+                                 , mlno_01
+                                 , mlno_02
+                                 , addr_ci
+                                 , addr_gu
+                                 , addr_dong
+                                 , addr_bngi
+                                 , boss_name
+                                 , frst_rcpt_date
+                                 , last_rcpt_date
+                                 , last_read_km
+                                 , tel_no01
+                                 , tel_no02
+                                 , fax_no
+                                 , cell_phone
+                                 , inform
+                                 , reg_id
+                                 , reg_dttm
+                                 , mail_gubn
+                                 , office_no
+                                 , addr_gubn
+                                 , ipin_di
+                                 , hist_regist_de
+                                 , action_code
+                                 )
+                          VALUES (
+                                   #vinComp#
+                                 , #vinType#
+                                 , #vinCheck#
+                                 , #vinMdlYear#
+                                 , #vinPlan#
+                                 , #vinBodyNo#
+                                 , #vinDup#
+                                 , #vehiNo01#
+                                 , #vehiNo02#
+                                 , #maker#
+                                 , #custId#
+                                 , #mailId#
+                                 , #mlno01#
+                                 , #mlno02#
+                                 , #addrCi#
+                                 , #addrGu#
+                                 , #addrDong#
+                                 , #addrBngi#
+                                 , #bossName#
+                                 , TO_DATE(#frstRcptDate#, 'YYYYMMDD')
+                                 , TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                                 , #lastReadKm#
+                                 , #telNo01#
+                                 , #telNo02#
+                                 , #faxNo#
+                                 , #cellPhone#
+                                 , #inform#
+                                 , #regId#
+                                 , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                                 , #mailGubn#
+                                 , #officeNo#
+                                 , #addrGubn#
+                                 , #ipinDi#
+                                 , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                                 , #actionCode#
+                                 )
+    ]]>
+	</insert>
+
+
+	<update id="mergeMntncCstmr" parameterClass="mntncCstmr">
+    <![CDATA[
+        MERGE INTO
+                    if_mntnc_cstmr b
+             USING
+                    dual
+                ON (
+                         vin_comp     = #vinComp#
+                     AND vin_type     = #vinType#
+                     AND vin_check    = #vinCheck#
+                     AND vin_mdl_year = #vinMdlYear#
+                     AND vin_plan     = #vinPlan#
+                     AND vin_body_no  = #vinBodyNo#
+                     AND vin_dup      = #vinDup#
+                     AND vehi_no01    = #vehiNo01#
+                     AND vehi_no02    = #vehiNo02#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           maker           = #maker#
+                         , cust_id         = #custId#
+                         , mail_id         = #mailId#
+                         , mlno_01         = #mlno01#
+                         , mlno_02         = #mlno02#
+                         , addr_ci         = #addrCi#
+                         , addr_gu         = #addrGu#
+                         , addr_dong       = #addrDong#
+                         , addr_bngi       = #addrBngi#
+                         , boss_name       = #bossName#
+                         , frst_rcpt_date  = TO_DATE(#frstRcptDate#, 'YYYYMMDD')
+                         , last_rcpt_date  = TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                         , last_read_km    = #lastReadKm#
+                         , tel_no01        = #telNo01#
+                         , tel_no02        = #telNo02#
+                         , fax_no          = #faxNo#
+                         , cell_phone      = #cellPhone#
+                         , inform          = #inform#
+                         , reg_id          = #regId#
+                         , reg_dttm        = TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                         , mail_gubn       = #mailGubn#
+                         , office_no       = #officeNo#
+                         , addr_gubn       = #addrGubn#
+                         , ipin_di         = #ipinDi#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               vin_comp
+                             , vin_type
+                             , vin_check
+                             , vin_mdl_year
+                             , vin_plan
+                             , vin_body_no
+                             , vin_dup
+                             , vehi_no01
+                             , vehi_no02
+                             , maker
+                             , cust_id
+                             , mail_id
+                             , mlno_01
+                             , mlno_02
+                             , addr_ci
+                             , addr_gu
+                             , addr_dong
+                             , addr_bngi
+                             , boss_name
+                             , frst_rcpt_date
+                             , last_rcpt_date
+                             , last_read_km
+                             , tel_no01
+                             , tel_no02
+                             , fax_no
+                             , cell_phone
+                             , inform
+                             , reg_id
+                             , reg_dttm
+                             , mail_gubn
+                             , office_no
+                             , addr_gubn
+                             , ipin_di
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #vinComp#
+                             , #vinType#
+                             , #vinCheck#
+                             , #vinMdlYear#
+                             , #vinPlan#
+                             , #vinBodyNo#
+                             , #vinDup#
+                             , #vehiNo01#
+                             , #vehiNo02#
+                             , #maker#
+                             , #custId#
+                             , #mailId#
+                             , #mlno01#
+                             , #mlno02#
+                             , #addrCi#
+                             , #addrGu#
+                             , #addrDong#
+                             , #addrBngi#
+                             , #bossName#
+                             , TO_DATE(#frstRcptDate#, 'YYYYMMDD')
+                             , TO_DATE(#lastRcptDate#, 'YYYYMMDD')
+                             , #lastReadKm#
+                             , #telNo01#
+                             , #telNo02#
+                             , #faxNo#
+                             , #cellPhone#
+                             , #inform#
+                             , #regId#
+                             , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                             , #mailGubn#
+                             , #officeNo#
+                             , #addrGubn#
+                             , #ipinDi#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciRecallVhcleToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciRecallVhcleToEC4HistStep" parent="eGovBaseStep" next="ec4RecallVhcleHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciRecallVhcleItemReader" processor="davinciRecallVhcleItemProcessor"
+                    writer="davinciRecallVhcleItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4RecallVhcleHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4RecallVhcleHistItemReader" processor="ec4RecallVhcleHistItemProcessor"
+                    writer="ec4RecallVhcleHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciRecallVhcleItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.recallVhcle}/${source.file.recallVhcle}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.RecallVhcle"/>
+                        <property name="names" value="vin,maker,campNo,custType,custCode,stat1,stat2,statDttm,rcptMark,regiDate,wcrNo,memo,contactShopCode,contactDate,gmContactDate,interStatus,exprDate,claimId,releaseDate,releaseBu,sendMailYn,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciRecallVhcleItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciRecallVhcleHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciRecallVhcleItemProcessor" class="egovframework.ec4.bat.domain.trade.RecallVhcleProcessor"/>
+
+    <bean id="ec4RecallVhcleHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectRecallVhcleHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4RecallVhcleHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeRecallVhcle"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4RecallVhcleHistItemProcessor" class="egovframework.ec4.bat.domain.trade.RecallVhcleHistProcessor"/>
+
+</beans>

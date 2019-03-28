@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RecptnReject">
+
+    <typeAlias alias="recptnReject" type="egovframework.ec4.bat.domain.trade.RecptnReject"/>
+
+    <resultMap id="result" class="recptnReject">
+		<result property="custNo" column="cust_no"/>
+		<result property="eml" column="eml"/>
+		<result property="tel" column="tel"/>
+		<result property="modDt" column="mod_dt"/>
+		<result property="custName" column="cust_name"/>
+		<result property="channelCd" column="channel_cd"/>
+		<result property="channelNm" column="channel_nm"/>
+		<result property="telRegn" column="tel_regn"/>
+		<result property="telDept" column="tel_dept"/>
+		<result property="telNo" column="tel_no"/>
+		<result property="smsyn" column="smsyn"/>
+		<result property="emlyn" column="emlyn"/>
+		<result property="custNoOld" column="cust_no_old"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+		<result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectRecptnRejectHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                cust_no
+                              , eml
+                              , tel
+                              , TO_CHAR(mod_dt, 'YYYYMMDDHH24MISS') AS mod_dt
+                              , cust_name
+                              , channel_cd
+                              , channel_nm
+                              , tel_regn
+                              , tel_dept
+                              , tel_no
+                              , smsyn
+                              , emlyn
+                              , cust_no_old
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_recptn_reject
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                cust_no, eml, tel
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciRecptnRejectHist" parameterClass="recptnReject" >
+    <![CDATA[
+        INSERT INTO ih_recptn_reject
+                    (
+                      cust_no
+                    , eml
+                    , tel
+                    , mod_dt
+                    , cust_name
+                    , channel_cd
+                    , channel_nm
+                    , tel_regn
+                    , tel_dept
+                    , tel_no
+                    , smsyn
+                    , emlyn
+                    , cust_no_old
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #custNo#
+                    , #eml#
+                    , #tel#
+                    , TO_DATE(#modDt#, 'YYYYMMDDHH24MISS')
+                    , #custName#
+                    , #channelCd#
+                    , #channelNm#
+                    , #telRegn#
+                    , #telDept#
+                    , #telNo#
+                    , #smsyn#
+                    , #emlyn#
+                    , #custNoOld#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeRecptnReject" parameterClass="recptnReject">
+    <![CDATA[
+        MERGE INTO
+                    if_recptn_reject
+             USING
+                    dual
+                ON (
+                         cust_no = #custNo#
+                     AND eml     = #eml#
+                     AND tel     = #tel#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           mod_dt          = TO_DATE(#modDt#, 'YYYYMMDDHH24MISS')
+                         , cust_name       = #custName#
+                         , channel_cd      = #channelCd#
+                         , channel_nm      = #channelNm#
+                         , tel_regn        = #telRegn#
+                         , tel_dept        = #telDept#
+                         , tel_no          = #telNo#
+                         , smsyn           = #smsyn#
+                         , emlyn           = #emlyn#
+                         , cust_no_old     = #custNoOld#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               cust_no
+                             , eml
+                             , tel
+                             , mod_dt
+                             , cust_name
+                             , channel_cd
+                             , channel_nm
+                             , tel_regn
+                             , tel_dept
+                             , tel_no
+                             , smsyn
+                             , emlyn
+                             , cust_no_old
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #custNo#
+                             , #eml#
+                             , #tel#
+                             , TO_DATE(#modDt#, 'YYYYMMDDHH24MISS')
+                             , #custName#
+                             , #channelCd#
+                             , #channelNm#
+                             , #telRegn#
+                             , #telDept#
+                             , #telNo#
+                             , #smsyn#
+                             , #emlyn#
+                             , #custNoOld#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

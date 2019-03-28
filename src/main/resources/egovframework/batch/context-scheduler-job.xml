@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <bean id="simpleDateFormat4" class="java.text.SimpleDateFormat"><constructor-arg value="yyyyMMdd" /></bean>
+
+	<bean id="davinciUserJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="davinciUserToEC4Job" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="davinciCustJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciCustToEC4Job" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciReplcJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciReplcToEC4Job" />
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciBhfLcJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciBhfLcToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciBuzplcJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciBuzplcToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciSaleCarJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciSaleCarToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciSaleCstmrJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciSaleCstmrToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciMntncCarJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciMntncCarToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciMntncCstmrJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciMntncCstmrToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciDelivyJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciDelivyToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciHpclJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciHpclToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciRecallJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciRecallToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciRecallVhcleJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciRecallVhcleToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciRecptnRejectJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciRecptnRejectToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciMarktPrcuseAgreJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciMarktPrcuseAgreToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciBycstmAgreJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciBycstmAgreToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciCstmrAgreCodeJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciCstmrAgreCodeToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciBycntcAgreJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciBycntcAgreToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciKorOwnersFlagToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciKorOwnersFlagVinJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciKorOwnersFlagVinToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="davinciKorOwnersMemberJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="egovframework.example.bat.scheduler.support.EgovJobLauncherDetails" />
+        <property name="group" value="quartz-batch" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="jobName" value="davinciKorOwnersMemberToEC4Job"/>
+                <entry key="jobDate" value="#{simpleDateFormat4.format(T(java.util.Calendar).getInstance().getTime())}" />
+                <entry key="jobLocator" value-ref="jobRegistry" />
+                <entry key="jobLauncher" value-ref="jobLauncher" />
+            </map>
+        </property>
+    </bean>
+
+</beans>

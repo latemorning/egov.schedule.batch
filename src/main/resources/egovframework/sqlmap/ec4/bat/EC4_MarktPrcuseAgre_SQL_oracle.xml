@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MarktPrcuseAgre">
+
+    <typeAlias alias="marktPrcuseAgre" type="egovframework.ec4.bat.domain.trade.MarktPrcuseAgre"/>
+
+    <resultMap id="result" class="marktPrcuseAgre">
+		<result property="custId" column="cust_id"/>
+		<result property="custNm" column="cust_nm"/>
+		<result property="realCustChk" column="real_cust_chk"/>
+		<result property="realCustDt" column="real_cust_dt"/>
+		<result property="realCustCode" column="real_cust_code"/>
+		<result property="agre01Chk" column="agre_01_chk"/>
+		<result property="agre01Dt" column="agre_01_dt"/>
+		<result property="agre02Chk" column="agre_02_chk"/>
+		<result property="agre02Dt" column="agre_02_dt"/>
+		<result property="agre03Chk" column="agre_03_chk"/>
+		<result property="agre03Dt" column="agre_03_dt"/>
+		<result property="agre04Chk" column="agre_04_chk"/>
+		<result property="agre04Dt" column="agre_04_dt"/>
+		<result property="agre05Chk" column="agre_05_chk"/>
+		<result property="agre05Dt" column="agre_05_dt"/>
+		<result property="agre06Chk" column="agre_06_chk"/>
+		<result property="agre06Dt" column="agre_06_dt"/>
+		<result property="agre07Chk" column="agre_07_chk"/>
+		<result property="agre07Dt" column="agre_07_dt"/>
+		<result property="agre08Chk" column="agre_08_chk"/>
+		<result property="agre08Dt" column="agre_08_dt"/>
+		<result property="agre09Chk" column="agre_09_chk"/>
+		<result property="agre09Dt" column="agre_09_dt"/>
+		<result property="agre10Chk" column="agre_10_chk"/>
+		<result property="agre10Dt" column="agre_10_dt"/>
+		<result property="regId" column="reg_id"/>
+		<result property="regDttm" column="reg_dttm"/>
+		<result property="lastCustCode" column="last_cust_code"/>
+		<result property="signImg" column="sign_img"/>
+		<result property="agntFg" column="agnt_fg"/>
+		<result property="fileImg" column="file_img"/>
+		<result property="chngDttm" column="chng_dttm"/>
+		<result property="chngId" column="chng_id"/>
+		<result property="oldCustId" column="old_cust_id"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+        <result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectMarktPrcuseAgreHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                cust_id
+                              , cust_nm
+                              , real_cust_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS real_cust_dt
+                              , real_cust_code
+                              , agre_01_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_01_dt
+                              , agre_02_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_02_dt
+                              , agre_03_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_03_dt
+                              , agre_04_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_04_dt
+                              , agre_05_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_05_dt
+                              , agre_06_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_06_dt
+                              , agre_07_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_07_dt
+                              , agre_08_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_08_dt
+                              , agre_09_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_09_dt
+                              , agre_10_chk
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS agre_10_dt
+                              , reg_id
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS reg_dttm
+                              , last_cust_code
+                              , sign_img
+                              , agnt_fg
+                              , file_img
+                              , TO_CHAR(, 'YYYYMMDDHH24MISS') AS chng_dttm
+                              , chng_id
+                              , old_cust_id
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_markt_prcuse_agre
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                cust_id
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciMarktPrcuseAgreHist" parameterClass="marktPrcuseAgre" >
+    <![CDATA[
+        INSERT INTO ih_markt_prcuse_agre
+                    (
+                      cust_id
+                    , cust_nm
+                    , real_cust_chk
+                    , real_cust_dt
+                    , real_cust_code
+                    , agre_01_chk
+                    , agre_01_dt
+                    , agre_02_chk
+                    , agre_02_dt
+                    , agre_03_chk
+                    , agre_03_dt
+                    , agre_04_chk
+                    , agre_04_dt
+                    , agre_05_chk
+                    , agre_05_dt
+                    , agre_06_chk
+                    , agre_06_dt
+                    , agre_07_chk
+                    , agre_07_dt
+                    , agre_08_chk
+                    , agre_08_dt
+                    , agre_09_chk
+                    , agre_09_dt
+                    , agre_10_chk
+                    , agre_10_dt
+                    , reg_id
+                    , reg_dttm
+                    , last_cust_code
+                    , sign_img
+                    , agnt_fg
+                    , file_img
+                    , chng_dttm
+                    , chng_id
+                    , old_cust_id
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #custId#
+                    , #custNm#
+                    , #realCustChk#
+                    , TO_DATE(#realCustDt#, 'YYYYMMDDHH24MISS')
+                    , #realCustCode#
+                    , #agre01Chk#
+                    , TO_DATE(#agre01Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre02Chk#
+                    , TO_DATE(#agre02Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre03Chk#
+                    , TO_DATE(#agre03Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre04Chk#
+                    , TO_DATE(#agre04Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre05Chk#
+                    , TO_DATE(#agre05Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre06Chk#
+                    , TO_DATE(#agre06Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre07Chk#
+                    , TO_DATE(#agre07Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre08Chk#
+                    , TO_DATE(#agre08Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre09Chk#
+                    , TO_DATE(#agre09Dt#, 'YYYYMMDDHH24MISS')
+                    , #agre10Chk#
+                    , TO_DATE(#agre10Dt#, 'YYYYMMDDHH24MISS')
+                    , #regId#
+                    , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                    , #lastCustCode#
+                    , #signImg#
+                    , #agntFg#
+                    , #fileImg#
+                    , TO_DATE(#chngDttm#, 'YYYYMMDDHH24MISS')
+                    , #chngId#
+                    , #oldCustId#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeMarktPrcuseAgre" parameterClass="marktPrcuseAgre">
+    <![CDATA[
+        MERGE INTO
+                    if_markt_prcuse_agre
+             USING
+                    dual
+                ON (
+                    cust_id = #custId#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           cust_nm         = #custNm#
+                         , real_cust_chk   = #realCustChk#
+                         , real_cust_dt    = TO_DATE(#realCustDt#, 'YYYYMMDDHH24MISS')
+                         , real_cust_code  = #realCustCode#
+                         , agre_01_chk     = #agre01Chk#
+                         , agre_01_dt      = TO_DATE(#agre01Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_02_chk     = #agre02Chk#
+                         , agre_02_dt      = TO_DATE(#agre02Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_03_chk     = #agre03Chk#
+                         , agre_03_dt      = TO_DATE(#agre03Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_04_chk     = #agre04Chk#
+                         , agre_04_dt      = TO_DATE(#agre04Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_05_chk     = #agre05Chk#
+                         , agre_05_dt      = TO_DATE(#agre05Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_06_chk     = #agre06Chk#
+                         , agre_06_dt      = TO_DATE(#agre06Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_07_chk     = #agre07Chk#
+                         , agre_07_dt      = TO_DATE(#agre07Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_08_chk     = #agre08Chk#
+                         , agre_08_dt      = TO_DATE(#agre08Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_09_chk     = #agre09Chk#
+                         , agre_09_dt      = TO_DATE(#agre09Dt#, 'YYYYMMDDHH24MISS')
+                         , agre_10_chk     = #agre10Chk#
+                         , agre_10_dt      = TO_DATE(#agre10Dt#, 'YYYYMMDDHH24MISS')
+                         , reg_id          = #regId#
+                         , reg_dttm        = TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                         , last_cust_code  = #lastCustCode#
+                         , sign_img        = #signImg#
+                         , agnt_fg         = #agntFg#
+                         , file_img        = #fileImg#
+                         , chng_dttm       = TO_DATE(#chngDttm#, 'YYYYMMDDHH24MISS')
+                         , chng_id         = #chngId#
+                         , old_cust_id     = #oldCustId#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               cust_id
+                             , cust_nm
+                             , real_cust_chk
+                             , real_cust_dt
+                             , real_cust_code
+                             , agre_01_chk
+                             , agre_01_dt
+                             , agre_02_chk
+                             , agre_02_dt
+                             , agre_03_chk
+                             , agre_03_dt
+                             , agre_04_chk
+                             , agre_04_dt
+                             , agre_05_chk
+                             , agre_05_dt
+                             , agre_06_chk
+                             , agre_06_dt
+                             , agre_07_chk
+                             , agre_07_dt
+                             , agre_08_chk
+                             , agre_08_dt
+                             , agre_09_chk
+                             , agre_09_dt
+                             , agre_10_chk
+                             , agre_10_dt
+                             , reg_id
+                             , reg_dttm
+                             , last_cust_code
+                             , sign_img
+                             , agnt_fg
+                             , file_img
+                             , chng_dttm
+                             , chng_id
+                             , old_cust_id
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #custId#
+                             , #custNm#
+                             , #realCustChk#
+                             , TO_DATE(#realCustDt#, 'YYYYMMDDHH24MISS')
+                             , #realCustCode#
+                             , #agre01Chk#
+                             , TO_DATE(#agre01Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre02Chk#
+                             , TO_DATE(#agre02Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre03Chk#
+                             , TO_DATE(#agre03Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre04Chk#
+                             , TO_DATE(#agre04Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre05Chk#
+                             , TO_DATE(#agre05Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre06Chk#
+                             , TO_DATE(#agre06Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre07Chk#
+                             , TO_DATE(#agre07Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre08Chk#
+                             , TO_DATE(#agre08Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre09Chk#
+                             , TO_DATE(#agre09Dt#, 'YYYYMMDDHH24MISS')
+                             , #agre10Chk#
+                             , TO_DATE(#agre10Dt#, 'YYYYMMDDHH24MISS')
+                             , #regId#
+                             , TO_DATE(#regDttm#, 'YYYYMMDDHH24MISS')
+                             , #lastCustCode#
+                             , #signImg#
+                             , #agntFg#
+                             , #fileImg#
+                             , TO_DATE(#chngDttm#, 'YYYYMMDDHH24MISS')
+                             , #chngId#
+                             , #oldCustId#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

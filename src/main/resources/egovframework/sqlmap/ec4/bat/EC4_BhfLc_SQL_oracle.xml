@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BhfLc">
+
+    <typeAlias alias="bhfLc" type="egovframework.ec4.bat.domain.trade.BhfLc"/>
+
+    <resultMap id="result" class="bhfLc">
+        <result property="ssCls1" column="SS_CLS1"/>
+        <result property="ssCode" column="SS_CODE"/>
+        <result property="ssCls2" column="SS_CLS2"/>
+        <result property="ssSurl" column="SS_SURL"/>
+    </resultMap>
+
+    <select id="selectBhfLcHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                ss_cls1
+                              , hist_regist_de
+                              , action_code
+                              , ss_code
+                              , ss_cls2
+                              , ss_surl
+                          FROM
+                                ih_bhf_lc
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                hist_regist_de, ss_cls1
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciBhfLcHist" parameterClass="bhfLc" >
+    <![CDATA[
+        INSERT INTO ih_bhf_lc (
+                                ss_cls1
+                              , hist_regist_de
+                              , action_code
+                              , ss_code
+                              , ss_cls2
+                              , ss_surl
+                             )
+                     VALUES (
+                                #ssCls1#
+                              , TRUNC(TO_DATE(#histRegistDe#, 'YYYYMMDD'))
+                              , #actionCode#
+                              , #ssCode#
+                              , #ssCls2#
+                              , #ssSurl#
+                             )
+    ]]>
+    </insert>
+
+
+    <update id="mergeBhfLc" parameterClass="bhfLc">
+    <![CDATA[
+        MERGE INTO
+                    if_bhf_lc b
+             USING
+                    dual
+                ON (
+                        ss_cls1 = #ssCls1#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           ss_code         = #ssCode#
+                         , ss_cls2         = #ssCls2#
+                         , ss_surl         = #ssSurl#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               ss_cls1
+                             , ss_code
+                             , ss_cls2
+                             , ss_surl
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #ssCls1#
+                             , #ssCode#
+                             , #ssCls2#
+                             , #ssSurl#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciMntncCstmrToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciMntncCstmrToEC4HistStep" parent="eGovBaseStep" next="ec4MntncCstmrHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciMntncCstmrItemReader" processor="davinciMntncCstmrItemProcessor"
+                    writer="davinciMntncCstmrItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+        <step id="ec4MntncCstmrHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4MntncCstmrHistItemReader" processor="ec4MntncCstmrHistItemProcessor"
+                    writer="ec4MntncCstmrHistItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciMntncCstmrItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.mntncCstmr}/${source.file.mntncCstmr}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.MntncCstmr"/>
+                        <property name="names" value="vinComp,vinType,vinCheck,vinMdlYear,vinPlan,vinBodyNo,vinDup,vehiNo01,vehiNo02,maker,custId,mailId,mlno01,mlno02,addrCi,addrGu,addrDong,addrBngi,bossName,frstRcptDate,lastRcptDate,lastReadKm,telNo01,telNo02,faxNo,cellPhone,inform,regId,regDttm,mailGubn,officeNo,addrGubn,ipinDi,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciMntncCstmrItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciMntncCstmrHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciMntncCstmrItemProcessor" class="egovframework.ec4.bat.domain.trade.MntncCstmrProcessor"/>
+
+
+    <bean id="ec4MntncCstmrHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectMntncCstmrHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4MntncCstmrHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeMntncCstmr"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4MntncCstmrHistItemProcessor" class="egovframework.ec4.bat.domain.trade.MntncCstmrHistProcessor"/>
+
+</beans>

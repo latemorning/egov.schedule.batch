@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KorOwnersMember">
+
+    <typeAlias alias="korOwnersMember" type="egovframework.ec4.bat.domain.trade.KorOwnersMember"/>
+
+    <resultMap id="result" class="korOwnersMember">
+		<result property="id" column="id"/>
+		<result property="loyaltyCheck" column="loyalty_check"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="counName" column="coun_name"/>
+		<result property="agencyYn" column="agency_yn"/>
+		<result property="ssn" column="ssn"/>
+		<result property="businNum" column="busin_num"/>
+		<result property="businYn" column="busin_yn"/>
+		<result property="ipinDi" column="ipin_di"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+		<result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectKorOwnersMemberHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                id
+                              , loyalty_check
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , coun_name
+                              , agency_yn
+                              , ssn
+                              , busin_num
+                              , busin_yn
+                              , ipin_di
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_kor_owners_member
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                id
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciKorOwnersMemberHist" parameterClass="korOwnersMember" >
+    <![CDATA[
+        INSERT INTO ih_kor_owners_member
+                    (
+                      id
+                    , loyalty_check
+                    , reg_date
+                    , coun_name
+                    , agency_yn
+                    , ssn
+                    , busin_num
+                    , busin_yn
+                    , ipin_di
+                    )
+             VALUES
+                    (
+                      #id#
+                    , #loyaltyCheck#
+                    , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                    , #counName#
+                    , #agencyYn#
+                    , #ssn#
+                    , #businNum#
+                    , #businYn#
+                    , #ipinDi#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeKorOwnersMember" parameterClass="korOwnersMember">
+    <![CDATA[
+        MERGE INTO
+                    if_kor_owners_member
+             USING
+                    dual
+                ON (
+                        id = #id#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           loyalty_check   = #loyaltyCheck#
+                         , reg_date        = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , coun_name       = #counName#
+                         , agency_yn       = #agencyYn#
+                         , ssn             = #ssn#
+                         , busin_num       = #businNum#
+                         , busin_yn        = #businYn#
+                         , ipin_di         = #ipinDi#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               id
+                             , loyalty_check
+                             , reg_date
+                             , coun_name
+                             , agency_yn
+                             , ssn
+                             , busin_num
+                             , busin_yn
+                             , ipin_di
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #id#
+                             , #loyaltyCheck#
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , #counName#
+                             , #agencyYn#
+                             , #ssn#
+                             , #businNum#
+                             , #businYn#
+                             , #ipinDi#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

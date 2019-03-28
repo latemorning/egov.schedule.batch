@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KorOwnersFlag">
+
+    <typeAlias alias="korOwnersFlag" type="egovframework.ec4.bat.domain.trade.KorOwnersFlag"/>
+
+    <resultMap id="result" class="korOwnersFlag">
+		<result property="custId" column="cust_id"/>
+		<result property="ipinDi" column="ipin_di"/>
+		<result property="custName" column="cust_name"/>
+		<result property="charmClubFlag" column="charm_club_flag"/>
+		<result property="autocardFlag" column="autocard_flag"/>
+		<result property="charmClubGrade" column="charm_club_grade"/>
+		<result property="carPurchaseNum" column="car_purchase_num"/>
+		<result property="asFlag" column="as_flag"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="moDate" column="mo_date"/>
+        <result property="webFlag" column="web_flag"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+		<result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectKorOwnersFlagHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                cust_id
+                              , ipin_di
+                              , cust_name
+                              , charm_club_flag
+                              , autocard_flag
+                              , charm_club_grade
+                              , car_purchase_num
+                              , as_flag
+                              , TO_CHAR(reg_date, 'YYYYMMDDHH24MISS') AS reg_date
+                              , TO_CHAR(mo_date, 'YYYYMMDDHH24MISS') AS mo_date
+                              , web_flag
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_kor_owners_flag
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                cust_id, ipin_di
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciKorOwnersFlagHist" parameterClass="korOwnersFlag" >
+    <![CDATA[
+        INSERT INTO ih_kor_owners_flag
+                    (
+                      cust_id
+                    , ipin_di
+                    , cust_name
+                    , charm_club_flag
+                    , autocard_flag
+                    , charm_club_grade
+                    , car_purchase_num
+                    , as_flag
+                    , reg_date
+                    , mo_date
+                    , web_flag
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #custId#
+                    , #ipinDi#
+                    , #custName#
+                    , #charmClubFlag#
+                    , #autocardFlag#
+                    , #charmClubGrade#
+                    , #carPurchaseNum#
+                    , #asFlag#
+                    , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                    , TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                    , #webFlag#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeKorOwnersFlag" parameterClass="korOwnersFlag">
+    <![CDATA[
+        MERGE INTO
+                    if_kor_owners_flag
+             USING
+                    dual
+                ON (
+                        cust_id = #custId#
+                    AND ipin_di = #ipinDi#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           cust_name        = #custName#
+                         , charm_club_flag  = #charmClubFlag#
+                         , autocard_flag    = #autocardFlag#
+                         , charm_club_grade = #charmClubGrade#
+                         , car_purchase_num = #carPurchaseNum#
+                         , as_flag          = #asFlag#
+                         , reg_date         = TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                         , mo_date          = TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                         , web_flag         = #webFlag#
+                         , last_updt_pnttm  = SYSDATE
+                         , last_updusr_id   = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               cust_id
+                             , ipin_di
+                             , cust_name
+                             , charm_club_flag
+                             , autocard_flag
+                             , charm_club_grade
+                             , car_purchase_num
+                             , as_flag
+                             , reg_date
+                             , mo_date
+                             , web_flag
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #custId#
+                             , #ipinDi#
+                             , #custName#
+                             , #charmClubFlag#
+                             , #autocardFlag#
+                             , #charmClubGrade#
+                             , #carPurchaseNum#
+                             , #asFlag#
+                             , TO_DATE(#regDate#, 'YYYYMMDDHH24MISS')
+                             , TO_DATE(#moDate#, 'YYYYMMDDHH24MISS')
+                             , #webFlag#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

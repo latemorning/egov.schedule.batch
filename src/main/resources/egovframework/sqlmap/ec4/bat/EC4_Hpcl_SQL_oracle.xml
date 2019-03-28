@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Hpcl">
+
+	<typeAlias alias="hpcl" type="egovframework.ec4.bat.domain.trade.Hpcl" />
+
+	<resultMap id="result" class="hpcl">
+		<result property="source" column="SOURCE" />
+		<result property="shopType" column="SHOP_TYPE" />
+		<result property="shopCode" column="SHOP_CODE" />
+		<result property="rcptMaker" column="RCPT_MAKER" />
+		<result property="rcptDate" column="RCPT_DATE" />
+		<result property="rcptSeq" column="RCPT_SEQ" />
+		<result property="workMaker" column="WORK_MAKER" />
+		<result property="workGubn" column="WORK_GUBN" />
+		<result property="workY" column="WORK_Y" />
+		<result property="workSeq" column="WORK_SEQ" />
+		<result property="workPage" column="WORK_PAGE" />
+		<result property="gubnBMk" column="GUBN_B_MK" />
+		<result property="gubnJMk" column="GUBN_J_MK" />
+		<result property="campMk" column="CAMP_MK" />
+		<result property="finishMk" column="FINISH_MK" />
+		<result property="amtB" column="AMT_B" />
+		<result property="amtJ" column="AMT_J" />
+		<result property="vinDup" column="VIN_DUP" />
+		<result property="vinComp" column="VIN_COMP" />
+		<result property="vinType" column="VIN_TYPE" />
+		<result property="vinCheck" column="VIN_CHECK" />
+		<result property="vinMdlYear" column="VIN_MDL_YEAR" />
+		<result property="vinPlan" column="VIN_PLAN" />
+		<result property="vinBodyNo" column="VIN_BODY_NO" />
+		<result property="vehiNo01" column="VEHI_NO01" />
+		<result property="vehiNo02" column="VEHI_NO02" />
+		<result property="remark" column="REMARK" />
+		<result property="reprResn" column="REPR_RESN" />
+		<result property="reprDesc" column="REPR_DESC" />
+		<result property="bossName" column="BOSS_NAME" />
+		<result property="calType" column="CAL_TYPE" />
+		<result property="calExcept" column="CAL_EXCEPT" />
+		<result property="jobWorkers" column="JOB_WORKERS" />
+		<result property="jobNames" column="JOB_NAMES" />
+		<result property="statDttm" column="STAT_DTTM" />
+		<result property="histRegistDe" column="HIST_REGIST_DE" />
+		<result property="actionCode" column="ACTION_CODE" />
+	</resultMap>
+
+
+	<select id="selectHpclHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                source
+                              , shop_type
+                              , shop_code
+                              , rcpt_maker
+                              , TO_CHAR(rcpt_date, 'YYYYMMDD') AS rcpt_date
+                              , rcpt_seq
+                              , work_maker
+                              , work_gubn
+                              , work_y
+                              , work_seq
+                              , work_page
+                              , gubn_b_mk
+                              , gubn_j_mk
+                              , camp_mk
+                              , finish_mk
+                              , amt_b
+                              , amt_j
+                              , vin_dup
+                              , vin_comp
+                              , vin_type
+                              , vin_check
+                              , vin_mdl_year
+                              , vin_plan
+                              , vin_body_no
+                              , vehi_no01
+                              , vehi_no02
+                              , remark
+                              , repr_resn
+                              , repr_desc
+                              , boss_name
+                              , cal_type
+                              , cal_except
+                              , job_workers
+                              , job_names
+                              , TO_CHAR(stat_dttm, 'YYYYMMDDHH24MISS') AS stat_dttm
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_hpcl
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                source, shop_type, shop_code, rcpt_maker, rcpt_date, rcpt_seq
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+	</select>
+
+
+	<insert id="createDavinciHpclHist" parameterClass="hpcl">
+    <![CDATA[
+        INSERT INTO ih_hpcl (
+                              source
+                            , shop_type
+                            , shop_code
+                            , rcpt_maker
+                            , rcpt_date
+                            , rcpt_seq
+                            , work_maker
+                            , work_gubn
+                            , work_y
+                            , work_seq
+                            , work_page
+                            , gubn_b_mk
+                            , gubn_j_mk
+                            , camp_mk
+                            , finish_mk
+                            , amt_b
+                            , amt_j
+                            , vin_dup
+                            , vin_comp
+                            , vin_type
+                            , vin_check
+                            , vin_mdl_year
+                            , vin_plan
+                            , vin_body_no
+                            , vehi_no01
+                            , vehi_no02
+                            , remark
+                            , repr_resn
+                            , repr_desc
+                            , boss_name
+                            , cal_type
+                            , cal_except
+                            , job_workers
+                            , job_names
+                            , stat_dttm
+                            , hist_regist_de
+                            , action_code
+                            )
+                     VALUES (
+                              #source#
+                            , #shopType#
+                            , #shopCode#
+                            , #rcptMaker#
+                            , TO_DATE(#rcptDate#, 'YYYYMMDD')
+                            , #rcptSeq#
+                            , #workMaker#
+                            , #workGubn#
+                            , #workY#
+                            , #workSeq#
+                            , #workPage#
+                            , #gubnBMk#
+                            , #gubnJMk#
+                            , #campMk#
+                            , #finishMk#
+                            , #amtB#
+                            , #amtJ#
+                            , #vinDup#
+                            , #vinComp#
+                            , #vinType#
+                            , #vinCheck#
+                            , #vinMdlYear#
+                            , #vinPlan#
+                            , #vinBodyNo#
+                            , #vehiNo01#
+                            , #vehiNo02#
+                            , #remark#
+                            , #reprResn#
+                            , #reprDesc#
+                            , #bossName#
+                            , #calType#
+                            , #calExcept#
+                            , #jobWorkers#
+                            , #jobNames#
+                            , TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                            , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                            , #actionCode#
+                            )
+    ]]>
+	</insert>
+
+
+	<update id="mergeHpcl" parameterClass="hpcl">
+    <![CDATA[
+        MERGE INTO
+                    if_hpcl b
+             USING
+                    dual
+                ON (
+                         source = #source#
+                     AND shop_type = #shopType#
+                     AND shop_code = #shopCode#
+                     AND rcpt_maker = #rcptMaker#
+                     AND rcpt_date = #rcptDate#
+                     AND rcpt_seq = #rcptSeq#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           work_maker = #workMaker#
+                         , work_gubn = #workGubn#
+                         , work_y = #workY#
+                         , work_seq = #workSeq#
+                         , work_page = #workPage#
+                         , gubn_b_mk = #gubnBMk#
+                         , gubn_j_mk = #gubnJMk#
+                         , camp_mk = #campMk#
+                         , finish_mk = #finishMk#
+                         , amt_b = #amtB#
+                         , amt_j = #amtJ#
+                         , vin_dup = #vinDup#
+                         , vin_comp = #vinComp#
+                         , vin_type = #vinType#
+                         , vin_check = #vinCheck#
+                         , vin_mdl_year = #vinMdlYear#
+                         , vin_plan = #vinPlan#
+                         , vin_body_no = #vinBodyNo#
+                         , vehi_no01 = #vehiNo01#
+                         , vehi_no02 = #vehiNo02#
+                         , remark = #remark#
+                         , repr_resn = #reprResn#
+                         , repr_desc = #reprDesc#
+                         , boss_name = #bossName#
+                         , cal_type = #calType#
+                         , cal_except = #calExcept#
+                         , job_workers = #jobWorkers#
+                         , job_names = #jobNames#
+                         , stat_dttm = TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               source
+                             , shop_type
+                             , shop_code
+                             , rcpt_maker
+                             , rcpt_date
+                             , rcpt_seq
+                             , work_maker
+                             , work_gubn
+                             , work_y
+                             , work_seq
+                             , work_page
+                             , gubn_b_mk
+                             , gubn_j_mk
+                             , camp_mk
+                             , finish_mk
+                             , amt_b
+                             , amt_j
+                             , vin_dup
+                             , vin_comp
+                             , vin_type
+                             , vin_check
+                             , vin_mdl_year
+                             , vin_plan
+                             , vin_body_no
+                             , vehi_no01
+                             , vehi_no02
+                             , remark
+                             , repr_resn
+                             , repr_desc
+                             , boss_name
+                             , cal_type
+                             , cal_except
+                             , job_workers
+                             , job_names
+                             , stat_dttm
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #source#
+                             , #shopType#
+                             , #shopCode#
+                             , #rcptMaker#
+                             , TO_DATE(#rcptDate#, 'YYYYMMDD')
+                             , #rcptSeq#
+                             , #workMaker#
+                             , #workGubn#
+                             , #workY#
+                             , #workSeq#
+                             , #workPage#
+                             , #gubnBMk#
+                             , #gubnJMk#
+                             , #campMk#
+                             , #finishMk#
+                             , #amtB#
+                             , #amtJ#
+                             , #vinDup#
+                             , #vinComp#
+                             , #vinType#
+                             , #vinCheck#
+                             , #vinMdlYear#
+                             , #vinPlan#
+                             , #vinBodyNo#
+                             , #vehiNo01#
+                             , #vehiNo02#
+                             , #remark#
+                             , #reprResn#
+                             , #reprDesc#
+                             , #bossName#
+                             , #calType#
+                             , #calExcept#
+                             , #jobWorkers#
+                             , #jobNames#
+                             , TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+	</update>
+
+</sqlMap>

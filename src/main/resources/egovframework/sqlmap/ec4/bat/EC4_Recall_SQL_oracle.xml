@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Recall">
+
+    <typeAlias alias="recall" type="egovframework.ec4.bat.domain.trade.Recall"/>
+
+    <resultMap id="result" class="recall">
+		<result property="maker" column="maker"/>
+		<result property="campNo" column="camp_no"/>
+		<result property="docuNo" column="docu_no"/>
+		<result property="jobMaker" column="job_maker"/>
+		<result property="jobCode" column="job_code"/>
+		<result property="campFromDate" column="camp_from_date"/>
+		<result property="campEndDate" column="camp_end_date"/>
+		<result property="stat" column="stat"/>
+		<result property="statDate" column="stat_date"/>
+		<result property="exptCnt" column="expt_cnt"/>
+		<result property="trgtCnt" column="trgt_cnt"/>
+		<result property="rcptCnt" column="rcpt_cnt"/>
+		<result property="reprCnt" column="repr_cnt"/>
+		<result property="mdlFlag" column="mdl_flag"/>
+		<result property="saleMdl" column="sale_mdl"/>
+		<result property="dateFlag" column="date_flag"/>
+		<result property="fromDate" column="from_date"/>
+		<result property="toDate" column="to_date"/>
+		<result property="optnFlag" column="optn_flag"/>
+		<result property="optn01" column="optn_01"/>
+		<result property="optn02" column="optn_02"/>
+		<result property="optn03" column="optn_03"/>
+		<result property="rmrk" column="rmrk"/>
+		<result property="docuDate" column="docu_date"/>
+		<result property="cbGubn" column="cb_gubn"/>
+		<result property="causMaker" column="caus_maker"/>
+		<result property="causPartNo" column="caus_part_no"/>
+		<result property="causVndrType" column="caus_vndr_type"/>
+		<result property="causVndr" column="caus_vndr"/>
+		<result property="chngPartNo" column="chng_part_no"/>
+		<result property="carDfct" column="car_dfct"/>
+		<result property="partDfct" column="part_dfct"/>
+		<result property="campGubnt" column="camp_gubnt"/>
+		<result property="campCheck" column="camp_check"/>
+		<result property="dfctResn" column="dfct_resn"/>
+		<result property="chrgRetnCase" column="chrg_retn_case"/>
+		<result property="autoRecallFlag" column="auto_recall_flag"/>
+		<result property="techRptNo" column="tech_rpt_no"/>
+		<result property="extraRmrk" column="extra_rmrk"/>
+		<result property="mileage" column="mileage"/>
+		<result property="regVinFromDate" column="reg_vin_from_date"/>
+		<result property="regVinToDate" column="reg_vin_to_date"/>
+		<result property="faType" column="fa_type"/>
+		<result property="engDesc" column="eng_desc"/>
+		<result property="faNo" column="fa_no"/>
+		<result property="compCatCd" column="comp_cat_cd"/>
+		<result property="compCd" column="comp_cd"/>
+		<result property="causCd" column="caus_cd"/>
+		<result property="readKmFr" column="read_km_fr"/>
+		<result property="readKmTo" column="read_km_to"/>
+		<result property="safeRiskDesc" column="safe_risk_desc"/>
+		<result property="remedyDesc" column="remedy_desc"/>
+		<result property="customerAction" column="customer_action"/>
+		<result property="partAvailability" column="part_availability"/>
+		<result property="notes" column="notes"/>
+		<result property="sendMailYn" column="send_mail_yn"/>
+		<result property="gfaStatus" column="gfa_status"/>
+		<result property="version" column="version"/>
+        <result property="histRegistDe" column="hist_regist_de"/>
+        <result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectRecallHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                maker
+                              , camp_no
+                              , docu_no
+                              , job_maker
+                              , job_code
+                              , TO_CHAR(camp_from_date, 'YYYYMMDD') AS camp_from_date
+                              , TO_CHAR(camp_end_date, 'YYYYMMDD') AS camp_end_date
+                              , stat
+                              , TO_CHAR(stat_date, 'YYYYMMDD') AS stat_date
+                              , expt_cnt
+                              , trgt_cnt
+                              , rcpt_cnt
+                              , repr_cnt
+                              , mdl_flag
+                              , sale_mdl
+                              , date_flag
+                              , TO_CHAR(from_date, 'YYYYMMDD') AS from_date
+                              , TO_CHAR(to_date, 'YYYYMMDD') AS to_date
+                              , optn_flag
+                              , optn_01
+                              , optn_02
+                              , optn_03
+                              , rmrk
+                              , TO_CHAR(, 'YYYYMMDD') AS docu_date
+                              , cb_gubn
+                              , caus_maker
+                              , caus_part_no
+                              , caus_vndr_type
+                              , caus_vndr
+                              , chng_part_no
+                              , car_dfct
+                              , part_dfct
+                              , camp_gubnt
+                              , camp_check
+                              , dfct_resn
+                              , chrg_retn_case
+                              , auto_recall_flag
+                              , tech_rpt_no
+                              , extra_rmrk
+                              , mileage
+                              , TO_CHAR(, 'YYYYMMDD') AS reg_vin_from_date
+                              , TO_CHAR(, 'YYYYMMDD') AS reg_vin_to_date
+                              , fa_type
+                              , eng_desc
+                              , fa_no
+                              , comp_cat_cd
+                              , comp_cd
+                              , caus_cd
+                              , read_km_fr
+                              , read_km_to
+                              , safe_risk_desc
+                              , remedy_desc
+                              , customer_action
+                              , part_availability
+                              , notes
+                              , send_mail_yn
+                              , gfa_status
+                              , version
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_recall
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                maker, camp_no
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciRecallHist" parameterClass="recall" >
+    <![CDATA[
+        INSERT INTO ih_recall
+                    (
+                      maker
+                    , camp_no
+                    , docu_no
+                    , job_maker
+                    , job_code
+                    , camp_from_date
+                    , camp_end_date
+                    , stat
+                    , stat_date
+                    , expt_cnt
+                    , trgt_cnt
+                    , rcpt_cnt
+                    , repr_cnt
+                    , mdl_flag
+                    , sale_mdl
+                    , date_flag
+                    , from_date
+                    , to_date
+                    , optn_flag
+                    , optn_01
+                    , optn_02
+                    , optn_03
+                    , rmrk
+                    , docu_date
+                    , cb_gubn
+                    , caus_maker
+                    , caus_part_no
+                    , caus_vndr_type
+                    , caus_vndr
+                    , chng_part_no
+                    , car_dfct
+                    , part_dfct
+                    , camp_gubnt
+                    , camp_check
+                    , dfct_resn
+                    , chrg_retn_case
+                    , auto_recall_flag
+                    , tech_rpt_no
+                    , extra_rmrk
+                    , mileage
+                    , reg_vin_from_date
+                    , reg_vin_to_date
+                    , fa_type
+                    , eng_desc
+                    , fa_no
+                    , comp_cat_cd
+                    , comp_cd
+                    , caus_cd
+                    , read_km_fr
+                    , read_km_to
+                    , safe_risk_desc
+                    , remedy_desc
+                    , customer_action
+                    , part_availability
+                    , notes
+                    , send_mail_yn
+                    , gfa_status
+                    , version
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #maker#
+                    , #campNo#
+                    , #docuNo#
+                    , #jobMaker#
+                    , #jobCode#
+                    , TO_DATE(#campFromDate#, 'YYYYMMDD')
+                    , TO_DATE(#campEndDate#, 'YYYYMMDD')
+                    , #stat#
+                    , TO_DATE(#statDate#, 'YYYYMMDD')
+                    , #exptCnt#
+                    , #trgtCnt#
+                    , #rcptCnt#
+                    , #reprCnt#
+                    , #mdlFlag#
+                    , #saleMdl#
+                    , #dateFlag#
+                    , TO_DATE(#fromDate#, 'YYYYMMDD')
+                    , TO_DATE(#toDate#, 'YYYYMMDD')
+                    , #optnFlag#
+                    , #optn01#
+                    , #optn02#
+                    , #optn03#
+                    , #rmrk#
+                    , TO_DATE(#docuDate#, 'YYYYMMDD')
+                    , #cbGubn#
+                    , #causMaker#
+                    , #causPartNo#
+                    , #causVndrType#
+                    , #causVndr#
+                    , #chngPartNo#
+                    , #carDfct#
+                    , #partDfct#
+                    , #campGubnt#
+                    , #campCheck#
+                    , #dfctResn#
+                    , #chrgRetnCase#
+                    , #autoRecallFlag#
+                    , #techRptNo#
+                    , #extraRmrk#
+                    , #mileage#
+                    , TO_DATE(#regVinFromDate#, 'YYYYMMDD')
+                    , TO_DATE(#regVinToDate#, 'YYYYMMDD')
+                    , #faType#
+                    , #engDesc#
+                    , #faNo#
+                    , #compCatCd#
+                    , #compCd#
+                    , #causCd#
+                    , #readKmFr#
+                    , #readKmTo#
+                    , #safeRiskDesc#
+                    , #remedyDesc#
+                    , #customerAction#
+                    , #partAvailability#
+                    , #notes#
+                    , #sendMailYn#
+                    , #gfaStatus#
+                    , #version#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeRecall" parameterClass="recall">
+    <![CDATA[
+        MERGE INTO
+                    if_recall
+             USING
+                    dual
+                ON (
+                        maker   = #maker#
+                    AND camp_no = #campNo#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           docu_no           = #docuNo#
+                         , job_maker         = #jobMaker#
+                         , job_code          = #jobCode#
+                         , camp_from_date    = TO_DATE(#campFromDate#, 'YYYYMMDD')
+                         , camp_end_date     = TO_DATE(#campEndDate#, 'YYYYMMDD')
+                         , stat              = #stat#
+                         , stat_date         = TO_DATE(#statDate#, 'YYYYMMDD')
+                         , expt_cnt          = #exptCnt#
+                         , trgt_cnt          = #trgtCnt#
+                         , rcpt_cnt          = #rcptCnt#
+                         , repr_cnt          = #reprCnt#
+                         , mdl_flag          = #mdlFlag#
+                         , sale_mdl          = #saleMdl#
+                         , date_flag         = #dateFlag#
+                         , from_date         = TO_DATE(#fromDate#, 'YYYYMMDD')
+                         , to_date           = TO_DATE(#toDate#, 'YYYYMMDD')
+                         , optn_flag         = #optnFlag#
+                         , optn_01           = #optn01#
+                         , optn_02           = #optn02#
+                         , optn_03           = #optn03#
+                         , rmrk              = #rmrk#
+                         , docu_date         = TO_DATE(#docuDate#, 'YYYYMMDD')
+                         , cb_gubn           = #cbGubn#
+                         , caus_maker        = #causMaker#
+                         , caus_part_no      = #causPartNo#
+                         , caus_vndr_type    = #causVndrType#
+                         , caus_vndr         = #causVndr#
+                         , chng_part_no      = #chngPartNo#
+                         , car_dfct          = #carDfct#
+                         , part_dfct         = #partDfct#
+                         , camp_gubnt        = #campGubnt#
+                         , camp_check        = #campCheck#
+                         , dfct_resn         = #dfctResn#
+                         , chrg_retn_case    = #chrgRetnCase#
+                         , auto_recall_flag  = #autoRecallFlag#
+                         , tech_rpt_no       = #techRptNo#
+                         , extra_rmrk        = #extraRmrk#
+                         , mileage           = #mileage#
+                         , reg_vin_from_date = TO_DATE(#regVinFromDate#, 'YYYYMMDD')
+                         , reg_vin_to_date   = TO_DATE(#regVinToDate#, 'YYYYMMDD')
+                         , fa_type           = #faType#
+                         , eng_desc          = #engDesc#
+                         , fa_no             = #faNo#
+                         , comp_cat_cd       = #compCatCd#
+                         , comp_cd           = #compCd#
+                         , caus_cd           = #causCd#
+                         , read_km_fr        = #readKmFr#
+                         , read_km_to        = #readKmTo#
+                         , safe_risk_desc    = #safeRiskDesc#
+                         , remedy_desc       = #remedyDesc#
+                         , customer_action   = #customerAction#
+                         , part_availability = #partAvailability#
+                         , notes             = #notes#
+                         , send_mail_yn      = #sendMailYn#
+                         , gfa_status        = #gfaStatus#
+                         , version           = #version#
+                         , last_updt_pnttm   = SYSDATE
+                         , last_updusr_id    ='BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+					           maker
+					         , camp_no
+					         , docu_no
+					         , job_maker
+					         , job_code
+					         , camp_from_date
+					         , camp_end_date
+					         , stat
+					         , stat_date
+					         , expt_cnt
+					         , trgt_cnt
+					         , rcpt_cnt
+					         , repr_cnt
+					         , mdl_flag
+					         , sale_mdl
+					         , date_flag
+					         , from_date
+					         , to_date
+					         , optn_flag
+					         , optn_01
+					         , optn_02
+					         , optn_03
+					         , rmrk
+					         , docu_date
+					         , cb_gubn
+					         , caus_maker
+					         , caus_part_no
+					         , caus_vndr_type
+					         , caus_vndr
+					         , chng_part_no
+					         , car_dfct
+					         , part_dfct
+					         , camp_gubnt
+					         , camp_check
+					         , dfct_resn
+					         , chrg_retn_case
+					         , auto_recall_flag
+					         , tech_rpt_no
+					         , extra_rmrk
+					         , mileage
+					         , reg_vin_from_date
+					         , reg_vin_to_date
+					         , fa_type
+					         , eng_desc
+					         , fa_no
+					         , comp_cat_cd
+					         , comp_cd
+					         , caus_cd
+					         , read_km_fr
+					         , read_km_to
+					         , safe_risk_desc
+					         , remedy_desc
+					         , customer_action
+					         , part_availability
+					         , notes
+					         , send_mail_yn
+					         , gfa_status
+					         , version
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #maker#
+						     , #campNo#
+						     , #docuNo#
+						     , #jobMaker#
+						     , #jobCode#
+						     , TO_DATE(#campFromDate#, 'YYYYMMDD')
+						     , TO_DATE(#campEndDate#, 'YYYYMMDD')
+						     , #stat#
+						     , TO_DATE(#statDate#, 'YYYYMMDD')
+						     , #exptCnt#
+						     , #trgtCnt#
+						     , #rcptCnt#
+						     , #reprCnt#
+						     , #mdlFlag#
+						     , #saleMdl#
+						     , #dateFlag#
+						     , TO_DATE(#fromDate#, 'YYYYMMDD')
+						     , TO_DATE(#toDate#, 'YYYYMMDD')
+						     , #optnFlag#
+						     , #optn01#
+						     , #optn02#
+						     , #optn03#
+						     , #rmrk#
+						     , TO_DATE(#docuDate#, 'YYYYMMDD')
+						     , #cbGubn#
+						     , #causMaker#
+						     , #causPartNo#
+						     , #causVndrType#
+						     , #causVndr#
+						     , #chngPartNo#
+						     , #carDfct#
+						     , #partDfct#
+						     , #campGubnt#
+						     , #campCheck#
+						     , #dfctResn#
+						     , #chrgRetnCase#
+						     , #autoRecallFlag#
+						     , #techRptNo#
+						     , #extraRmrk#
+						     , #mileage#
+						     , TO_DATE(#regVinFromDate#, 'YYYYMMDD')
+						     , TO_DATE(#regVinToDate#, 'YYYYMMDD')
+						     , #faType#
+						     , #engDesc#
+						     , #faNo#
+						     , #compCatCd#
+						     , #compCd#
+						     , #causCd#
+						     , #readKmFr#
+						     , #readKmTo#
+						     , #safeRiskDesc#
+						     , #remedyDesc#
+						     , #customerAction#
+						     , #partAvailability#
+						     , #notes#
+						     , #sendMailYn#
+						     , #gfaStatus#
+						     , #version#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

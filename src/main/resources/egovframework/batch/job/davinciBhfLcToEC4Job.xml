@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciBhfLcToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciBhfLcToEC4HistStep" parent="eGovBaseStep" next="ec4BhfLcHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciBhfLcItemReader" processor="davinciBhfLcItemProcessor"
+                    writer="davinciBhfLcItemWriter" commit-interval="2"/>
+            </tasklet>
+        </step>
+        <step id="ec4BhfLcHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4BhfLcHistItemReader" processor="ec4BhfLcHistItemProcessor"
+                    writer="ec4BhfLcHistItemWriter" commit-interval="2"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciBhfLcItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.bhfLc}/${source.file.bhfLc}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.BhfLc"/>
+                        <property name="names" value="ssCode,ssCls1,ssCls2,ssSurl,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciBhfLcItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciBhfLcHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciBhfLcItemProcessor" class="egovframework.ec4.bat.domain.trade.BhfLcProcessor"/>
+
+
+    <bean id="ec4BhfLcHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectBhfLcHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4BhfLcHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeBhfLc"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4BhfLcHistItemProcessor" class="egovframework.ec4.bat.domain.trade.BhfLcHistProcessor"/>
+
+</beans>

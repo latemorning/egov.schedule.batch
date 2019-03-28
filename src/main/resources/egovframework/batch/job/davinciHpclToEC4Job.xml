@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciHpclToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciHpclToEC4HistStep" parent="eGovBaseStep" next="ec4HpclHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciHpclItemReader" processor="davinciHpclItemProcessor"
+                    writer="davinciHpclItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4HpclHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4HpclHistItemReader" processor="ec4HpclHistItemProcessor"
+                    writer="ec4HpclHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciHpclItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.hpcl}/${source.file.hpcl}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.Hpcl"/>
+                        <property name="names" value="source,shopType,shopCode,rcptMaker,rcptDate,rcptSeq,workMaker,workGubn,workY,workSeq,workPage,gubnBMk,gubnJMk,campMk,finishMk,amtB,amtJ,vinDup,vinComp,vinType,vinCheck,vinMdlYear,vinPlan,vinBodyNo,vehiNo01,vehiNo02,remark,reprResn,reprDesc,bossName,calType,calExcept,jobWorkers,jobNames,statDttm,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciHpclItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciHpclHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciHpclItemProcessor" class="egovframework.ec4.bat.domain.trade.HpclProcessor"/>
+
+
+    <bean id="ec4HpclHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectHpclHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4HpclHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeHpcl"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4HpclHistItemProcessor" class="egovframework.ec4.bat.domain.trade.HpclHistProcessor"/>
+
+</beans>

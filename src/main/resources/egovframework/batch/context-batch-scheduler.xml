@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<import resource="context-batch-job-launcher.xml" />
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+		    <list>
+		        <ref bean="davinciUserCronTrigger"/>
+		        <ref bean="davinciCustCronTrigger"/>
+		        <ref bean="davinciReplcCronTrigger"/>
+		        <ref bean="davinciBhfLcCronTrigger"/>
+		        <ref bean="davinciBuzplcCronTrigger"/>
+		        <ref bean="davinciSaleCarCronTrigger"/>
+		        <ref bean="davinciSaleCstmrCronTrigger"/>
+		        <ref bean="davinciMntncCarCronTrigger"/>
+		        <ref bean="davinciMntncCstmrCronTrigger"/>
+		        <ref bean="davinciDelivyCronTrigger"/>
+		        <ref bean="davinciHpclCronTrigger"/>
+				<ref bean="davinciRecallCronTrigger"/>
+				<ref bean="davinciRecallVhcleCronTrigger"/>
+				<ref bean="davinciRecptnRejectCronTrigger"/>
+				<ref bean="davinciMarktPrcuseAgreCronTrigger"/>
+				<ref bean="davinciBycstmAgreCronTrigger"/>
+				<ref bean="davinciCstmrAgreCodeCronTrigger"/>
+				<ref bean="davinciBycntcAgreCronTrigger"/>
+				<ref bean="davinciKorOwnersFlagCronTrigger"/>
+				<ref bean="davinciKorOwnersFlagVinCronTrigger"/>
+				<ref bean="davinciKorOwnersMemberCronTrigger"/>
+		    </list>
+		</property>
+	</bean>
+
+    <bean id="davinciUserCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciUserJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+
+    <bean id="davinciCustCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciCustJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciReplcCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciReplcJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciBhfLcCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciBhfLcJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+    <bean id="davinciBuzplcCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciBuzplcJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+    <bean id="davinciSaleCarCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciSaleCarJobDetail" />
+        <property name="cronExpression" value="0 * * * * ?" />
+    </bean>
+    <bean id="davinciMntncCarCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciMntncCarJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+    <bean id="davinciSaleCstmrCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciSaleCstmrJobDetail" />
+        <property name="cronExpression" value="0 * * * * ?" />
+    </bean>
+    <bean id="davinciMntncCstmrCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciMntncCstmrJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+    <bean id="davinciDelivyCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciDelivyJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+    <bean id="davinciHpclCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciHpclJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciRecallCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciRecallJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciRecallVhcleCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciRecallVhcleJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciRecptnRejectCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciRecptnRejectJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciMarktPrcuseAgreCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciMarktPrcuseAgreJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciBycstmAgreCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciBycstmAgreJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciCstmrAgreCodeCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciCstmrAgreCodeJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciBycntcAgreCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciBycntcAgreJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciKorOwnersFlagCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciKorOwnersFlagJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciKorOwnersFlagVinCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciKorOwnersFlagVinJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+    <bean id="davinciKorOwnersMemberCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="davinciKorOwnersMemberJobDetail" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
+    </bean>
+
+</beans>

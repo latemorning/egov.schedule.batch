@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BycstmAgre">
+
+    <typeAlias alias="bycstmAgre" type="egovframework.ec4.bat.domain.trade.BycstmAgre"/>
+
+    <resultMap id="result" class="bycstmAgre">
+        <result property="dealerCd" column="dealer_cd"/>
+        <result property="busResNo" column="bus_res_no"/>
+        <result property="acctSeq" column="acct_seq"/>
+        <result property="acctCd" column="acct_cd"/>
+        <result property="acctYn1" column="acct_yn_1"/>
+        <result property="acctYn2" column="acct_yn_2"/>
+        <result property="histRegistDe" column="hist_regist_de"/>
+        <result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectBycstmAgreHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , bus_res_no
+                              , acct_seq
+                              , acct_cd
+                              , acct_yn_1
+                              , acct_yn_2
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_bycstm_agre
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                bus_res_no
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciBycstmAgreHist" parameterClass="bycstmAgre" >
+    <![CDATA[
+        INSERT INTO ih_bycstm_agre
+                    (
+                      dealer_cd
+                    , bus_res_no
+                    , acct_seq
+                    , acct_cd
+                    , acct_yn_1
+                    , acct_yn_2
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #dealerCd#
+                    , #busResNo#
+                    , #acctSeq#
+                    , #acctCd#
+                    , #acctYn1#
+                    , #acctYn2#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeBycstmAgre" parameterClass="bycstmAgre">
+    <![CDATA[
+        MERGE INTO
+                    if_bycstm_agre
+             USING
+                    dual
+                ON (
+                         dealer_cd = #dealerCd#
+                     AND bus_res_no = #busResNo#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           acct_seq        = #acctSeq#
+                         , acct_cd         = #acctCd#
+                         , acct_yn_1       = #acctYn1#
+                         , acct_yn_2       = #acctYn2#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , bus_res_no
+                             , acct_seq
+                             , acct_cd
+                             , acct_yn_1
+                             , acct_yn_2
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #busResNo#
+                             , #acctSeq#
+                             , #acctCd#
+                             , #acctYn1#
+                             , #acctYn2#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

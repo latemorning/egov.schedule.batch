@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciCstmrAgreCodeToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciCstmrAgreCodeToEC4HistStep" parent="eGovBaseStep" next="ec4CstmrAgreCodeHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciCstmrAgreCodeItemReader" processor="davinciCstmrAgreCodeItemProcessor"
+                    writer="davinciCstmrAgreCodeItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4CstmrAgreCodeHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4CstmrAgreCodeHistItemReader" processor="ec4CstmrAgreCodeHistItemProcessor"
+                    writer="ec4CstmrAgreCodeHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciCstmrAgreCodeItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.cstmrAgreCode}/${source.file.cstmrAgreCode}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.CstmrAgreCode"/>
+                        <property name="names" value="dealerCd,acctCd,acctFrom,acctTo,acctNm,ckCount,grp,srt,titleYn,type,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciCstmrAgreCodeItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciCstmrAgreCodeHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciCstmrAgreCodeItemProcessor" class="egovframework.ec4.bat.domain.trade.CstmrAgreCodeProcessor"/>
+
+    <bean id="ec4CstmrAgreCodeHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectCstmrAgreCodeHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4CstmrAgreCodeHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeCstmrAgreCode"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4CstmrAgreCodeHistItemProcessor" class="egovframework.ec4.bat.domain.trade.CstmrAgreCodeHistProcessor"/>
+
+</beans>

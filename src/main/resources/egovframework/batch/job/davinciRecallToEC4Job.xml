@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+    <import resource="abstract/eGovBase.xml"/>
+
+    <job id="davinciRecallToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciRecallToEC4HistStep" parent="eGovBaseStep" next="ec4RecallHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciRecallItemReader" processor="davinciRecallItemProcessor"
+                    writer="davinciRecallItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+        <step id="ec4RecallHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4RecallHistItemReader" processor="ec4RecallHistItemProcessor"
+                    writer="ec4RecallHistItemWriter" commit-interval="500"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciRecallItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.recall}/${source.file.recall}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.Recall"/>
+                        <property name="names" value="maker,campNo,docuNo,jobMaker,jobCode,campFromDate,campEndDate,stat,statDate,exptCnt,trgtCnt,rcptCnt,reprCnt,mdlFlag,saleMdl,dateFlag,fromDate,toDate,optnFlag,optn01,optn02,optn03,rmrk,docuDate,cbGubn,causMaker,causPartNo,causVndrType,causVndr,chngPartNo,carDfct,partDfct,campGubnt,campCheck,dfctResn,chrgRetnCase,autoRecallFlag,techRptNo,extraRmrk,mileage,regVinFromDate,regVinToDate,faType,engDesc,faNo,compCatCd,compCd,causCd,readKmFr,readKmTo,safeRiskDesc,remedyDesc,customerAction,partAvailability,notes,sendMailYn,gfaStatus,version,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciRecallItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciRecallHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciRecallItemProcessor" class="egovframework.ec4.bat.domain.trade.RecallProcessor"/>
+
+    <bean id="ec4RecallHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectRecallHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+                <entry key="pageSize" value="100"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4RecallHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeRecall"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4RecallHistItemProcessor" class="egovframework.ec4.bat.domain.trade.RecallHistProcessor"/>
+
+</beans>

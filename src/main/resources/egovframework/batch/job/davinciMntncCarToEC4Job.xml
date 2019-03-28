@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciMntncCarToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciMntncCarToEC4HistStep" parent="eGovBaseStep" next="ec4MntncCarHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciMntncCarItemReader" processor="davinciMntncCarItemProcessor"
+                    writer="davinciMntncCarItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+        <step id="ec4MntncCarHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4MntncCarHistItemReader" processor="ec4MntncCarHistItemProcessor"
+                    writer="ec4MntncCarHistItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciMntncCarItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.mntncCar}/${source.file.mntncCar}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.MntncCar"/>
+                        <property name="names" value="vin,vehiNo01,vehiNo02,bossName,maker,mdlYear,saleMdl,typeYear,engnNo,prodNo,deliMastNo,prodEvnt,mfgDate,deliDate,frstInspDate,nextInspDate,lastRcptDate,lastReadKm,lastCustType,lastCustCode,saleShopCode,areaCode,colrCode,colrBody,colrTrim,rcptCnt,warrRcptCnt,saleType,useCode,spclCode,histPrntFlag,exptCond,regiCond,regDttm,optn01,optn02,optn03,optn04,optn05,misnLot,ecmLot,warrRqstCnt,rqstCumDate,jobFlag,resnFlag,lastChngDttm,dayReadKm,saleEmplNo,avgReadKm,engType,engPart,modelYear,optnEng,optnTrn,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciMntncCarItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciMntncCarHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciMntncCarItemProcessor" class="egovframework.ec4.bat.domain.trade.MntncCarProcessor"/>
+
+
+    <bean id="ec4MntncCarHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectMntncCarHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4MntncCarHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeMntncCar"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4MntncCarHistItemProcessor" class="egovframework.ec4.bat.domain.trade.MntncCarHistProcessor"/>
+
+</beans>

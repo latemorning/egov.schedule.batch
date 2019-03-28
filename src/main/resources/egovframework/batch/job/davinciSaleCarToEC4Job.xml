@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml"/>
+
+
+    <job id="davinciSaleCarToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciSaleCarToEC4HistStep" parent="eGovBaseStep" next="ec4SaleCarHistToEC4Step">
+            <tasklet>
+                <chunk reader="davinciSaleCarItemReader" processor="davinciSaleCarItemProcessor"
+                    writer="davinciSaleCarItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+        <step id="ec4SaleCarHistToEC4Step" parent="eGovBaseStep" >
+            <tasklet>
+                <chunk reader="ec4SaleCarHistItemReader" processor="ec4SaleCarHistItemProcessor"
+                    writer="ec4SaleCarHistItemWriter" commit-interval="100"/>
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciSaleCarItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.saleCar}/${source.file.saleCar}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.txt" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="|"/>
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.ec4.bat.domain.trade.SaleCar"/>
+                        <property name="names" value="vin,dealerCd,businessId,modelCd,specCd,outColorCd,inColorCd,compltDt,specSerial,statusCd,orderDealer,orderNo,carTypeNo,carGu,poNo,madeGu,prodStatus,trsSiteCd,trsReqDt,trsReqGu,trsRetDt,trsTm,siteCd,location,outGu,dcRate,statusChangeDt,statusChangeHt,a3BrchCd,a3ContNo,a3ConsignCd,a3Gub,a3Control,enginNo,siteInDt,trsReqrealDt,signoffDt,a3DisplayDt,assignGu,regDate,updtDate,updtUserCd,optionCd,event,eventStatus,eventUpdtDttm,eventUpdtDealer,eventUpdtUser,prodOrdrNo,ordrDt,prodAskDt,cmplRqstDt,cmplSchdDt,purcDt,orderType,hotSw,carType,bodyTypeCd,prefixCd,hndPlcCd,carKeyNo,dgreCd,ltrmCd,showCarCd,delvDt,salesCnclDiv,salesCnclDt,salesCnclCnt,gmDrResult,gmDrOrdrNo,gmDrApprDt,tradeDt,locationPrev,locationUpdtDttm,trsStartDt,consStartDt,gmDrWorkType,takeDt,defect,stockOpenYn,stockBaseDt,stockType,stockForce,drDealer,defectType,orgSignoffDt,salesModlCd,histRegistDe,actionCode"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciSaleCarItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="createDavinciSaleCarHist"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="davinciSaleCarItemProcessor" class="egovframework.ec4.bat.domain.trade.SaleCarProcessor"/>
+
+
+    <bean id="ec4SaleCarHistItemReader" class="org.springframework.batch.item.database.IbatisPagingItemReader">
+        <property name="queryId" value="selectSaleCarHist"/>
+        <property name="parameterValues">
+            <map>
+                <entry key="histRegistDe" value="#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}"/>
+            </map>
+        </property>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <bean id="ec4SaleCarHistItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeSaleCar"/>
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ec4SaleCarHistItemProcessor" class="egovframework.ec4.bat.domain.trade.SaleCarHistProcessor"/>
+
+</beans>

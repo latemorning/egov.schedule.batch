@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RecallVhcle">
+
+    <typeAlias alias="recallVhcle" type="egovframework.ec4.bat.domain.trade.RecallVhcle"/>
+
+    <resultMap id="result" class="recallVhcle">
+		<result property="vin" column="vin"/>
+		<result property="maker" column="maker"/>
+		<result property="campNo" column="camp_no"/>
+		<result property="custType" column="cust_type"/>
+		<result property="custCode" column="cust_code"/>
+		<result property="stat1" column="stat_1"/>
+		<result property="stat2" column="stat_2"/>
+		<result property="statDttm" column="stat_dttm"/>
+		<result property="rcptMark" column="rcpt_mark"/>
+		<result property="regiDate" column="regi_date"/>
+		<result property="wcrNo" column="wcr_no"/>
+		<result property="memo" column="memo"/>
+		<result property="contactShopCode" column="contact_shop_code"/>
+		<result property="contactDate" column="contact_date"/>
+		<result property="gmContactDate" column="gm_contact_date"/>
+		<result property="interStatus" column="inter_status"/>
+		<result property="exprDate" column="expr_date"/>
+		<result property="claimId" column="claim_id"/>
+		<result property="releaseDate" column="release_date"/>
+		<result property="releaseBu" column="release_bu"/>
+		<result property="sendMailYn" column="send_mail_yn"/>
+        <result property="histRegistDe" column="hist_regist_de"/>
+        <result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectRecallVhcleHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                vin
+                              , maker
+                              , camp_no
+                              , cust_type
+                              , cust_code
+                              , stat_1
+                              , stat_2
+                              , TO_CHAR(stat_dttm, 'YYYYMMDDHH24MISS') AS stat_dttm
+                              , rcpt_mark
+                              , TO_CHAR(regi_date, 'YYYYMMDD') AS regi_date
+                              , wcr_no
+                              , memo
+                              , contact_shop_code
+                              , TO_CHAR(contact_date, 'YYYYMMDD') AS contact_date
+                              , TO_CHAR(gm_contact_date, 'YYYYMMDD') AS gm_contact_date
+                              , inter_status
+                              , TO_CHAR(expr_date, 'YYYYMMDD') AS expr_date
+                              , claim_id
+                              , TO_CHAR(release_date, 'YYYYMMDD') AS release_date
+                              , release_bu
+                              , send_mail_yn
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_recall_vhcle
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                vin, maker, camp_no
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciRecallVhcleHist" parameterClass="recallVhcle" >
+    <![CDATA[
+        INSERT INTO ih_recall_vhcle
+                    (
+                      vin
+                    , maker
+                    , camp_no
+                    , cust_type
+                    , cust_code
+                    , stat_1
+                    , stat_2
+                    , stat_dttm
+                    , rcpt_mark
+                    , regi_date
+                    , wcr_no
+                    , memo
+                    , contact_shop_code
+                    , contact_date
+                    , gm_contact_date
+                    , inter_status
+                    , expr_date
+                    , claim_id
+                    , release_date
+                    , release_bu
+                    , send_mail_yn
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #vin#
+                    , #maker#
+                    , #campNo#
+                    , #custType#
+                    , #custCode#
+                    , #stat1#
+                    , #stat2#
+                    , TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                    , #rcptMark#
+                    , TO_DATE(#regiDate#, 'YYYYMMDD')
+                    , #wcrNo#
+                    , #memo#
+                    , #contactShopCode#
+                    , TO_DATE(#contactDate#, 'YYYYMMDD')
+                    , TO_DATE(#gmContactDate#, 'YYYYMMDD')
+                    , #interStatus#
+                    , TO_DATE(#exprDate#, 'YYYYMMDD')
+                    , #claimId#
+                    , TO_DATE(#releaseDate#, 'YYYYMMDD')
+                    , #releaseBu#
+                    , #sendMailYn#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeRecallVhcle" parameterClass="recallVhcle">
+    <![CDATA[
+        MERGE INTO
+                    if_recall_vhcle
+             USING
+                    dual
+                ON (
+                         vin     = #vin#
+                     AND maker   = #maker#
+                     AND camp_no = #campNo#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           cust_type         = #custType#
+                         , cust_code         = #custCode#
+                         , stat_1            = #stat1#
+                         , stat_2            = #stat2#
+                         , stat_dttm         = TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                         , rcpt_mark         = #rcptMark#
+                         , regi_date         = TO_DATE(#regiDate#, 'YYYYMMDD')
+                         , wcr_no            = #wcrNo#
+                         , memo              = #memo#
+                         , contact_shop_code = #contactShopCode#
+                         , contact_date      = TO_DATE(#contactDate#, 'YYYYMMDD')
+                         , gm_contact_date   = TO_DATE(#gmContactDate#, 'YYYYMMDD')
+                         , inter_status      = #interStatus#
+                         , expr_date         = TO_DATE(#exprDate#, 'YYYYMMDD')
+                         , claim_id          = #claimId#
+                         , release_date      = TO_DATE(#releaseDate#, 'YYYYMMDD')
+                         , release_bu        = #releaseBu#
+                         , send_mail_yn      = #sendMailYn#
+                         , last_updt_pnttm   = SYSDATE
+                         , last_updusr_id    = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               vin
+                             , maker
+                             , camp_no
+                             , cust_type
+                             , cust_code
+                             , stat_1
+                             , stat_2
+                             , stat_dttm
+                             , rcpt_mark
+                             , regi_date
+                             , wcr_no
+                             , memo
+                             , contact_shop_code
+                             , contact_date
+                             , gm_contact_date
+                             , inter_status
+                             , expr_date
+                             , claim_id
+                             , release_date
+                             , release_bu
+                             , send_mail_yn
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #vin#
+                             , #maker#
+                             , #campNo#
+                             , #custType#
+                             , #custCode#
+                             , #stat1#
+                             , #stat2#
+                             , TO_DATE(#statDttm#, 'YYYYMMDDHH24MISS')
+                             , #rcptMark#
+                             , TO_DATE(#regiDate#, 'YYYYMMDD')
+                             , #wcrNo#
+                             , #memo#
+                             , #contactShopCode#
+                             , TO_DATE(#contactDate#, 'YYYYMMDD')
+                             , TO_DATE(#gmContactDate#, 'YYYYMMDD')
+                             , #interStatus#
+                             , TO_DATE(#exprDate#, 'YYYYMMDD')
+                             , #claimId#
+                             , TO_DATE(#releaseDate#, 'YYYYMMDD')
+                             , #releaseBu#
+                             , #sendMailYn#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

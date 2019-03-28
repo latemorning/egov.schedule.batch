@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CstmrAgreCode">
+
+    <typeAlias alias="cstmrAgreCode" type="egovframework.ec4.bat.domain.trade.CstmrAgreCode"/>
+
+    <resultMap id="result" class="cstmrAgreCode">
+		<result property="dealerCd" column="dealer_cd"/>
+		<result property="acctCd" column="acct_cd"/>
+		<result property="acctFrom" column="acct_from"/>
+		<result property="acctTo" column="acct_to"/>
+		<result property="acctNm" column="acct_nm"/>
+		<result property="ckCount" column="ck_count"/>
+		<result property="grp" column="grp"/>
+		<result property="srt" column="srt"/>
+		<result property="titleYn" column="title_yn"/>
+		<result property="type" column="type"/>
+		<result property="histRegistDe" column="hist_regist_de"/>
+		<result property="actionCode" column="action_code"/>
+    </resultMap>
+
+    <select id="selectCstmrAgreCodeHist" resultMap="result">
+    <![CDATA[
+        SELECT
+                *
+          FROM
+              (
+                SELECT
+                        rownum AS rn
+                      , TB.*
+                  FROM
+                      (
+                        SELECT
+                                dealer_cd
+                              , acct_cd
+                              , TO_CHAR(acct_from, 'YYYYMMDD') AS acct_from
+                              , TO_CHAR(acct_to, 'YYYYMMDD') AS acct_to
+                              , acct_nm
+                              , ck_count
+                              , grp
+                              , srt
+                              , title_yn
+                              , type
+                              , TO_CHAR(hist_regist_de, 'YYYYMMDD') AS hist_regist_de
+                              , action_code
+                          FROM
+                                ih_cstmr_agre_code
+                         WHERE
+                                hist_regist_de = #histRegistDe#
+                         ORDER BY
+                                dealer_cd, acct_cd
+                      ) TB
+                 WHERE
+                        rownum <= (#_page# + 1) * #_pagesize#
+              )
+         WHERE
+                rn >= #_skiprows# + 1
+    ]]>
+    </select>
+
+
+    <insert id="createDavinciCstmrAgreCodeHist" parameterClass="cstmrAgreCode" >
+    <![CDATA[
+        INSERT INTO ih_cstmr_agre_code
+                    (
+                      dealer_cd
+                    , acct_cd
+                    , acct_from
+                    , acct_to
+                    , acct_nm
+                    , ck_count
+                    , grp
+                    , srt
+                    , title_yn
+                    , type
+                    , hist_regist_de
+                    , action_code
+                    )
+             VALUES
+                    (
+                      #dealerCd#
+                    , #acctCd#
+                    , TO_DATE(#acctFrom#, 'YYYYMMDD')
+                    , TO_DATE(#acctTo#, 'YYYYMMDD')
+                    , #acctNm#
+                    , #ckCount#
+                    , #grp#
+                    , #srt#
+                    , #titleYn#
+                    , #type#
+                    , TO_DATE(#histRegistDe#, 'YYYYMMDD')
+                    , #actionCode#
+                    )
+    ]]>
+    </insert>
+
+
+    <update id="mergeCstmrAgreCode" parameterClass="cstmrAgreCode">
+    <![CDATA[
+        MERGE INTO
+                    if_cstmr_agre_code
+             USING
+                    dual
+                ON (
+                         dealer_cd = #dealerCd#
+                     AND acct_cd   = #acctCd#
+                   )
+        WHEN MATCHED THEN
+               UPDATE SET
+                           acct_from       = TO_DATE(#acctFrom#, 'YYYYMMDD')
+                         , acct_to         = TO_DATE(#acctTo#, 'YYYYMMDD')
+                         , acct_nm         = #acctNm#
+                         , ck_count        = #ckCount#
+                         , grp             = #grp#
+                         , srt             = #srt#
+                         , title_yn        = #titleYn#
+                         , type            = #type#
+                         , last_updt_pnttm = SYSDATE
+                         , last_updusr_id  = 'BATCH_USER'
+        WHEN NOT MATCHED THEN
+                       INSERT
+                             (
+                               dealer_cd
+                             , acct_cd
+                             , acct_from
+                             , acct_to
+                             , acct_nm
+                             , ck_count
+                             , grp
+                             , srt
+                             , title_yn
+                             , type
+                             , frst_regist_pnttm
+                             , frst_register_id
+                             , last_updt_pnttm
+                             , last_updusr_id
+                             )
+                       VALUES
+                             (
+                               #dealerCd#
+                             , #acctCd#
+                             , TO_DATE(#acctFrom#, 'YYYYMMDD')
+                             , TO_DATE(#acctTo#, 'YYYYMMDD')
+                             , #acctNm#
+                             , #ckCount#
+                             , #grp#
+                             , #srt#
+                             , #titleYn#
+                             , #type#
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             , SYSDATE
+                             , 'BATCH_USER'
+                             )
+    ]]>
+    </update>
+
+</sqlMap>

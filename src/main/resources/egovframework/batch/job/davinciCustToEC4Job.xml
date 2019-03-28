@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                       http://www.springframework.org/schema/batch
+                       http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+
+    <import resource="abstract/eGovBase.xml" />
+
+
+    <job id="davinciCustToEC4Job" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
+        <step id="davinciCustToEC4Step" parent="eGovBaseStep">
+            <tasklet>
+                <chunk reader="davinciCustItemReader" processor="davinciCustItemProcessor"
+                    writer="davinciCustItemWriter" commit-interval="2" />
+            </tasklet>
+        </step>
+    </job>
+
+    <bean id="davinciCustItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
+        <property name="resource" value="file:${source.directory.cust}/${source.file.cust}_#{simpleDateFormat3.format(T(java.util.Calendar).getInstance().getTime())}.csv" />
+        <property name="lineMapper">
+            <bean class="egovframework.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+                <property name="lineTokenizer">
+                    <bean class="egovframework.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+                        <property name="delimiter" value="," />
+                    </bean>
+                </property>
+                <property name="objectMapper">
+                    <bean class="egovframework.rte.bat.core.item.file.mapping.EgovObjectMapper">
+                        <property name="type" value="egovframework.example.bat.domain.trade.TestBatchCust" />
+                        <property name="names" value="custNm,custId,custPass,custTel" />
+                        <!-- property name="names" value="userNm,userId,userPass,telnum" /-->
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="davinciCustItemWriter" class="org.springframework.batch.item.database.IbatisBatchItemWriter">
+        <property name="statementId" value="mergeDavinciCust" />
+        <property name="sqlMapClient" ref="sqlMapClient" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="davinciCustItemProcessor" class="egovframework.example.bat.domain.trade.TestBatchCustProcessor" />
+</beans>

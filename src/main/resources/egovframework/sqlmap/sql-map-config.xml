@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <sqlMap resource="egovframework/sqlmap/example/bat/Egov_Example_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_Replc_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_BhfLc_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_Buzplc_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_SaleCar_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_SaleCstmr_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_MntncCar_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_MntncCstmr_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_Delivy_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_Hpcl_SQL_oracle.xml"/>
+    <sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_Recall_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_RecallVhcle_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_RecptnReject_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_MarktPrcuseAgre_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_BycstmAgre_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_CstmrAgreCode_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_BycntcAgre_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_KorOwnersFlag_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_KorOwnersFlagVin_SQL_oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/ec4/bat/EC4_KorOwnersMember_SQL_oracle.xml"/>
+</sqlMapConfig>
